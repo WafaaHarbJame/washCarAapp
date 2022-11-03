@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#0f99ca</color>
+    <color name="colorPrimaryDark">#0293C6</color>
+    <color name="colorAccent">#023F71</color>
+    <color name="header2">#02345E</color>
+    <color name="header3">@color/gray13</color>
+    <color name="header5">@color/gray6</color>
+    <color name="colorAccent2">@color/blue14</color>
+    <color name="colorAccent3">#875918</color>
+    <color name="tabColor1"> #875918</color>
+    <color name="toolbar_icons">@color/white</color>
+    <!--<color name="button_text">#ffffff</color>-->
+    <color name="colorPrimaryTrans">#6D616363</color>
+    <color name="bottomNavActive">#9F6007</color>
+    <color name="bottomNavInactive">@color/colorAccent</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="black">#000000</color>
+    <color name="black3">#2a2a2a</color>
+    <color name="black_trans">#0D4A4A4A</color>
+    <color name="black_trans2">#D8000000</color>
+
+    <color name="gray">#f2f3f8</color>
+    <color name="gray2">#F3F3F3</color>
+    <color name="gray3">#cecece</color>
+    <color name="gray4">#666666</color>
+    <color name="gray6">#afafaf</color>
+    <color name="gray13">#545454</color>
+    <color name="gray8">#F3F5FA</color>
+
+
+    <color name="blue14">#3E3416</color>
+
+    <color name="order_pending">#EFB300</color>
+    <color name="order_accepted">#008C3F</color>
+    <color name="order_rejected">#F44336</color>
+    <color name="order_finished">#2196F3</color>
+
+</resources>

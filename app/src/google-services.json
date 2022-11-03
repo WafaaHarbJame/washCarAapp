@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "486795310249",
+    "project_id": "wash-car-services",
+    "storage_bucket": "wash-car-services.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486795310249:android:594f6235eb3bff8b0965b8",
+        "android_client_info": {
+          "package_name": "com.washcar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486795310249-num7mb0r4pqnvebqetp75m54hmmb2tvf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaDhxsSuoYxhS_DtGgCHE5nmO5hAnMMGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486795310249-num7mb0r4pqnvebqetp75m54hmmb2tvf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

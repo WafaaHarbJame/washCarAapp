@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/mainBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/bottom_nav_padding">
+
+            <com.washcar.app.spichalViews.STextViewIcon
+                android:id="@+id/tab1Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_nav_icon_margin"
+                android:text="@string/fal_home"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_icon" />
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/tab1Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="@string/home"
+                android:textAlignment="viewStart"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_text" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ordersBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/bottom_nav_padding">
+
+            <com.washcar.app.spichalViews.STextViewIcon
+                android:id="@+id/tab2Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_nav_icon_margin"
+                android:text="@string/fal_file_invoice"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_icon" />
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/tab2Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="@string/all_orders"
+                android:textAlignment="viewStart"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_text"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/finishOrderBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/bottom_nav_padding">
+
+            <com.washcar.app.spichalViews.STextViewIcon
+                android:id="@+id/tab3Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_nav_icon_margin"
+                android:text="@string/fa_bus"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_icon" />
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/tab3Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="@string/finshed_order"
+                android:textAlignment="viewStart"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_text"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settingsBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:orientation="vertical"
+
+            android:paddingTop="@dimen/bottom_nav_padding">
+
+            <com.washcar.app.spichalViews.STextViewIcon
+                android:id="@+id/tab4Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_nav_icon_margin"
+                android:text="@string/fal_cog"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_icon" />
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/tab4Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="@string/settings"
+                android:textAlignment="viewStart"
+                android:textColor="@color/bottomNavInactive"
+                android:textSize="@dimen/bottom_nav_text"
+                android:visibility="visible" />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

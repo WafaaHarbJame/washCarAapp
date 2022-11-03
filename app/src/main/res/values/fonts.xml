@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="fal_arrow_left" translatable="false">&#xf060;</string>
+    <string name="fal_home" translatable="false">&#xf015;</string>
+    <string name="fal_sign_out" translatable="false">&#xf08b;</string>
+    <string name="fal_sign_in" translatable="false">&#xf090;</string>
+    <string name="fal_star" translatable="false">&#xf005;</string>
+    <string name="fal_info_circle" translatable="false">&#xf05a;</string>
+    <string name="fal_cog" translatable="false">&#xf013;</string>
+    <string name="fal_times" translatable="false">&#xf00d;</string>
+    <string name="fal_file_invoice" translatable="false">&#xf570;</string>
+    <string name="fal_search" translatable="false">&#xf002;</string>
+    <string name="fal_location" translatable="false">&#xf601;</string>
+    <string name="fa_pen_edit" translatable="false">&#xf304;</string>
+    <string name="fa_search" translatable="false">&#xf002;</string>
+    <string name="fa_refresh" translatable="false">&#xf021;</string>
+    <string name="fal_calendar_week" translatable="false">&#xf784;</string>
+    <string name="fal_unlock_alt" translatable="false">&#xf13e;</string>
+    <string name="fal_globe_americas" translatable="false">&#xf57d;</string>
+    <string name="fa_circle" translatable="false">&#xf111;</string>
+    <string name="fa_circle_o" translatable="false">&#xf10c;</string>
+    <string name="fa_clipboard_check" translatable="false">&#xf46c;</string>
+    <string name="fa_bus" translatable="false">&#xf207;</string>
+
+</resources>

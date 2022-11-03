@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tool_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_100sdp"
+    android:background="@drawable/draw1"
+    android:backgroundTint="@color/colorPrimary">
+
+
+
+
+    <com.washcar.app.spichalViews.STextViewIcon
+        android:id="@+id/homeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:scaleX="@integer/scaleX"
+        android:text="@string/fal_arrow_left"
+        android:textColor="@color/toolbar_icons"
+        android:textSize="@dimen/_15ssp"
+        android:visibility="visible" />
+
+
+    <com.washcar.app.spichalViews.STextViewBold
+        android:id="@+id/mainTitleTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxWidth="@dimen/_160sdp"
+        android:maxLines="1"
+        android:text="@string/title"
+        android:textColor="@color/toolbar_icons"
+        android:textSize="@dimen/_13ssp"
+        android:visibility="visible" />
+
+
+
+    <com.washcar.app.spichalViews.STextViewIcon
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:scaleX="@integer/scaleX"
+        android:text="@string/fa_search"
+        android:textColor="@color/toolbar_icons"
+        android:textSize="@dimen/_15ssp"
+        android:visibility="gone" />
+
+
+<!--    android:background="@drawable/round_top_corner_white_fill"-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_alignParentBottom="true"
+       />
+</RelativeLayout>
