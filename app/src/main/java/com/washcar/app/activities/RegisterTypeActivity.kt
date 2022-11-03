@@ -1,14 +1,13 @@
 package com.washcar.app.activities
 
-import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import com.washcar.app.R
-import com.washcar.app.classes.Constants
-import com.washcar.app.databinding.ActivityLoginBinding
+import com.washcar.app.adapters.TypesAdapter
 import com.washcar.app.databinding.ActivityRegisterTypeBinding
-import kotlinx.android.synthetic.main.activity_register_type.*
 
 class RegisterTypeActivity : ActivityBase() {
     private var isUser = true
@@ -19,84 +18,32 @@ class RegisterTypeActivity : ActivityBase() {
         binding = ActivityRegisterTypeBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
+        binding.toolBar.mainTitleTxt.text=getString(R.string.register)
 
-        binding.userSelectLY.setOnClickListener {
+         val adapter = TypesAdapter(getActiviy(), supportFragmentManager)
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                    }
+                    1 -> {
+                    }
+                    2 -> {
+                    }
+                }
+            }
 
-            selectType(true)
-            isUser = true
-
-        }
-
-        binding.driverSelectLY.setOnClickListener {
-
-            selectType(false)
-            isUser = false
-
-        }
-
-        binding.nextBtn.setOnClickListener {
-
-            val intent = Intent(getActiviy(), RegisterActivity::class.java)
-            intent.putExtra(Constants.KEY_IS_CUSTOMER, isUser)
-            startActivity(intent)
-
-        }
-
-        backBtn.setOnClickListener {
-
-            onBackPressed()
-
-        }
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+        binding.viewPager.adapter = adapter
+        binding.tabs.setSelectedTabIndicatorColor(Color.WHITE)
+        binding.tabs.setupWithViewPager(binding.viewPager)
+        binding.tabs.setSelectedTabIndicatorColor(ContextCompat.getColor(getActiviy(), R.color.colorAccent))
 
     }
 
-    private fun selectType(isCustomer: Boolean) {
 
-        if (isCustomer) {
-            binding.userSelectTxt.setTextColor(
-                ContextCompat.getColor(
-                    getActiviy(),
-                    R.color.colorPrimaryDark
-                )
-            )
-            binding.userSelectLY.background = ContextCompat.getDrawable(
-                getActiviy(),
-                R.drawable.round_corner_white_fill_border_primary_dark
-            )
-
-            binding.driverSelectTxt.setTextColor(
-                ContextCompat.getColor(
-                    getActiviy(),
-                    R.color.colorAccent2
-                )
-            )
-            binding.driverSelectLY.background = ContextCompat.getDrawable(
-                getActiviy(),
-                R.drawable.round_corner_white_fill_border_gray
-            )
-        } else {
-            binding.driverSelectTxt.setTextColor(
-                ContextCompat.getColor(
-                    getActiviy(),
-                    R.color.colorPrimaryDark
-                )
-            )
-            binding.driverSelectLY.background = ContextCompat.getDrawable(
-                getActiviy(),
-                R.drawable.round_corner_white_fill_border_primary_dark
-            )
-
-            binding.userSelectTxt.setTextColor(
-                ContextCompat.getColor(
-                    getActiviy(),
-                    R.color.colorAccent2
-                )
-            )
-            binding.userSelectLY.background = ContextCompat.getDrawable(
-                getActiviy(),
-                R.drawable.round_corner_white_fill_border_gray
-            )
-        }
 
     }
-}
+

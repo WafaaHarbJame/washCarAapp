@@ -25,11 +25,12 @@
 
             <ImageView
                 android:id="@+id/loginHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_5sdp"
-                app:srcCompat="@drawable/ic_login_icon" />
+                android:src="@drawable/ic_lunch_512"
+                app:srcCompat="@drawable/ic_lunch_512" />
 
             <com.washcar.app.spichalViews.STextViewBold
                 android:id="@+id/signLabel"
@@ -40,19 +41,6 @@
                 android:text="@string/sign_in"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_15ssp" />
-
-            <com.washcar.app.spichalViews.STextView
-                android:id="@+id/helloLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:text="@string/hello_in_wash_app"
-                android:visibility="visible"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13ssp" />
-
-
 
             <com.washcar.app.spichalViews.STextInputLayout
                 android:id="@+id/emailInput"

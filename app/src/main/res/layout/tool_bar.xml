@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tool_bar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_100sdp"
-    android:background="@drawable/draw1"
-    android:backgroundTint="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:layout_height="@dimen/_30sdp">
 
 
 

@@ -38,7 +38,9 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">@dimen/_11ssp</item>
     </style>
-
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="primaryBtnStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/round_corner_primary_fill</item>
