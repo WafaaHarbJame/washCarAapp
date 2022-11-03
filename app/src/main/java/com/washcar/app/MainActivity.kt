@@ -3,6 +3,7 @@ package com.washcar.app
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -13,6 +14,8 @@ import com.washcar.app.activities.ActivityBase
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
+import com.washcar.app.databinding.ActivityMainBottomNavBinding
+import com.washcar.app.databinding.ActivityRegisterTypeBinding
 import com.washcar.app.fragments.*
 import com.washcar.app.models.MemberModel
 import kotlinx.android.synthetic.main.layout_bottom_nav.*
@@ -21,12 +24,9 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : ActivityBase() {
-    //    @BindView(R2.id.user) EditText username;
     private var gui_position = 0
+    lateinit var binding: ActivityMainBottomNavBinding
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
     private var mTitle: CharSequence? = null
     private var fragmentManager: FragmentManager? = null
     private var ft: FragmentTransaction? = null
@@ -41,48 +41,25 @@ class MainActivity : ActivityBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.washcar.app.R.layout.activity_main_bottom_nav)
+        binding = ActivityMainBottomNavBinding.inflate(layoutInflater)
+        val view: View = binding.root
+        setContentView(view)
 
         isMainActivityBottomNav = true
         mTitle = getString(com.washcar.app.R.string.app_name)
 
-        tabTextArr = arrayOf(tab1Txt, tab2Txt, tab3Txt, tab4Txt)
-        tabIconsArr = arrayOf(tab1Icon, tab2Icon, tab3Icon, tab4Icon)
-
-        val bundle = intent?.extras
-
-        if (bundle != null && bundle.containsKey(Constants.KEY_TO_ORDERS)) {
-            toOrder = bundle.getBoolean(Constants.KEY_TO_ORDERS)
-        }
-
-        user = UtilityApp.userData
-
-        userType = user?.type!!
-
-        // getData()
+        tabTextArr = arrayOf(tab1Txt, tab2Txt, tab3Txt)
+        tabIconsArr = arrayOf(tab1Icon, tab2Icon, tab3Icon)
 
 
-        when (userType) {
-            1 -> {
-                finishOrderBtn.visibility = visible
-                ordersBtn.visibility = gone
-            }
-            2 -> {
-                finishOrderBtn.visibility = gone
-                ordersBtn.visibility = gone
-                tab2Txt.text = getString(com.washcar.app.R.string.all_orders)
-            }
-            3 -> {
-                finishOrderBtn.visibility = gone
-                ordersBtn.visibility = gone
-            }
-        }
 
-        if (toOrder) {
-            selectBottomTab(com.washcar.app.R.id.ordersBtn)
-        } else {
-            selectBottomTab(com.washcar.app.R.id.mainBtn)
-        }
+       // user = UtilityApp.userData
+
+//        userType = user?.type?:0
+
+        selectBottomTab( R.id.mainBtn)
+
+
 
         initListeners()
 
@@ -91,17 +68,17 @@ class MainActivity : ActivityBase() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        val bundle = intent?.extras
-
-        if (bundle != null && bundle.containsKey(Constants.KEY_TO_ORDERS)) {
-            toOrder = bundle.getBoolean(Constants.KEY_TO_ORDERS)
-        }
-
-        if (toOrder) {
-            selectBottomTab(com.washcar.app.R.id.ordersBtn)
-        } else {
-            selectBottomTab(com.washcar.app.R.id.mainBtn)
-        }
+//        val bundle = intent?.extras
+//
+//        if (bundle != null && bundle.containsKey(Constants.KEY_TO_ORDERS)) {
+//            toOrder = bundle.getBoolean(Constants.KEY_TO_ORDERS)
+//        }
+//
+//        if (toOrder) {
+//            selectBottomTab(com.washcar.app.R.id.ordersBtn)
+//        } else {
+//            selectBottomTab(com.washcar.app.R.id.mainBtn)
+//        }
     }
 
     override fun onActivityResult(
@@ -116,24 +93,20 @@ class MainActivity : ActivityBase() {
     }
 
     private fun initListeners() {
-        mainBtn.setOnClickListener {
+        binding.botoomNav.mainBtn.setOnClickListener {
             selectBottomTab(
-                com.washcar.app.R.id.mainBtn
+                 R.id.mainBtn
             )
         }
-        finishOrderBtn.setOnClickListener {
+
+        binding.botoomNav.ordersBtn.setOnClickListener {
             selectBottomTab(
-                com.washcar.app.R.id.finishOrderBtn
+                 R.id.ordersBtn
             )
         }
-        ordersBtn.setOnClickListener {
+        binding.botoomNav.settingsBtn.setOnClickListener {
             selectBottomTab(
-                com.washcar.app.R.id.ordersBtn
-            )
-        }
-        settingsBtn.setOnClickListener {
-            selectBottomTab(
-                com.washcar.app.R.id.settingsBtn
+                 R.id.settingsBtn
             )
         }
     }
@@ -141,12 +114,12 @@ class MainActivity : ActivityBase() {
 
     private fun selectBottomTab(resId: Int) {
         when (resId) {
-            com.washcar.app.R.id.mainBtn -> {
+             R.id.mainBtn -> {
                 newFragment = when (userType) {
-                    3 -> {
+                    2 -> {
                         DriversFragment()
                     }
-                    2 -> {
+                    1 -> {
                         HomeDriverFragment()
                     }
                     else -> {
@@ -154,9 +127,9 @@ class MainActivity : ActivityBase() {
                     }
                 }
                 gui_position = 0
-                mTitle = getString(com.washcar.app.R.string.home)
+                mTitle = getString( R.string.home)
             }
-            com.washcar.app.R.id.ordersBtn -> {
+             R.id.ordersBtn -> {
 
                 newFragment = if (userType == 1) {
                     AllDriverRequestsFragment()
@@ -165,25 +138,15 @@ class MainActivity : ActivityBase() {
 
                 }
                 gui_position = 1
-                mTitle = getString(com.washcar.app.R.string.all_orders)
+                mTitle = getString( R.string.all_orders)
             }
 
-            com.washcar.app.R.id.finishOrderBtn -> {
-                newFragment = if (userType == 1) {
-                    FinishedClientFragment()
-                } else {
-                    FinishedDriveragment()
 
-                }
-                gui_position = 2
-                mTitle = getString(com.washcar.app.R.string.finshed_order)
-            }
-
-            com.washcar.app.R.id.settingsBtn -> {
+             R.id.settingsBtn -> {
                 newFragment =
                     SettingsFragment()
-                gui_position = 3
-                mTitle = getString(com.washcar.app.R.string.profile)
+                gui_position = 2
+                mTitle = getString( R.string.profile)
             }
         }
         changeColor(gui_position)
@@ -191,7 +154,7 @@ class MainActivity : ActivityBase() {
         if (newFragment != null) {
             fragmentManager = supportFragmentManager
             ft = fragmentManager!!.beginTransaction()
-            ft!!.replace(com.washcar.app.R.id.container, newFragment!!).commitNowAllowingStateLoss()
+            ft!!.replace( R.id.container, newFragment!!).commitNowAllowingStateLoss()
         }
 
     }
@@ -202,13 +165,13 @@ class MainActivity : ActivityBase() {
                 tabTextArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                        com.washcar.app.R.color.bottomNavActive
+                         R.color.bottomNavActive
                     )
                 )
                 tabIconsArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                        com.washcar.app.R.color.bottomNavActive
+                         R.color.bottomNavActive
                     )
                 )
 
@@ -216,13 +179,13 @@ class MainActivity : ActivityBase() {
                 tabIconsArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                        com.washcar.app.R.color.bottomNavInactive
+                         R.color.bottomNavInactive
                     )
                 )
                 tabTextArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                        com.washcar.app.R.color.bottomNavInactive
+                         R.color.bottomNavInactive
                     )
                 )
             }
@@ -234,13 +197,13 @@ class MainActivity : ActivityBase() {
             if (gui_position == 0) {
                 if (GlobalData.Position == 1) {
                     EventBus.getDefault()
-                        .post(com.washcar.app.models.MessageEvent(MessageEvent.TYPE_PAGER, 0))
+                        .post( MessageEvent(MessageEvent.TYPE_PAGER, 0))
                     return false
                 } else {
                     onBackPressed()
                 }
             } else {
-                selectBottomTab(com.washcar.app.R.id.mainBtn)
+                selectBottomTab( R.id.mainBtn)
                 return false
             }
         }
@@ -258,28 +221,13 @@ class MainActivity : ActivityBase() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: com.washcar.app.models.MessageEvent) {
-        if (event.type == com.washcar.app.models.MessageEvent.TYPE_POSITION) {
+    fun onMessageEvent(event: MessageEvent) {
+        if (event.type ==  MessageEvent.TYPE_POSITION) {
             val pos = event.data as Int
-            if (pos == 0) selectBottomTab(com.washcar.app.R.id.mainBtn)
+            if (pos == 0) selectBottomTab( R.id.mainBtn)
         }
     }
 
 
-//    private fun getData() {
-//        var allDrivesList: MutableList<RegisterUserModel>? = null
-//
-//        DataFeacher(object : DataFetcherCallBack {
-//            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-//
-//                if (func == Constants.SUCCESS) {
-//                    allDrivesList = obj as MutableList<RegisterUserModel>?
-//                    Log.i("TAG", "Log getAllAccount"+ allDrivesList!![0].mobileWithCountry)
-//
-//                }
-//
-//            }
-//        }).getAllAccount()
-//    }
 
 }

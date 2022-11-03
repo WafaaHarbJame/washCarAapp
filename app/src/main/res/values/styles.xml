@@ -20,6 +20,14 @@
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
 
+    <style name="RatingBarStyle2" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">@color/gray13</item>
+        <item name="colorControlActivated">@color/order_pending</item>
+    </style>
+
+
+
+
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <item name="boxBackgroundMode">outline</item>

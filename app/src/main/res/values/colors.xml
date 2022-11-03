@@ -2,18 +2,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#0f99ca</color>
     <color name="colorPrimaryDark">#0293C6</color>
-    <color name="colorAccent">#0293C6</color>
+    <color name="colorAccent">#02759E</color>
     <color name="header2">#02345E</color>
     <color name="header3">@color/gray13</color>
     <color name="header5">@color/gray6</color>
     <color name="colorAccent2">@color/blue14</color>
-    <color name="colorAccent3">#875918</color>
-    <color name="tabColor1"> #875918</color>
+    <color name="colorAccent3">#0293C6</color>
+    <color name="tabColor1"> #0293C6</color>
     <color name="toolbar_icons">@color/white</color>
     <!--<color name="button_text">#ffffff</color>-->
     <color name="colorPrimaryTrans">#6D616363</color>
-    <color name="bottomNavActive">#9F6007</color>
-    <color name="bottomNavInactive">@color/colorAccent</color>
+    <color name="bottomNavActive">#0293C6</color>
+    <color name="bottomNavInactive">@color/black</color>
 
     <color name="white">#ffffff</color>
 
@@ -34,7 +34,8 @@
     <color name="blue14">#3E3416</color>
 
     <color name="order_pending">#EFB300</color>
-    <color name="order_accepted">#008C3F</color>
+    <color name="yellow">#FFF27C</color>
+    <color name="order_accepted">#CD9B03</color>
     <color name="order_rejected">#F44336</color>
     <color name="order_finished">#2196F3</color>
 

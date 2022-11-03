@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.loopeer.shadow.ShadowView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/_10sdp"
+    app:backgroundColor="@color/white"
+    app:cornerRadius="@dimen/round_corner_thin"
+    app:shadowColor="@color/colorPrimaryTrans"
+    app:shadowMargin="@dimen/_6sdp"
+    app:shadowRadius="@dimen/round_corner_thin">
+
+
+    <LinearLayout
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_white_fill"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/providerImg"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/service_provider"
+            app:siBorderColor="@color/colorAccent"
+            app:siBorderWidth="1dp"
+            app:siRadius="@dimen/_4sdp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.washcar.app.spichalViews.STextViewBold
+                android:id="@+id/driverNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="wafaa jame"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/addressTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Riyadh"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/header3"
+                    android:textSize="@dimen/_10ssp" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rating="4"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:theme="@style/RatingBarStyle2"/>
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:id="@+id/requestCarWash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/request"
+                    android:layout_gravity="end"
+                    android:paddingHorizontal="@dimen/_16ssp"
+                    android:paddingVertical="@dimen/_4sdp"
+                    android:background="@drawable/round_corner_primary_fill"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</com.loopeer.shadow.ShadowView>

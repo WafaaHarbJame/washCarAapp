@@ -169,6 +169,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="customer">Customer</string>
     <string name="car_wash">Car wash</string>
+    <string name="announcements">Announcements</string>
+    <string name="view_all">View All</string>
+    <string name="car_near_you">Car Wash Near You</string>
+    <string name="best_rate_car">Best Rated Car Wash </string>
+    <string name="Details">Details</string>
+    <string name="request">request</string>
 
 
 </resources>

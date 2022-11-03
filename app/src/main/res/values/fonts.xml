@@ -3,6 +3,7 @@
 
 
     <string name="fal_arrow_left" translatable="false">&#xf060;</string>
+    <string name="fal_arrow_right" translatable="false">&#xf061;</string>
     <string name="fal_home" translatable="false">&#xf015;</string>
     <string name="fal_sign_out" translatable="false">&#xf08b;</string>
     <string name="fal_sign_in" translatable="false">&#xf090;</string>

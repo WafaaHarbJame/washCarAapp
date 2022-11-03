@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.washcar.app.R
 import com.washcar.app.adapters.MainAdminAdapter
 import com.washcar.app.models.MainAdminModel
-import kotlinx.android.synthetic.main.fragment_main_screen.rv
 import kotlinx.android.synthetic.main.fragment_requests.*
 import kotlinx.android.synthetic.main.tool_bar.*
 import java.util.*
