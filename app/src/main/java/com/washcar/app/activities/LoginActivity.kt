@@ -41,16 +41,15 @@ class LoginActivity : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        val view: View = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         title = ""
 
 
-        homeBtn.setOnClickListener {
+       binding.toolBar.homeBtn.setOnClickListener {
             onBackPressed()
         }
 
-        loginBtn.setOnClickListener {
+        binding.loginBtn.setOnClickListener {
 
             if (isValidForm()) {
                 LoginByEmail()
@@ -62,7 +61,7 @@ class LoginActivity : ActivityBase() {
         }
 
 
-        registerBtn.setOnClickListener {
+        binding.registerBtn.setOnClickListener {
 
             val intent = Intent(getActiviy(), RegisterTypeActivity::class.java)
             startActivity(intent)
