@@ -24,7 +24,9 @@
     <!--        android:orientation="horizontal"-->
     <!--        app:layout_constraintBottom_toBottomOf="parent" />-->
 
-    <include android:id="@+id/botoomNav" layout="@layout/layout_bottom_nav" />
+    <include
+        android:id="@+id/botoomNav"
+        layout="@layout/layout_bottom_nav" />
 
 
 </LinearLayout>

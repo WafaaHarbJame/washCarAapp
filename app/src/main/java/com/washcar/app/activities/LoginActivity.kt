@@ -2,14 +2,12 @@ package com.washcar.app.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.auth.FirebaseAuth
 import com.washcar.app.MainActivity
 import com.washcar.app.R
 import com.washcar.app.Utils.NumberHandler
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
-import com.washcar.app.classes.AESCrypt
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
@@ -26,12 +24,15 @@ class LoginActivity : ActivityBase() {
         const val REQUEST_LOGIN = 110
     }
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         title = getString(R.string.login)
 
+        auth = FirebaseAuth.getInstance()
 
         binding.toolBar.homeBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -78,67 +79,110 @@ class LoginActivity : ActivityBase() {
                 this.password = passwordStr
             }
 
+
             GlobalData.progressDialog(
                 getActiviy(),
                 R.string.sign_in,
                 R.string.please_wait_login
             )
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    GlobalData.progressDialogHide()
-                    if (func == Constants.USER_NOT_EXIST) {
-                        GlobalData.errorDialog(
-                            getActiviy(),
-                            R.string.login,
-                            getString(R.string.not_have_account_q)
-                        )
-                    } else if (func == Constants.SUCCESS) {
-                        val document: DocumentSnapshot = obj as DocumentSnapshot
-                        Log.d(javaClass.simpleName, "DocumentSnapshot data: ${document.data}")
 
-                        val user = document.toObject(MemberModel::class.java)
-                        val password = AESCrypt.decrypt(user?.password)
+            auth.signInWithEmailAndPassword(
+                memberModel.email ?: "",
+                memberModel.password ?: ""
+            )
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+//                        val authUser = auth.currentUser
 
-//                        val isVerified = document.get("isVerified") as Boolean
-
-//                        val fullName = document.get("fullName")
-//                        Log.d(javaClass.simpleName, "DocumentSnapshot data1: $fullName")
-//                        Log.d(
-//                            javaClass.simpleName,
-//                            "DocumentSnapshot isVerified: ${document.getBoolean("isVerified")}"
-//                        )
-
-                        if (password == memberModel.password) {
-                            UtilityApp.userData = user
-                            val intent = Intent(getActiviy(), MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-
-                        } else {
-                            GlobalData.errorDialog(
-                                getActiviy(),
-                                R.string.login,
-                                getString(R.string.mobile_password_not_match)
-                            )
-                        }
-
+                        getMyProfile(memberModel.email)
+//                        sendUserToFirebase(registerUserModel)
                     } else {
+                        GlobalData.progressDialogHide()
+                        // If sign in fails, display a message to the user.
+                        val message = task.exception?.message
                         GlobalData.errorDialog(
-                            getActiviy(),
-                            R.string.login,
-                            getString(R.string.fail_to_sign_in)
+                            this@LoginActivity, R.string.register, message
                         )
-
+                        task.exception?.printStackTrace()
+//                        Log.w(
+//                            javaClass.simpleName,
+//                            "Log createUserWithEmail:failure",
+//                            task.exception
+//                        )
+//                        Toast("Auth Failed")
                     }
-
                 }
-            }).loginHandle(memberModel)
+//            DataFeacher(object : DataFetcherCallBack {
+//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                    GlobalData.progressDialogHide()
+//                    if (func == Constants.USER_NOT_EXIST) {
+//                        GlobalData.errorDialog(
+//                            getActiviy(),
+//                            R.string.login,
+//                            getString(R.string.not_have_account_q)
+//                        )
+//                    } else if (func == Constants.SUCCESS) {
+//                        val document: DocumentSnapshot = obj as DocumentSnapshot
+//                        Log.d(javaClass.simpleName, "DocumentSnapshot data: ${document.data}")
+//
+//                        val user = document.toObject(MemberModel::class.java)
+//                        val password = AESCrypt.decrypt(user?.password)
+//
+////                        val isVerified = document.get("isVerified") as Boolean
+//
+////                        val fullName = document.get("fullName")
+////                        Log.d(javaClass.simpleName, "DocumentSnapshot data1: $fullName")
+////                        Log.d(
+////                            javaClass.simpleName,
+////                            "DocumentSnapshot isVerified: ${document.getBoolean("isVerified")}"
+////                        )
+//
+//                        if (password == memberModel.password) {
+//                            getMyProfile(memberModel.email)
+//
+//                        } else {
+//                            GlobalData.errorDialog(
+//                                getActiviy(),
+//                                R.string.login,
+//                                getString(R.string.mobile_password_not_match)
+//                            )
+//                        }
+//
+//                    } else {
+//                        GlobalData.errorDialog(
+//                            getActiviy(),
+//                            R.string.login,
+//                            getString(R.string.fail_to_sign_in)
+//                        )
+//
+//                    }
+//
+//                }
+//            }).loginHandle(memberModel)
 
         } catch (e: Exception) {
 
             e.printStackTrace()
 
         }
+    }
+
+    fun getMyProfile(email: String) {
+
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                GlobalData.progressDialogHide()
+                if (func == Constants.SUCCESS) {
+                    val user = obj as MemberModel
+                    UtilityApp.userData = user
+
+                    val intent = Intent(getActiviy(), MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        }).getMyAccount(email)
     }
 
 }

@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.washcar.app.activities.ActivityBase
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
-import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityMainBottomNavBinding
@@ -34,7 +31,8 @@ class MainActivity : ActivityBase() {
 
     private lateinit var tabTextArr: Array<TextView>
     private lateinit var tabIconsArr: Array<TextView>
-    private var userType: Int = 0
+
+    //    private var userType: Int = 0
     var user: MemberModel? = null
     private var toOrder: Boolean = false
 
@@ -48,35 +46,51 @@ class MainActivity : ActivityBase() {
         isMainActivityBottomNav = true
         mTitle = getString(com.washcar.app.R.string.app_name)
 
+        user = UtilityApp.userData
+
+//        tabTextArr = if (user?.type == MemberModel.TYPE_ADMIN)
+//            arrayOf(binding.botoomNav.tab1Txt, binding.botoomNav.tab3Txt)
+//        else
+
         tabTextArr =
             arrayOf(binding.botoomNav.tab1Txt, binding.botoomNav.tab2Txt, binding.botoomNav.tab3Txt)
+
+//        tabIconsArr = if (user?.type == MemberModel.TYPE_ADMIN)
+//            arrayOf(
+//                binding.botoomNav.tab1Icon,
+//                binding.botoomNav.tab3Icon
+//            )
+//        else
         tabIconsArr = arrayOf(
             binding.botoomNav.tab1Icon,
             binding.botoomNav.tab2Icon,
             binding.botoomNav.tab3Icon
         )
 
-        user = UtilityApp.userData
+        if (user?.type == MemberModel.TYPE_ADMIN)
+            binding.botoomNav.tab2Txt.text = getString(R.string.categories)
+        else
+            binding.botoomNav.tab2Txt.text = getString(R.string.all_orders)
 
         selectBottomTab(R.id.mainBtn)
 
         initListeners()
 
-        if (UtilityApp.isLogin)
-            getMyProfile()
+//        if (UtilityApp.isLogin)
+//            getMyProfile()
     }
 
-    fun getMyProfile() {
-
-        DataFeacher(object : DataFetcherCallBack {
-            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                if (func == Constants.SUCCESS) {
-                    user = obj as MemberModel
-                    UtilityApp.userData = user
-                }
-            }
-        }).getMyAccount(user?.email)
-    }
+//    fun getMyProfile() {
+//
+//        DataFeacher(object : DataFetcherCallBack {
+//            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                if (func == Constants.SUCCESS) {
+//                    user = obj as MemberModel
+//                    UtilityApp.userData = user
+//                }
+//            }
+//        }).getMyAccount(user?.email)
+//    }
 
     override fun onActivityResult(
         requestCode: Int,
@@ -112,37 +126,42 @@ class MainActivity : ActivityBase() {
     private fun selectBottomTab(resId: Int) {
         when (resId) {
             R.id.mainBtn -> {
-                newFragment = when (userType) {
-                    2 -> {
-                        DriversFragment()
+                newFragment =
+                    when (user?.type) {
+                        MemberModel.TYPE_ADMIN -> {
+                            MainAdminFragment()
+                        }
+                        MemberModel.TYPE_SERVICE_PROVIDER -> {
+                            HomeDriverFragment()
+                        }
+                        else -> {
+                            HomeClientFragment()
+                        }
                     }
-                    1 -> {
-                        HomeDriverFragment()
-                    }
-                    else -> {
-                        HomeClientFragment()
-                    }
-                }
                 gui_position = 0
                 mTitle = getString(R.string.home)
             }
             R.id.ordersBtn -> {
 
-                newFragment = if (userType == 1) {
-                    AllDriverRequestsFragment()
-                } else {
-                    AllDriverRequestsFragment()
-
+                newFragment = when (user?.type) {
+                    MemberModel.TYPE_SERVICE_PROVIDER -> {
+                        AllDriverRequestsFragment()
+                    }
+                    MemberModel.TYPE_ADMIN -> {
+                        CategoriesFragment()
+                    }
+                    else -> {
+                        RequestsFragment()
+                    }
                 }
                 gui_position = 1
-                mTitle = getString(R.string.all_orders)
             }
 
 
             R.id.settingsBtn -> {
                 newFragment =
                     SettingsFragment()
-                gui_position = 2
+                gui_position = if (user?.type == MemberModel.TYPE_ADMIN) 1 else 2
                 mTitle = getString(R.string.profile)
             }
         }

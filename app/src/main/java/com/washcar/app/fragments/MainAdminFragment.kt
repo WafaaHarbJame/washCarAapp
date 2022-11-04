@@ -16,7 +16,7 @@ import com.washcar.app.databinding.FragmentDriversBinding
 import com.washcar.app.models.DriverModel
 
 
-class DriversFragment : FragmentBase() {
+class MainAdminFragment : FragmentBase() {
 
     var driversList: MutableList<DriverModel?>? = null
 
@@ -47,8 +47,6 @@ class DriversFragment : FragmentBase() {
 
         }
 
-        getDrivers()
-
         binding.swipeDataContainer.setColorSchemeColors(
             ContextCompat.getColor(
                 requireActivity(),
@@ -56,7 +54,6 @@ class DriversFragment : FragmentBase() {
             )
         )
         binding.swipeDataContainer.setOnRefreshListener {
-            getDrivers()
 
         }
 
@@ -66,44 +63,16 @@ class DriversFragment : FragmentBase() {
         super.onResume()
         if (GlobalData.REFRESH_DRIVERS) {
             GlobalData.REFRESH_DRIVERS = false
-            getDrivers()
         }
     }
 
 
-    private fun getDrivers() {
-
-        binding.swipeDataContainer.isRefreshing = true
-        DataFeacher(object : DataFetcherCallBack {
-            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                binding.swipeDataContainer.isRefreshing = false
-                if (func == Constants.SUCCESS) {
-                    driversList = obj as MutableList<DriverModel?>?
-                    if (driversList?.isNotEmpty() == true) {
-                        binding.rv.visibility = visible
-                        binding.lyEmpty.noDataLY.visibility = gone
-                        initAdapter()
-                    } else {
-                        binding.rv.visibility = gone
-                        binding.lyEmpty.noDataLY.visibility = visible
-                        binding.lyEmpty.noDataTxt.text = getString(R.string.no_drivers)
-                    }
-                } else {
-                    binding.rv.visibility = gone
-                    binding.lyEmpty.noDataLY.visibility = visible
-                    binding.lyEmpty.noDataTxt.text = getString(R.string.fail_to_get_data)
-                }
-            }
-        }).getAllDrivers()
-
-    }
 
     fun initAdapter() {
         val adapter = DriversAdapter(requireActivity(), driversList!!,
             object : DataFetcherCallBack {
                 override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    if (IsSuccess)
-                        getDrivers()
+
                 }
             })
         binding.rv.adapter = adapter

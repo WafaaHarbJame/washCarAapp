@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
 import com.washcar.app.MainActivity
@@ -30,6 +31,8 @@ class RegisterActivity : ActivityBase() {
     private var selectedLat = 0.0
     private var selectedLng = 0.0
 
+    private lateinit var auth: FirebaseAuth
+
     lateinit var binding: ActivityRegisterTypeBinding
 
 
@@ -39,6 +42,8 @@ class RegisterActivity : ActivityBase() {
         setContentView(binding.root)
 
         binding.toolBar.mainTitleTxt.text = getString(R.string.register)
+
+        auth = FirebaseAuth.getInstance()
 
         binding.btnCustomer.setOnClickListener {
             userType = MemberModel.TYPE_CUSTOMER
@@ -99,6 +104,9 @@ class RegisterActivity : ActivityBase() {
         }
 
     }
+
+//    fun createAuthUser(email: String, password: String) {
+//    }
 
     private fun registerUser() {
 
@@ -177,7 +185,7 @@ class RegisterActivity : ActivityBase() {
                 registerUserModel.address = addressStr
                 registerUserModel.description = descriptionStr
                 registerUserModel.lat = selectedLat
-                registerUserModel.lng = selectedLat
+                registerUserModel.lng = selectedLng
                 registerUserModel.startTime = startTimeStr
                 registerUserModel.endTime = endTimeStr
             }
@@ -185,35 +193,32 @@ class RegisterActivity : ActivityBase() {
             GlobalData.progressDialog(
                 this, R.string.register, R.string.please_wait_register
             )
-
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    GlobalData.progressDialogHide()
-
-                    if (func == Constants.SUCCESS) {
-
-//                        val intent = Intent(this@RegisterActivity, ConfirmActivity::class.java)
-//                        intent.putExtra(Constants.KEY_MEMBER, registerUserModel)
-//                        intent.putExtra(Constants.KEY_MOBILE, registerUserModel.email)
-//                        startActivity(intent)
-
-                        UtilityApp.userData = registerUserModel
-
-                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+            auth.createUserWithEmailAndPassword(
+                registerUserModel.email ?: "",
+                passwordStr ?: ""
+            )
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val authUser = auth.currentUser
+                        registerUserModel.token = authUser?.uid
+                        sendUserToFirebase(registerUserModel)
                     } else {
-                        var message = getString(R.string.fail_to_register)
-                        if (func == Constants.USER_EXIST) message = getString(R.string.email_exist)
-
+                        GlobalData.progressDialogHide()
+                        // If sign in fails, display a message to the user.
+                        val message = task.exception?.message
                         GlobalData.errorDialog(
                             this@RegisterActivity, R.string.register, message
                         )
+                        task.exception?.printStackTrace()
+//                        Log.w(
+//                            javaClass.simpleName,
+//                            "Log createUserWithEmail:failure",
+//                            task.exception
+//                        )
+//                        Toast("Auth Failed")
                     }
-
-
                 }
-            }).registerHandle(registerUserModel)
 
         } catch (e: Exception) {
 
@@ -222,6 +227,38 @@ class RegisterActivity : ActivityBase() {
         }
     }
 
+    fun sendUserToFirebase(registerUserModel: MemberModel) {
+
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                GlobalData.progressDialogHide()
+
+                if (func == Constants.SUCCESS) {
+
+//                        val intent = Intent(this@RegisterActivity, ConfirmActivity::class.java)
+//                        intent.putExtra(Constants.KEY_MEMBER, registerUserModel)
+//                        intent.putExtra(Constants.KEY_MOBILE, registerUserModel.email)
+//                        startActivity(intent)
+
+                    UtilityApp.userData = registerUserModel
+
+                    val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                } else {
+                    var message = getString(R.string.fail_to_register)
+                    if (func == Constants.USER_EXIST) message = getString(R.string.email_exist)
+
+                    GlobalData.errorDialog(
+                        this@RegisterActivity, R.string.register, message
+                    )
+                }
+
+
+            }
+        }).registerHandle(registerUserModel)
+    }
 
     private fun checkLocationPermission() {
         try {
@@ -253,8 +290,9 @@ class RegisterActivity : ActivityBase() {
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
+            GlobalData.progressDialog(this, R.string.my_location, R.string.please_wait_get_location)
             SmartLocation.with(this).location().oneFix().start { location ->
-
+                GlobalData.progressDialogHide()
                 selectedLat = location.latitude
                 selectedLng = location.longitude
 

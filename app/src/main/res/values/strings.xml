@@ -186,6 +186,9 @@
     <string name="mobile">Mobile</string>
     <string name="invalid_confirm_password">Invalid confirm password</string>
     <string name="please_select_your_location">Please select your location</string>
+    <string name="categories">Categories</string>
+    <string name="please_wait_get_location">Please wait get location</string>
+    <string name="want_signout">Do you want to sign out ?</string>
 
 
 </resources>

@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.washcar.app.R
-import com.washcar.app.SplashScreen
 import com.washcar.app.Utils.ActivityHandler
 import com.washcar.app.activities.LoginActivity
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.FragmentSettingsBinding
 import com.washcar.app.dialogs.ChangePasswordDialog
+import com.washcar.app.dialogs.MyConfirmDialog
 import com.washcar.app.models.MemberModel
 
 
@@ -24,6 +24,8 @@ class SettingsFragment : FragmentBase() {
     lateinit var container: FrameLayout
 
     var user: MemberModel? = null
+
+    var confirmDialog: MyConfirmDialog? = null
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
@@ -82,16 +84,36 @@ class SettingsFragment : FragmentBase() {
 
         binding.logoutBtn.setOnClickListener {
 
-            var intent = Intent(requireActivity(), LoginActivity::class.java)
+            showConfirmDialog()
+        }
+    }
 
-            if (UtilityApp.isLogin) {
-                UtilityApp.logOut()
-                FirebaseAuth.getInstance().signOut()
-                intent = Intent(requireActivity(), SplashScreen::class.java)
+    private fun showConfirmDialog() {
+        if (confirmDialog == null) {
+            val okClick = object : MyConfirmDialog.Click() {
+                override fun click() {
+                    var intent = Intent(requireActivity(), LoginActivity::class.java)
+
+                    if (UtilityApp.isLogin) {
+                        UtilityApp.logOut()
+                        FirebaseAuth.getInstance().signOut()
+                        intent = Intent(requireActivity(), LoginActivity::class.java)
+                    }
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
             }
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-
+            confirmDialog = MyConfirmDialog(
+                requireActivity(),
+                getString(R.string.want_signout),
+                R.string.sign_out,
+                R.string.cancel2,
+                okClick,
+                null
+            )
+            confirmDialog!!.setOnDismissListener {
+                confirmDialog = null
+            }
         }
     }
 

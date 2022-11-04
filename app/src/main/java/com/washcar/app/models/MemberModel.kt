@@ -4,7 +4,7 @@ import java.io.Serializable
 
 class MemberModel : Serializable {
 
-    var id = 0
+    var token: String? = null
     var mobile: String? = null
     var type: String? = null
     var fullName: String? = null
