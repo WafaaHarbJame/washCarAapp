@@ -164,7 +164,7 @@
     <string name="cancel2">Cancel</string>
     <string name="success_delete_driver">Success delete driver</string>
     <string name="delete_driver">Delete Driver</string>
-    <string name="description">description</string>
+    <string name="description">Description</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="customer">Customer</string>

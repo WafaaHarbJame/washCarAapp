@@ -214,7 +214,8 @@
                         style="@style/editTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="text"
+                        android:maxLines="1" />
 
                 </com.washcar.app.spichalViews.STextInputLayout>
 
@@ -244,7 +245,7 @@
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textMultiLine" />
 
             </com.washcar.app.spichalViews.STextInputLayout>
 

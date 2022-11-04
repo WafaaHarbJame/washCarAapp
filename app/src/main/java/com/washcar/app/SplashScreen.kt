@@ -1,12 +1,9 @@
 package com.washcar.app
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.WindowInsets
-import android.view.WindowManager
 import com.washcar.app.activities.ActivityBase
 import com.washcar.app.activities.LoginActivity
 import com.washcar.app.apiHandlers.DataFeacher
@@ -68,8 +65,7 @@ class SplashScreen : ActivityBase() {
 
                             //val intent = Intent(getActiviy(), LoginActivity::class.java)
                             val intent = Intent(getActiviy(), MainActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+//                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                             finish()
                         }
@@ -78,9 +74,9 @@ class SplashScreen : ActivityBase() {
                 }).getMyAccount(email)
 
             } else {
-//                val intent = Intent(getActiviy(), LoginActivity::class.java)
-                val intent = Intent(getActiviy(), MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                val intent = Intent(getActiviy(), LoginActivity::class.java)
+//                val intent = Intent(getActiviy(), MainActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
                 finish()
             }
@@ -89,6 +85,6 @@ class SplashScreen : ActivityBase() {
 
 
     companion object {
-        private const val SPLASH_TIMER = 3000
+        private const val SPLASH_TIMER = 1500
     }
 }

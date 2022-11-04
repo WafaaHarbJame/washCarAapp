@@ -46,7 +46,7 @@ class SettingsFragment : FragmentBase() {
 
 
         if (UtilityApp.isLogin) {
-            if (user?.type == 3) {
+            if (user?.type == MemberModel.TYPE_ADMIN) {
                 binding.profileBut.visibility = gone
             }
             binding.signOutIcon.text = getString(R.string.fal_sign_out)

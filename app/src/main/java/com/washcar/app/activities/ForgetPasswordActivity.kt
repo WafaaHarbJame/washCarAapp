@@ -16,7 +16,6 @@ import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityForgetPasswordBinding
-import com.washcar.app.models.CountryModel
 import com.washcar.app.models.MemberModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,7 +28,6 @@ class ForgetPasswordActivity : ActivityBase() {
     val TAG: String? = "Log"
 
     var selectedCountryCode = 966
-    var countryCodeDialog: CountryCodeDialog? = null
 
     lateinit var binding: ActivityForgetPasswordBinding
 
@@ -54,26 +52,6 @@ class ForgetPasswordActivity : ActivityBase() {
 
         initLocalCountryCode()
 
-        val countryCodeStr = "+$selectedCountryCode"
-        binding. countryCodeTxt.text = countryCodeStr
-
-        binding. countryCodeTxt.setOnClickListener {
-
-            if (countryCodeDialog == null) {
-                countryCodeDialog =
-                    CountryCodeDialog(getActiviy(), selectedCountryCode,
-                        object : DataFetcherCallBack {
-                            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                                val countryModel = obj as CountryModel
-                                selectedCountryCode = countryModel.code
-                                val codeStr = "+$selectedCountryCode"
-                                binding. countryCodeTxt.text = codeStr
-                            }
-                        })
-                countryCodeDialog?.setOnDismissListener { countryCodeDialog = null }
-            }
-
-        }
 
     }
 
@@ -200,7 +178,7 @@ class ForgetPasswordActivity : ActivityBase() {
     private fun isValidForm(): Boolean {
         return FormValidator.getInstance()
             .addField(
-                binding. mobileTxt,
+                binding.mobileTxt,
                 NonEmptyRule(R.string.enter_phone_number),
                 LengthRule(10, R.string.valid_phone_number)
             )

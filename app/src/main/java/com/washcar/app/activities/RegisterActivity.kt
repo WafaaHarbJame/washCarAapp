@@ -18,6 +18,7 @@ import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.AESCrypt
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
+import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityRegisterTypeBinding
 import com.washcar.app.models.MemberModel
 import io.nlopez.smartlocation.SmartLocation
@@ -58,34 +59,44 @@ class RegisterActivity : ActivityBase() {
             registerUser()
         }
 
+        binding.btnCustomer.performClick()
+
     }
 
 
     fun selectType(isCustomer: Boolean) {
         binding.tvCustomer.setTextColor(
             ContextCompat.getColor(
-                this,
-                if (isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (isCustomer) R.color.colorPrimary else R.color.gray6
             )
         )
         binding.indcCustomer.setBackgroundColor(
             ContextCompat.getColor(
-                this,
-                if (isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (isCustomer) R.color.colorPrimary else R.color.gray6
             )
         )
         binding.tvProvider.setTextColor(
             ContextCompat.getColor(
-                this,
-                if (!isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (!isCustomer) R.color.colorPrimary else R.color.gray6
             )
         )
         binding.indcProvider.setBackgroundColor(
             ContextCompat.getColor(
-                this,
-                if (!isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (!isCustomer) R.color.colorPrimary else R.color.gray6
             )
         )
+
+        if (isCustomer) {
+            binding.descInput.visibility = gone
+            binding.lyAddress.visibility = gone
+            binding.startTimeInput.visibility = gone
+            binding.endTimeInput.visibility = gone
+        } else {
+            binding.descInput.visibility = visible
+            binding.lyAddress.visibility = visible
+            binding.startTimeInput.visibility = visible
+            binding.endTimeInput.visibility = visible
+        }
 
     }
 
@@ -100,9 +111,9 @@ class RegisterActivity : ActivityBase() {
             val confirmPasswordStr =
                 NumberHandler.arabicToDecimal(binding.etConfirmPassword.text.toString())
             val addressStr = NumberHandler.arabicToDecimal(binding.etAddress.text.toString())
-            val descriptionStr = NumberHandler.arabicToDecimal(binding.etDesc.toString())
-            val startTimeStr = NumberHandler.arabicToDecimal(binding.etStartTime.toString())
-            val endTimeStr = NumberHandler.arabicToDecimal(binding.etEndTime.toString())
+            val descriptionStr = NumberHandler.arabicToDecimal(binding.etDesc.text.toString())
+            val startTimeStr = NumberHandler.arabicToDecimal(binding.etStartTime.text.toString())
+            val endTimeStr = NumberHandler.arabicToDecimal(binding.etEndTime.text.toString())
 
             var hasError = false
             if (fullNameStr.isEmpty()) {
@@ -152,8 +163,7 @@ class RegisterActivity : ActivityBase() {
                 }
             }
 
-            if (hasError)
-                return
+            if (hasError) return
 
             val registerUserModel = MemberModel()
 
@@ -161,8 +171,8 @@ class RegisterActivity : ActivityBase() {
             registerUserModel.email = emailStr
             registerUserModel.mobile = mobileStr
             registerUserModel.password = AESCrypt.encrypt(passwordStr);
-            registerUserModel.passwordConfirm = AESCrypt.encrypt(passwordStr)
-            registerUserModel.type = Constants.user_type
+//            registerUserModel.passwordConfirm = AESCrypt.encrypt(passwordStr)
+            registerUserModel.type = userType
             if (userType == MemberModel.TYPE_SERVICE_PROVIDER) {
                 registerUserModel.address = addressStr
                 registerUserModel.description = descriptionStr
@@ -173,9 +183,7 @@ class RegisterActivity : ActivityBase() {
             }
 
             GlobalData.progressDialog(
-                this,
-                R.string.register,
-                R.string.please_wait_register
+                this, R.string.register, R.string.please_wait_register
             )
 
             DataFeacher(object : DataFetcherCallBack {
@@ -189,18 +197,17 @@ class RegisterActivity : ActivityBase() {
 //                        intent.putExtra(Constants.KEY_MOBILE, registerUserModel.email)
 //                        startActivity(intent)
 
+                        UtilityApp.userData = registerUserModel
+
                         val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
                         var message = getString(R.string.fail_to_register)
-                        if (func == Constants.USER_EXIST)
-                            message = getString(R.string.email_exist)
+                        if (func == Constants.USER_EXIST) message = getString(R.string.email_exist)
 
                         GlobalData.errorDialog(
-                            this@RegisterActivity,
-                            R.string.register,
-                            message
+                            this@RegisterActivity, R.string.register, message
                         )
                     }
 
@@ -246,15 +253,13 @@ class RegisterActivity : ActivityBase() {
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
-            SmartLocation.with(this).location()
-                .oneFix()
-                .start { location ->
+            SmartLocation.with(this).location().oneFix().start { location ->
 
-                    selectedLat = location.latitude
-                    selectedLng = location.longitude
+                selectedLat = location.latitude
+                selectedLng = location.longitude
 
 
-                }
+            }
 
         } else {
             showGPSDisabledAlertToUser()
@@ -264,8 +269,7 @@ class RegisterActivity : ActivityBase() {
 
     private fun showGPSDisabledAlertToUser() {
         val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage(getString(R.string.open_gps))
-            .setCancelable(false)
+        alertDialogBuilder.setMessage(getString(R.string.open_gps)).setCancelable(false)
             .setPositiveButton(
                 getString(R.string.enable)
             ) { dialog, id ->

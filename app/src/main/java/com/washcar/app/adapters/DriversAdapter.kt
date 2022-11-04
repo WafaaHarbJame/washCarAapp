@@ -72,9 +72,9 @@ class DriversAdapter(
 
                     driverModel = list!![adapterPosition]
 
-                    val intent = Intent(activity, AddDriverActivity::class.java)
-                    intent.putExtra(Constants.KEY_DRIVER_MODEL, driverModel)
-                    activity.startActivity(intent)
+//                    val intent = Intent(activity, AddDriverActivity::class.java)
+//                    intent.putExtra(Constants.KEY_DRIVER_MODEL, driverModel)
+//                    activity.startActivity(intent)
 
                 }
 

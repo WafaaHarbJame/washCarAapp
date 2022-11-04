@@ -4,9 +4,9 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.provider.Settings
 import androidx.core.content.pm.PackageInfoCompat
-import com.washcar.app.models.MemberModel
-import com.washcar.app.RootApplication
 import com.google.gson.Gson
+import com.washcar.app.RootApplication
+import com.washcar.app.models.MemberModel
 
 
 object UtilityApp {
@@ -155,7 +155,7 @@ object UtilityApp {
 
     fun isCustomer(): Boolean {
         val user = userData
-        return user?.type == 1
+        return user?.type == MemberModel.TYPE_CUSTOMER
     }
 
 //    var isCustomer: Boolean = false

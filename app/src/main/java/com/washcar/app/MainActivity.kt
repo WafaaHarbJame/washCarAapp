@@ -10,7 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.washcar.app.activities.ActivityBase
+import com.washcar.app.apiHandlers.DataFeacher
+import com.washcar.app.apiHandlers.DataFetcherCallBack
+import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
+import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityMainBottomNavBinding
 import com.washcar.app.fragments.*
 import com.washcar.app.models.MemberModel
@@ -44,37 +48,34 @@ class MainActivity : ActivityBase() {
         isMainActivityBottomNav = true
         mTitle = getString(com.washcar.app.R.string.app_name)
 
-        tabTextArr = arrayOf(binding.botoomNav.tab1Txt, binding.botoomNav.tab2Txt, binding.botoomNav.tab3Txt)
-        tabIconsArr = arrayOf(binding.botoomNav.tab1Icon, binding.botoomNav.tab2Icon, binding.botoomNav.tab3Icon)
+        tabTextArr =
+            arrayOf(binding.botoomNav.tab1Txt, binding.botoomNav.tab2Txt, binding.botoomNav.tab3Txt)
+        tabIconsArr = arrayOf(
+            binding.botoomNav.tab1Icon,
+            binding.botoomNav.tab2Icon,
+            binding.botoomNav.tab3Icon
+        )
 
+        user = UtilityApp.userData
 
-
-       // user = UtilityApp.userData
-
-//        userType = user?.type?:0
-
-        selectBottomTab( R.id.mainBtn)
-
-
+        selectBottomTab(R.id.mainBtn)
 
         initListeners()
 
+        if (UtilityApp.isLogin)
+            getMyProfile()
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
+    fun getMyProfile() {
 
-//        val bundle = intent?.extras
-//
-//        if (bundle != null && bundle.containsKey(Constants.KEY_TO_ORDERS)) {
-//            toOrder = bundle.getBoolean(Constants.KEY_TO_ORDERS)
-//        }
-//
-//        if (toOrder) {
-//            selectBottomTab(com.washcar.app.R.id.ordersBtn)
-//        } else {
-//            selectBottomTab(com.washcar.app.R.id.mainBtn)
-//        }
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                if (func == Constants.SUCCESS) {
+                    user = obj as MemberModel
+                    UtilityApp.userData = user
+                }
+            }
+        }).getMyAccount(user?.email)
     }
 
     override fun onActivityResult(
@@ -91,18 +92,18 @@ class MainActivity : ActivityBase() {
     private fun initListeners() {
         binding.botoomNav.mainBtn.setOnClickListener {
             selectBottomTab(
-                 R.id.mainBtn
+                R.id.mainBtn
             )
         }
 
         binding.botoomNav.ordersBtn.setOnClickListener {
             selectBottomTab(
-                 R.id.ordersBtn
+                R.id.ordersBtn
             )
         }
         binding.botoomNav.settingsBtn.setOnClickListener {
             selectBottomTab(
-                 R.id.settingsBtn
+                R.id.settingsBtn
             )
         }
     }
@@ -110,7 +111,7 @@ class MainActivity : ActivityBase() {
 
     private fun selectBottomTab(resId: Int) {
         when (resId) {
-             R.id.mainBtn -> {
+            R.id.mainBtn -> {
                 newFragment = when (userType) {
                     2 -> {
                         DriversFragment()
@@ -123,9 +124,9 @@ class MainActivity : ActivityBase() {
                     }
                 }
                 gui_position = 0
-                mTitle = getString( R.string.home)
+                mTitle = getString(R.string.home)
             }
-             R.id.ordersBtn -> {
+            R.id.ordersBtn -> {
 
                 newFragment = if (userType == 1) {
                     AllDriverRequestsFragment()
@@ -134,15 +135,15 @@ class MainActivity : ActivityBase() {
 
                 }
                 gui_position = 1
-                mTitle = getString( R.string.all_orders)
+                mTitle = getString(R.string.all_orders)
             }
 
 
-             R.id.settingsBtn -> {
+            R.id.settingsBtn -> {
                 newFragment =
                     SettingsFragment()
                 gui_position = 2
-                mTitle = getString( R.string.profile)
+                mTitle = getString(R.string.profile)
             }
         }
         changeColor(gui_position)
@@ -150,7 +151,7 @@ class MainActivity : ActivityBase() {
         if (newFragment != null) {
             fragmentManager = supportFragmentManager
             ft = fragmentManager!!.beginTransaction()
-            ft!!.replace( R.id.container, newFragment!!).commitNowAllowingStateLoss()
+            ft!!.replace(R.id.container, newFragment!!).commitNowAllowingStateLoss()
         }
 
     }
@@ -161,13 +162,13 @@ class MainActivity : ActivityBase() {
                 tabTextArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                         R.color.bottomNavActive
+                        R.color.bottomNavActive
                     )
                 )
                 tabIconsArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                         R.color.bottomNavActive
+                        R.color.bottomNavActive
                     )
                 )
 
@@ -175,13 +176,13 @@ class MainActivity : ActivityBase() {
                 tabIconsArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                         R.color.bottomNavInactive
+                        R.color.bottomNavInactive
                     )
                 )
                 tabTextArr[i].setTextColor(
                     ContextCompat.getColor(
                         getActiviy(),
-                         R.color.bottomNavInactive
+                        R.color.bottomNavInactive
                     )
                 )
             }
@@ -193,13 +194,13 @@ class MainActivity : ActivityBase() {
             if (gui_position == 0) {
                 if (GlobalData.Position == 1) {
                     EventBus.getDefault()
-                        .post( MessageEvent(MessageEvent.TYPE_PAGER, 0))
+                        .post(MessageEvent(MessageEvent.TYPE_PAGER, 0))
                     return false
                 } else {
-                   onBackPressedDispatcher.onBackPressed()
+                    onBackPressedDispatcher.onBackPressed()
                 }
             } else {
-                selectBottomTab( R.id.mainBtn)
+                selectBottomTab(R.id.mainBtn)
                 return false
             }
         }
@@ -218,12 +219,11 @@ class MainActivity : ActivityBase() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
-        if (event.type ==  MessageEvent.TYPE_POSITION) {
+        if (event.type == MessageEvent.TYPE_POSITION) {
             val pos = event.data as Int
-            if (pos == 0) selectBottomTab( R.id.mainBtn)
+            if (pos == 0) selectBottomTab(R.id.mainBtn)
         }
     }
-
 
 
 }

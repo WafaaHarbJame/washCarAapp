@@ -24,7 +24,6 @@ import com.washcar.app.apiHandlers.ApiUrl
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityRequestDetailsBinding
-import com.washcar.app.dialogs.PayWayBottomDialog
 import com.washcar.app.models.MemberModel
 import com.washcar.app.models.PayWayImage
 import io.nlopez.smartlocation.SmartLocation
@@ -44,7 +43,6 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
 
     var driverMarker: Marker? = null
     var user: MemberModel? = null
-    private var userType: Int = 0;
 
     lateinit var binding: ActivityRequestDetailsBinding
 
@@ -53,7 +51,7 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         binding = ActivityRequestDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.  backBtn.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
@@ -78,38 +76,23 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         fragment?.getMapAsync(this)
 
         user = UtilityApp.userData
-        userType = user?.type!!
-        if (userType == 1) {
-            binding.  finishOrder.visibility = View.GONE
+
+        if (user?.type == MemberModel.TYPE_SERVICE_PROVIDER) {
+            binding.finishOrder.visibility = View.GONE
             payNow(orderID!!)
 
-        } else if (userType == 2) {
-            binding. finishOrder.visibility = View.VISIBLE
+        } else if (user?.type == MemberModel.TYPE_CUSTOMER) {
+            binding.finishOrder.visibility = View.VISIBLE
         }
 
-        binding. finishOrder.setOnClickListener {
+        binding.finishOrder.setOnClickListener {
             //   updateOrderStatus(orderID, 3)
         }
 
 
 
-        binding. payBtn.setOnClickListener {
-            val payWayBottomDialog =
-                PayWayBottomDialog { obj, func, IsSuccess ->
-                    val payWayImage: PayWayImage =
-                        obj as PayWayImage
-                    AwesomeSuccessDialog(getActiviy())
-                        .setTitle(R.string.payment)
-                        .setMessage(getString(R.string.succes_pay))
-                        .setColoredCircle(R.color.white)
-                        .setDialogIconAndColor(R.drawable.ic_check, R.color.white)
-                        .setCancelable(true)
-                        .show()
-                        .setOnDismissListener {
-                            finish()
-                        }
-                }
-            payWayBottomDialog.show(supportFragmentManager, "payWayBottomDialog")
+        binding.payBtn.setOnClickListener {
+
         }
 
     }
@@ -215,9 +198,9 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
                 println("Log payNow requestStatus $requestStatus")
 
                 if (requestStatus!! == 3) {
-                    binding.  payBtn.visibility = visible
+                    binding.payBtn.visibility = visible
                 } else {
-                    binding.  payBtn.visibility = gone
+                    binding.payBtn.visibility = gone
 
                 }
 

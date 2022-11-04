@@ -10,14 +10,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog
 import com.washcar.app.R
 import com.washcar.app.Utils.MapHandler
 import com.washcar.app.activities.RequestDetailsActivity
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
-import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.models.MemberModel
 import com.washcar.app.models.RequestModel
@@ -79,9 +75,9 @@ class RequestsAdapter(
                     orderStatusBtn.visibility = View.VISIBLE
                     orderStatusBtn.text = activity?.getString(R.string.pending)
                     orderStatusBtn.background =
-                      ContextCompat.getDrawable(activity!!, R.drawable.circle_corne_order_pending)
+                        ContextCompat.getDrawable(activity!!, R.drawable.circle_corne_order_pending)
 
-                    if (user?.type == 2) {
+                    if (user?.type == MemberModel.TYPE_SERVICE_PROVIDER) {
                         acceptBut.visibility = View.VISIBLE
                         rejectBut.visibility = View.VISIBLE
                         orderStatusBtn.visibility = View.GONE
@@ -131,13 +127,13 @@ class RequestsAdapter(
             acceptBut.setOnClickListener {
                 Log.i(TAG, "Log requestModel.getOrderId()" + requestModel.getOrderId())
 
-             //   updateOrderStatus(requestModel.getOrderId(), 1, adapterPosition)
+                //   updateOrderStatus(requestModel.getOrderId(), 1, adapterPosition)
 
             }
             rejectBut.setOnClickListener {
                 Log.i(TAG, "Log requestModel.getOrderId()" + requestModel.getOrderId())
 
-               // updateOrderStatus(requestModel.getOrderId(), 2, adapterPosition)
+                // updateOrderStatus(requestModel.getOrderId(), 2, adapterPosition)
 
             }
 
@@ -148,9 +144,9 @@ class RequestsAdapter(
 
             itemView?.setOnClickListener {
 
-                val requestModel = list!![adapterPosition]
+                val requestModel = list!![bindingAdapterPosition]
 
-                if (requestModel.requestStatus != 1 && UtilityApp.userData?.type == 1)
+                if (requestModel.requestStatus != 1 && user?.type == MemberModel.TYPE_CUSTOMER)
                     return@setOnClickListener
                 val intent = Intent(activity, RequestDetailsActivity::class.java)
                 intent.putExtra(Constants.KEY_DESTINATION_LAT, requestModel.getDestinationLat())

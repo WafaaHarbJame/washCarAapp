@@ -17,7 +17,6 @@ import java.util.*
 class ProfileActivity : ActivityBase() {
     var activity: Activity? = null
     var user: MemberModel? = null
-    private var userType: Int = 0;
     var yearStr: Int? = 0
     var monthStr: Int? = 0
     var dayStr: Int? = 0
@@ -41,14 +40,13 @@ class ProfileActivity : ActivityBase() {
         }
 
         user = UtilityApp.userData
-        userType = user!!.type
 
         getData()
 
-        if (userType == 1) {
+        if (user?.type == MemberModel.TYPE_CUSTOMER) {
             binding.busLayout.visibility = View.GONE
 
-        } else if (userType == 2) {
+        } else if (user?.type == MemberModel.TYPE_SERVICE_PROVIDER) {
             binding.busLayout.visibility = View.VISIBLE
 
         }
