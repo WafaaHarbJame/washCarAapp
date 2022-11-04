@@ -14,22 +14,22 @@
 
     <include layout="@layout/layout_fail_get_data" />
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/white"
+        app:tabTextColor="@color/gray3"
+        app:tabTextAppearance="@style/tab_text"
+        app:tabSelectedTextColor="@color/colorPrimary" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/_15sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="4"
-            tools:listitem="@layout/row_request" />
-    </LinearLayout>
+    <com.duolingo.open.rtlviewpager.RtlViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:clipToPadding="false"
+        android:layout_height="match_parent"/>
+
 
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.washcar.app.models;
 
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class RequestModel {
@@ -16,6 +17,7 @@ public class RequestModel {
     public double destinationLng;
     public String address;
     public String requestDate;
+    public ArrayList<CategoryModel> categoryModels;
     @ServerTimestamp
     public Date createdAt;
     public int requestStatus;

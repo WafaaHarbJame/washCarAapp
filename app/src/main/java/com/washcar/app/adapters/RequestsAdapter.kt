@@ -1,222 +1,101 @@
 package com.washcar.app.adapters
 
-import android.app.Activity
-import android.content.ContentValues.TAG
-import android.content.Intent
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.widget.EditText
+import android.widget.RatingBar
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.washcar.app.R
-import com.washcar.app.Utils.MapHandler
-import com.washcar.app.activities.RequestDetailsActivity
-import com.washcar.app.classes.Constants
-import com.washcar.app.classes.UtilityApp
-import com.washcar.app.models.MemberModel
+import com.washcar.app.databinding.RowRequestBinding
+import com.washcar.app.dialogs.AddRateDialog
+import com.washcar.app.models.CategoryModel
 import com.washcar.app.models.RequestModel
+import com.washcar.app.models.ReviewModel
 
-class RequestsAdapter(
-    private val activity: Activity?,
-    var list: MutableList<RequestModel>?
-) :
-    RecyclerView.Adapter<RequestsAdapter.MyHolder>() {
-
-    var user: MemberModel? = null
-
-    init {
-        user = UtilityApp.userData
+class RequestsAdapter(private val context: Context, private var list: MutableList<RequestModel?>?) :
+    RecyclerView.Adapter<RequestsAdapter.Holder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val itemView = RowRequestBinding.inflate(LayoutInflater.from(context), parent, false)
+        return Holder(itemView)
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.row_request, null, false)
-        return MyHolder(view)
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        val requestModel = list?.get(position)
+
+        val lln: RecyclerView.LayoutManager = LinearLayoutManager(context)
+        holder.binding.rv.layoutManager = lln
+
+        holder.bind(requestModel)
+
     }
 
-    override fun onBindViewHolder(holder: MyHolder, position: Int) {
-
-        if (list != null) {
-            holder.bind(list!![position])
-        }
-    }
 
     override fun getItemCount(): Int {
         return list?.size ?: 0
     }
 
-    inner class MyHolder(itemView: View?) :
-        RecyclerView.ViewHolder(itemView!!) {
 
-        private val nameTV: TextView = itemView!!.findViewById(R.id.nameTV)
-        private val dateTxt: TextView = itemView!!.findViewById(R.id.dateTxt)
-        private val addressTxt: TextView = itemView!!.findViewById(R.id.addressTxt)
-        private val acceptBut: TextView = itemView!!.findViewById(R.id.acceptBut)
-        private val rejectBut: TextView = itemView!!.findViewById(R.id.rejectBut)
-        private val orderStatusBtn: TextView = itemView!!.findViewById(R.id.orderStatusBtn)
+    inner class Holder(var binding: RowRequestBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(requestModel: RequestModel) {
 
-            nameTV.text = requestModel.getClient_name()
-            dateTxt.text = requestModel.getRequestDate()
-            addressTxt.text = MapHandler.getGpsAddress(
-                activity,
-                requestModel.destinationLat,
-                requestModel.destinationLng
+        fun bind(requestModel: RequestModel?) {
+            var categoryList: MutableList<CategoryModel?>? = null
+
+
+            categoryList = mutableListOf()
+
+            categoryList.add(CategoryModel("1", "Washing"))
+            categoryList.add(CategoryModel("2", "Washing Steam"))
+            categoryList.add(CategoryModel("3", "Shine"))
+
+            val selectedServiceAdapter = SelectedServiceAdapter(
+                context, categoryList
             )
 
-            // 1 accept 2 reject 3 finish
-
-
-            when (requestModel.requestStatus) {
-                0 -> {
-                    orderStatusBtn.visibility = View.VISIBLE
-                    orderStatusBtn.text = activity?.getString(R.string.pending)
-                    orderStatusBtn.background =
-                        ContextCompat.getDrawable(activity!!, R.drawable.circle_corne_order_pending)
-
-                    if (user?.type == MemberModel.TYPE_SERVICE_PROVIDER) {
-                        acceptBut.visibility = View.VISIBLE
-                        rejectBut.visibility = View.VISIBLE
-                        orderStatusBtn.visibility = View.GONE
-
-                    } else {
-                        acceptBut.visibility = View.GONE
-                        rejectBut.visibility = View.GONE
-                    }
-
-                }
-                1 -> {
-                    orderStatusBtn.visibility = View.VISIBLE
-                    acceptBut.visibility = View.GONE
-                    rejectBut.visibility = View.GONE
-                    orderStatusBtn.text = activity?.getString(R.string.accepted)
-                    orderStatusBtn.background = ContextCompat.getDrawable(
-                        activity!!,
-                        R.drawable.circle_corne_order_accepted
-                    )
-                }
-                2 -> {
-                    orderStatusBtn.visibility = View.VISIBLE
-                    acceptBut.visibility = View.GONE
-                    rejectBut.visibility = View.GONE
-                    orderStatusBtn.text = activity?.getString(R.string.rejecttion)
-                    orderStatusBtn.background = ContextCompat.getDrawable(
-                        activity!!,
-                        R.drawable.circle_corne_order_rejected
-                    )
-
-                }
-                3 -> {
-                    orderStatusBtn.text = activity?.getString(R.string.finish)
-                    orderStatusBtn.visibility = View.VISIBLE
-                    acceptBut.visibility = View.GONE
-                    rejectBut.visibility = View.GONE
-                    orderStatusBtn.background = ContextCompat.getDrawable(
-                        activity!!,
-                        R.drawable.circle_corne_order_finished
-                    )
-                }
-                else -> {
-                    orderStatusBtn.visibility = View.GONE
-                }
-            }
-
-            acceptBut.setOnClickListener {
-                Log.i(TAG, "Log requestModel.getOrderId()" + requestModel.getOrderId())
-
-                //   updateOrderStatus(requestModel.getOrderId(), 1, adapterPosition)
-
-            }
-            rejectBut.setOnClickListener {
-                Log.i(TAG, "Log requestModel.getOrderId()" + requestModel.getOrderId())
-
-                // updateOrderStatus(requestModel.getOrderId(), 2, adapterPosition)
-
-            }
-
+//            val selectedServiceAdapter = SelectedServiceAdapter(
+//                context, requestModel?.categoryModels
+            binding.rv.adapter = selectedServiceAdapter
 
         }
 
         init {
-
-            itemView?.setOnClickListener {
-
-                val requestModel = list!![bindingAdapterPosition]
-
-                if (requestModel.requestStatus != 1 && user?.type == MemberModel.TYPE_CUSTOMER)
-                    return@setOnClickListener
-                val intent = Intent(activity, RequestDetailsActivity::class.java)
-                intent.putExtra(Constants.KEY_DESTINATION_LAT, requestModel.getDestinationLat())
-                intent.putExtra(Constants.KEY_DESTINATION_LNG, requestModel.getDestinationLng())
-                intent.putExtra(Constants.KEY_LAT, requestModel.getLat())
-                intent.putExtra(Constants.KEY_LNG, requestModel.getLng())
-                intent.putExtra(Constants.KEY_DRIVER_ID, requestModel.getDriver_id())
-                intent.putExtra(Constants.KEY_ORDER_ID, requestModel.getOrderId())
-                activity?.startActivity(intent)
-
+            binding.rateBut.setOnClickListener {
+                val reviewModel = ReviewModel()
+                var addCommentDialog: AddRateDialog? = null
+                val note = addCommentDialog?.findViewById<EditText>(R.id.rateEt)
+                val ratingBar =
+                    addCommentDialog?.findViewById<RatingBar>(R.id.ratingBar)
+                val notes = note?.text.toString()
+                reviewModel.comment = notes
+                reviewModel.rate = ratingBar?.rating?.toInt()
+                when {
+                    ratingBar?.rating == 0f -> {
+                        Toast.makeText(context, R.string.please_fill_rate, Toast.LENGTH_SHORT)
+                            .show()
+                        ratingBar.requestFocus()
+                    }
+                    note?.text.toString().isEmpty() -> {
+                        note?.requestFocus()
+                        note?.error = context.getString(R.string.please_fill_comment)
+                    }
+                    else -> {
+                        addComment(reviewModel)
+                    }
+                }
             }
+
+
         }
+
     }
 
-//    private fun updateOrderStatus(orderNumber: String?, orderStatus: Int?, position: Int) {
-//        try {
-//            DataFeacher(object : DataFetcherCallBack {
-//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-//                    GlobalData.progressDialogHide()
-//                    if (func == Constants.SUCCESS) {
-////                        val emptySeatBefore = UtilityApp.userData!!.emptySeat
-////                        val emptySeat: Int = emptySeatBefore - 1
-//                        list!![position].requestStatus = orderStatus!!
-//
-//                        AwesomeSuccessDialog(activity)
-//                            .setTitle(R.string.change_order_status)
-//                            .setMessage(activity?.getString(R.string.sucess_change_satus))
-//                            .setColoredCircle(R.color.white)
-//                            .setDialogIconAndColor(R.drawable.ic_check, R.color.white)
-//                            .setCancelable(true)
-//                            .show()
-//
-////                    .setButtonText(getString(R.string.ok))
-////            .setButtonBackgroundColor(R.color.dialogErrorBackgroundColor)
-//
-//                        notifyItemChanged(position)
-//                        notifyDataSetChanged()
-////                        list!!.removeAt(position)
-//
-//                        DataFeacher(object : DataFetcherCallBack {
-//                            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-//                                GlobalData.progressDialogHide()
-//
-//                                if (func == Constants.SUCCESS) {
-//                                    UtilityApp.userData!!.emptySeat = emptySeat
-//
-//                                }
-//
-//                            }
-//                        }).updateSeatData(UtilityApp.userData!!.mobileWithCountry, emptySeat);
-//
-//
-//                    } else {
-//                        var message = activity?.getString(R.string.fail_to_change_status)
-//                        GlobalData.errorDialog(
-//                            activity,
-//                            R.string.change_order_status,
-//                            message
-//                        )
-//                    }
-//
-//                }
-//            }).updateOrder(orderNumber, orderStatus);
-//
-//        } catch (e: Exception) {
-//
-//            e.printStackTrace()
-//
-//        }
-//    }
+    private fun addComment(reviewModel: ReviewModel) {
+
+    }
+
 
 }
-

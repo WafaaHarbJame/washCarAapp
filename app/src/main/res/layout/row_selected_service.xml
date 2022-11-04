@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/_5sdp">
+
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/serviceName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:minWidth="@dimen/_20sdp"
+                android:minHeight="@dimen/_20sdp"
+                android:text="wash"
+                android:textColor="@color/gray4"
+                android:textSize="@dimen/_13ssp" />
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/servicePrice"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_height="wrap_content"
+                android:text="150 SAR"
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray4"
+                android:textSize="@dimen/_13ssp" />
+
+
+        </LinearLayout>
+
+

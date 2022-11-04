@@ -1,187 +1,219 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-        <include
-            android:id="@+id/tool_bar"
-            layout="@layout/tool_bar" />
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar" />
 
-            <androidx.core.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_10sdp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:id="@+id/searcBut"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/_10sdp">
+                    android:layout_weight="1"
+                    android:background="@drawable/round_corner_big_gray_trans"
+                    android:hint="@string/search"
+                    android:padding="@dimen/_8sdp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorAccent3"
+                    android:textSize="@dimen/_11ssp" />
 
-                    <LinearLayout
-                        android:id="@+id/announceLy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-
-                        <com.washcar.app.spichalViews.STextViewBold
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="@dimen/_8sdp"
-                            android:gravity="start|center_vertical"
-                            android:maxLines="1"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:text="@string/announcements"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <com.washcar.app.spichalViews.STextView
-                            android:id="@+id/moreAnnounBut"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/_8sdp"
-                            android:gravity="start|center_vertical"
-                            android:maxLines="1"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:text="@string/view_all"
-                            android:textColor="@color/colorAccent"
-                            android:textAlignment="viewStart"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/announceRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/row_car_annouce" />
-
-
-                    <LinearLayout
-                        android:id="@+id/carWashNearYouLy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-
-                        <com.washcar.app.spichalViews.STextViewBold
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="@dimen/_8sdp"
-                            android:gravity="start|center_vertical"
-                            android:maxLines="1"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:text="@string/car_near_you"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <com.washcar.app.spichalViews.STextView
-                            android:id="@+id/moreCarWashNear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/_8sdp"
-                            android:gravity="start|center_vertical"
-                            android:maxLines="1"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:text="@string/view_all"
-                            android:textColor="@color/colorAccent"
-                            android:textAlignment="viewStart"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/carsWashRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"
-                        android:orientation="horizontal"
-                        app:spanCount="2"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/row_car_wash" />
-
-
-
-                <LinearLayout
-                    android:id="@+id/bestRateLy"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/filterBut"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:minHeight="@dimen/_40sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/filter"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/announceLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
 
-                    <com.washcar.app.spichalViews.STextViewBold
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawablePadding="@dimen/_8sdp"
-                        android:gravity="start|center_vertical"
-                        android:maxLines="1"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:text="@string/best_rate_car"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/order_pending"
-                        android:textSize="@dimen/_12ssp" />
-
-                    <com.washcar.app.spichalViews.STextView
-                        android:id="@+id/moreBestRated"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/_8sdp"
-                        android:gravity="start|center_vertical"
-                        android:maxLines="1"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:text="@string/view_all"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textAlignment="viewStart"
-                        android:textSize="@dimen/_12ssp" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/bestRateRecycler"
-                    android:layout_width="match_parent"
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/row_car_wash" />
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/announcements"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/_12ssp" />
 
-                </LinearLayout>
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/moreAnnounBut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/view_all"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp" />
 
-</androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/announceRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/row_car_annouce" />
+
+
+            <LinearLayout
+                android:id="@+id/carWashNearYouLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/car_near_you"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/moreCarWashNear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/view_all"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/carsWashRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:itemCount="4"
+                tools:listitem="@layout/row_car_wash" />
+
+
+            <LinearLayout
+                android:id="@+id/bestRateLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/best_rate_car"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/order_pending"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/moreBestRated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/view_all"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/_12ssp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bestRateRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/row_car_wash" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
 

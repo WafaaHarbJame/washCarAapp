@@ -15,7 +15,7 @@ import com.washcar.app.models.RequestModel
 
 class CurrentDriverFragment : FragmentBase() {
 
-    var finishRequestList: MutableList<RequestModel>? = null
+    var finishRequestList: MutableList<RequestModel?>? = null
 
     private var _binding: FragmentAllRequestBinding? = null
     private val binding get() = _binding!!
@@ -34,12 +34,7 @@ class CurrentDriverFragment : FragmentBase() {
 
         binding.rv.layoutManager = GridLayoutManager(requireContext(), 1)
 
-        binding.swipeDataContainer.setOnRefreshListener {
-            if (UtilityApp.isLogin)
-                getCurrentRequests(true)
-            else
-                binding.swipeDataContainer.isRefreshing = false
-        }
+
 
         getCurrentRequests(true)
 
@@ -66,12 +61,9 @@ class CurrentDriverFragment : FragmentBase() {
                 if (isVisible) {
                     binding.lyLoading.loadingProgressLY.visibility = gone
 
-                    if (binding.swipeDataContainer.isRefreshing)
-                        binding.swipeDataContainer.isRefreshing = false
-
                     if (func == Constants.SUCCESS) {
 
-                        finishRequestList = obj as MutableList<RequestModel>?
+                        finishRequestList = obj as MutableList<RequestModel?>?
 
                         binding.dataLY.visibility = visible
                         if (finishRequestList?.isNotEmpty() == true) {

@@ -203,4 +203,16 @@
     <string name="fail_to_add_category">Fail to add category</string>
     <string name="no_categories">No Categories</string>
     <string name="send_oder">Send Order</string>
+    <string name="on_going">On going</string>
+    <string name="complete">Completed</string>
+    <string name="selected_car">Selected Car</string>
+    <string name="service_selected">Service Selected</string>
+    <string name="total_price">Total Price</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="add_comm">Add Comment</string>
+    <string name="add">Add</string>
+    <string name="Rate">Rate</string>
+    <string name="please_fill_rate">Please Fill Rate</string>
+    <string name="please_fill_comment">Please Fill Comment</string>
+    <string name="search">Search</string>
 </resources>

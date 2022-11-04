@@ -34,7 +34,6 @@ class ReviewFragment : Fragment() {
         val reviewManger = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         binding.reviewRecycler.layoutManager = reviewManger
         binding.reviewRecycler.setHasFixedSize(true)
-        binding.reviewRecycler.itemAnimator = null
 
         initReviewAdapter()
 

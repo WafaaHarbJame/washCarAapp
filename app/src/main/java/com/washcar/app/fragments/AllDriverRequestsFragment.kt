@@ -19,7 +19,7 @@ import com.washcar.app.models.RequestModel
  */
 class AllDriverRequestsFragment : FragmentBase() {
 
-    var allRequeststList: MutableList<RequestModel>? = null
+    var allRequeststList: MutableList<RequestModel?>? = null
 
     private var _binding: FragmentAllRequestBinding? = null
     private val binding get() = _binding!!
@@ -37,10 +37,6 @@ class AllDriverRequestsFragment : FragmentBase() {
 
         binding.rv.layoutManager = GridLayoutManager(getActivity(), 1)
 
-        binding.swipeDataContainer.setOnRefreshListener {
-            if (UtilityApp.isLogin) getAllRequests(true)
-            else binding.swipeDataContainer.isRefreshing = false
-        }
 
         getAllRequests(true)
 
@@ -49,7 +45,7 @@ class AllDriverRequestsFragment : FragmentBase() {
 
     private fun initAdapter() {
 
-        val adapter = RequestsAdapter(getActivity(), allRequeststList)
+        val adapter = RequestsAdapter(requireContext(), allRequeststList)
         binding.rv.adapter = adapter
     }
 
@@ -65,13 +61,10 @@ class AllDriverRequestsFragment : FragmentBase() {
 
                 binding.lyLoading.loadingProgressLY.visibility = gone
 
-                if (binding.swipeDataContainer.isRefreshing) binding.swipeDataContainer.isRefreshing =
-                    false
-
                 if (func == Constants.SUCCESS) {
 
                     binding.dataLY.visibility = visible
-                    allRequeststList = obj as MutableList<RequestModel>?
+                    allRequeststList = obj as MutableList<RequestModel?>?
 
                     if (allRequeststList?.isNotEmpty() == true) {
                         binding.lyEmpty.noDataLY.visibility = gone

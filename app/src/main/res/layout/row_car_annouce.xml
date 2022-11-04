@@ -87,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:gravity="center_vertical"
-                android:textAlignment="viewStart"
                 android:orientation="horizontal">
 
                 <com.washcar.app.spichalViews.STextViewBold

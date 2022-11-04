@@ -25,6 +25,10 @@
         <item name="colorControlActivated">@color/order_pending</item>
     </style>
 
+    <style name="RatingBarStyle" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/gray6</item>
+        <item name="colorControlActivated">@color/order_pending</item>
+    </style>
     <style name="FullScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="windowNoTitle">true</item>
