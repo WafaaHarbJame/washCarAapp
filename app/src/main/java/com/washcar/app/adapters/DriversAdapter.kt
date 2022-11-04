@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.washcar.app.R
-import com.washcar.app.activities.AddDriverActivity
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData

@@ -24,15 +24,15 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     var headerMap: MutableMap<String, Any?> = HashMap()
 
     /*********************************** POST Fetcher  **********************************/
-    fun loginHandle(memberModel: RegisterUserModel?) {
+    fun loginHandle(memberModel: RegisterUserModel) {
 
         Log.i(TAG, "Log loginHandle")
-        Log.i(TAG, "Log mobile " + memberModel?.mobile)
-        Log.i(TAG, "Log password " + memberModel?.password)
-        Log.i(TAG, "Log mobileWithCountry " + memberModel?.mobileWithCountry)
+        Log.i(TAG, "Log email " + memberModel.email)
+        Log.i(TAG, "Log password " + memberModel.password)
+//        Log.i(TAG, "Log mobileWithCountry " + memberModel?.mobileWithCountry)
 
-        val phoneNumber = memberModel?.mobileWithCountry
-        fireStoreDB?.collection(ApiUrl.Users.name)?.document(phoneNumber!!)?.get()
+//        val phoneNumber = memberModel?.mobileWithCountry
+        fireStoreDB?.collection(ApiUrl.Users.name)?.document(memberModel.email)?.get()
             ?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val document = it.result
@@ -391,35 +391,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             }
     }
 
-    fun getCountries() {
-        Log.i(TAG, "Log getCountries")
-
-        fireStoreDB?.collection(ApiUrl.Countries.name)?.get()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                val query = it.result
-
-                val list = mutableListOf<CountryModel>()
-                for (document in query!!) {
-                    val country = document?.toObject(CountryModel::class.java)
-                    country?.id = document?.id
-                    list.add(country!!)
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-                }
-
-                val json = Gson().toJson(list)
-                DBFunction.setCountries(json)
-//
-                dataFetcherCallBack?.Result(list, Constants.SUCCESS, true)
-//
-            } else {
-                it.exception?.printStackTrace()
-            }
-
-        }
-
-
-    }
-
     fun getFinishedRequests(driver_id: String?) {
         Log.i(TAG, "Log getFinishedRequests")
 
@@ -483,9 +454,9 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 if (it.isSuccessful) {
                     val query = it.result
 
-                    val requestList = mutableListOf< RequestModel>()
+                    val requestList = mutableListOf<RequestModel>()
                     for (document in query!!) {
-                        val requestModel = document?.toObject( RequestModel::class.java)
+                        val requestModel = document?.toObject(RequestModel::class.java)
                         requestList.add(requestModel!!)
                     }
 
@@ -508,9 +479,9 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 if (it.isSuccessful) {
                     val query = it.result
 
-                    val requestList = mutableListOf< RequestModel>()
+                    val requestList = mutableListOf<RequestModel>()
                     for (document in query!!) {
-                        val requestModel = document?.toObject( RequestModel::class.java)
+                        val requestModel = document?.toObject(RequestModel::class.java)
                         requestList.add(requestModel!!)
                     }
 
@@ -535,9 +506,9 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 if (it.isSuccessful) {
                     val query = it.result
 
-                    val requestList = mutableListOf< RequestModel>()
+                    val requestList = mutableListOf<RequestModel>()
                     for (document in query!!) {
-                        val requestModel = document?.toObject( RequestModel::class.java)
+                        val requestModel = document?.toObject(RequestModel::class.java)
                         requestList.add(requestModel!!)
                     }
 
@@ -610,8 +581,8 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     if (query.isEmpty)
                         dataFetcherCallBack?.Result(null, Constants.PASSWORD_WRONG, true)
                     else {
-                        val userDoc:  RegisterUserModel? =
-                            query.documents[0].toObject( RegisterUserModel::class.java)
+                        val userDoc: RegisterUserModel? =
+                            query.documents[0].toObject(RegisterUserModel::class.java)
                         dataFetcherCallBack?.Result(
                             userDoc,
                             Constants.SUCCESS,

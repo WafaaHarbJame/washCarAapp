@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.TextUtils
 import android.util.Log
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.*
+import com.washcar.app.MainActivity
 import com.washcar.app.R
 import com.washcar.app.Utils.NumberHandler
 import com.washcar.app.apiHandlers.DataFeacher
@@ -12,11 +15,8 @@ import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
+import com.washcar.app.databinding.ActivityConfirmBinding
 import com.washcar.app.models.MemberModel
-import com.google.firebase.FirebaseException
-import com.google.firebase.auth.*
-import com.washcar.app.MainActivity
-import kotlinx.android.synthetic.main.activity_confirm.*
 import java.util.concurrent.TimeUnit
 
 
@@ -33,9 +33,12 @@ class ConfirmActivity : ActivityBase() {
     lateinit var user: MemberModel
 
 
+    lateinit var binding: ActivityConfirmBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm)
+        binding = ActivityConfirmBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
         FirebaseAuth.getInstance().firebaseAuthSettings.forceRecaptchaFlowForTesting(false)
@@ -50,23 +53,23 @@ class ConfirmActivity : ActivityBase() {
 
         sendVerificationCode("+$mobile")
 
-        confirmBtn.setOnClickListener {
-            if (TextUtils.isEmpty(codeTxt.text.toString())) {
-                codeTxt.error = getString(R.string.please_enter_code_sent_mobile);
-                codeTxt.requestFocus();
+        binding.confirmBtn.setOnClickListener {
+            if (TextUtils.isEmpty(binding.codeTxt.text.toString())) {
+                binding.codeTxt.error = getString(R.string.please_enter_code_sent_mobile);
+                binding.codeTxt.requestFocus();
             } else {
-                val code = NumberHandler.arabicToDecimal(codeTxt.text.toString());
+                val code = NumberHandler.arabicToDecimal(binding.codeTxt.text.toString());
                 GlobalData.progressDialog(
                     getActiviy(),
                     R.string.confirm_code,
                     R.string.please_wait_sending
                 )
-                val credential = PhoneAuthProvider.getCredential(storedVerificationId?:"", code)
+                val credential = PhoneAuthProvider.getCredential(storedVerificationId ?: "", code)
                 signInWithPhoneAuthCredential(credential)
             }
         }
 
-        resendCodeBtn.setOnClickListener {
+        binding.resendCodeBtn.setOnClickListener {
             sendVerificationCode("+$mobile")
         }
 
@@ -134,13 +137,13 @@ class ConfirmActivity : ActivityBase() {
 
         object : CountDownTimer(60000, 1000) {
             override fun onTick(l: Long) {
-                resendCodeBtn.text = "".plus(l / 1000)
-                resendCodeBtn.isEnabled = false
+                binding.resendCodeBtn.text = "".plus(l / 1000)
+                binding.resendCodeBtn.isEnabled = false
             }
 
             override fun onFinish() {
-                resendCodeBtn.text = getString(R.string.resend)
-                resendCodeBtn.isEnabled = true
+                binding.resendCodeBtn.text = getString(R.string.resend)
+                binding.resendCodeBtn.isEnabled = true
             }
         }.start()
 

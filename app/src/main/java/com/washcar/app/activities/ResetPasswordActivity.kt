@@ -3,13 +3,6 @@ package com.washcar.app.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.washcar.app.R
-import com.washcar.app.Utils.NumberHandler
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
-import com.washcar.app.classes.AESCrypt
-import com.washcar.app.classes.Constants
-import com.washcar.app.classes.GlobalData
 import com.github.dhaval2404.form_validation.rule.EqualRule
 import com.github.dhaval2404.form_validation.rule.NonEmptyRule
 import com.github.dhaval2404.form_validation.validation.FormValidator
@@ -18,7 +11,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import kotlinx.android.synthetic.main.activity_reset_password.*
+import com.washcar.app.R
+import com.washcar.app.Utils.NumberHandler
+import com.washcar.app.apiHandlers.DataFeacher
+import com.washcar.app.apiHandlers.DataFetcherCallBack
+import com.washcar.app.classes.AESCrypt
+import com.washcar.app.classes.Constants
+import com.washcar.app.classes.GlobalData
+import com.washcar.app.databinding.ActivityResetPasswordBinding
 import java.util.concurrent.TimeUnit
 
 
@@ -32,10 +32,12 @@ class ResetPasswordActivity : ActivityBase() {
     val TAG: String? = "ResetPasswordActivity"
     var phoneNumber: String = ""
 
+    lateinit var binding: ActivityResetPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reset_password)
+        binding = ActivityResetPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         title = ""
         auth = FirebaseAuth.getInstance()
@@ -46,7 +48,7 @@ class ResetPasswordActivity : ActivityBase() {
 
         sendVerificationCode("+$phoneNumber")
 
-        resetPasswordBtn.setOnClickListener {
+        binding.resetPasswordBtn.setOnClickListener {
 
             if (isValidForm())
                 resetPassword()
@@ -57,7 +59,7 @@ class ResetPasswordActivity : ActivityBase() {
     private fun resetPassword() {
 
         try {
-            val code = NumberHandler.arabicToDecimal(codeTV.text.toString());
+            val code = NumberHandler.arabicToDecimal(binding.codeTV.text.toString());
 
             GlobalData.progressDialog(
                 getActiviy(),
@@ -78,22 +80,22 @@ class ResetPasswordActivity : ActivityBase() {
     private fun isValidForm(): Boolean {
         return FormValidator.getInstance()
             .addField(
-                codeTV,
+                binding.codeTV,
                 NonEmptyRule(R.string.please_enter_code_sent_mobile),
             )
             .addField(
-                passwordTxt,
+                binding.passwordTxt,
                 NonEmptyRule(R.string.enter_password)
             )
             .addField(
-                confirmPasswordTxt,
+                binding.confirmPasswordTxt,
                 NonEmptyRule(R.string.enter_confirm_password)
             )
             .addField(
-                confirmPasswordTxt,
+                binding.confirmPasswordTxt,
                 NonEmptyRule(R.string.enter_password),
                 EqualRule(
-                    passwordTxt.text.toString(),
+                    binding.passwordTxt.text.toString(),
                     R.string.password_confirm_not_match
                 )
             )
@@ -133,7 +135,7 @@ class ResetPasswordActivity : ActivityBase() {
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         val passwordStr =
-            AESCrypt.encrypt(NumberHandler.arabicToDecimal(passwordTxt.text.toString()))
+            AESCrypt.encrypt(NumberHandler.arabicToDecimal(binding.passwordTxt.text.toString()))
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {

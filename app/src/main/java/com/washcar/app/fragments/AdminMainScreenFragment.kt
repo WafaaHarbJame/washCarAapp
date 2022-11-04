@@ -1,6 +1,5 @@
 package com.washcar.app.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,51 +7,45 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.washcar.app.R
 import com.washcar.app.adapters.MainAdminAdapter
+import com.washcar.app.databinding.FragmentAdminMainScreenBinding
 import com.washcar.app.models.MainAdminModel
-import kotlinx.android.synthetic.main.fragment_requests.*
-import kotlinx.android.synthetic.main.tool_bar.*
-import java.util.*
 
 
 class AdminMainScreenFragment : FragmentBase() {
-    var activity: Activity? = null
+
     var mainList: MutableList<MainAdminModel>? = null
+
+    private var _binding: FragmentAdminMainScreenBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_admin_main_screen, container, false)
-        activity = getActivity()
-        return view
+    ): View {
+        _binding = FragmentAdminMainScreenBinding.inflate(inflater, container, false)
+        return binding.root
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        mainTitleTxt.text = getString(R.string.home)
-
-        homeBtn.visibility = gone
+        binding.toolBar.mainTitleTxt.text = getString(R.string.home)
+        binding.toolBar.homeBtn.visibility = gone
         mainList = ArrayList<MainAdminModel>()
 
 
-        rv.layoutManager = LinearLayoutManager(requireActivity())
-        rv.hasFixedSize()
+        binding.rv.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rv.hasFixedSize()
         getMainContent()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity = getActivity()
     }
 
 
     private fun initAdapter() {
 
         val adapter = MainAdminAdapter(requireActivity(), mainList)
-        rv.adapter = adapter
+        binding.rv.adapter = adapter
 
     }
 

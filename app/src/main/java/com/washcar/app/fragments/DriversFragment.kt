@@ -1,6 +1,5 @@
 package com.washcar.app.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,57 +7,55 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.washcar.app.R
-import com.washcar.app.activities.AddDriverActivity
 import com.washcar.app.adapters.DriversAdapter
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
+import com.washcar.app.databinding.FragmentDriversBinding
 import com.washcar.app.models.DriverModel
-import kotlinx.android.synthetic.main.fragment_drivers.*
-import kotlinx.android.synthetic.main.layout_no_data.*
 
 
 class DriversFragment : FragmentBase() {
 
     var driversList: MutableList<DriverModel?>? = null
 
+    private var _binding: FragmentDriversBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_drivers, container, false)
+    ): View {
+        _binding = FragmentDriversBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        setupUI(parentLY)
+        binding.mainTitleTxt.text = getString(R.string.manage_drivers)
 
+        binding.rv.layoutManager = LinearLayoutManager(requireActivity())
 
-        mainTitleTxt.text = getString(R.string.manage_drivers)
+        binding.addDoctorBtn.setOnClickListener {
 
-        rv.layoutManager = LinearLayoutManager(requireActivity())
-
-        addDoctorBtn.setOnClickListener {
-
-            val intent = Intent(requireActivity(), AddDriverActivity::class.java)
+//            val intent = Intent(requireActivity(), AddDriverActivity::class.java)
 //            intent.putExtra(Constants.KEY_DOCTOR_MODEL, doctorModel)
-            startActivity(intent)
+//            startActivity(intent)
 
         }
 
         getDrivers()
 
-        swipeDataContainer.setColorSchemeColors(
+        binding.swipeDataContainer.setColorSchemeColors(
             ContextCompat.getColor(
                 requireActivity(),
                 R.color.colorPrimary
             )
         )
-        swipeDataContainer.setOnRefreshListener {
+        binding.swipeDataContainer.setOnRefreshListener {
             getDrivers()
 
         }
@@ -76,25 +73,25 @@ class DriversFragment : FragmentBase() {
 
     private fun getDrivers() {
 
-        swipeDataContainer.isRefreshing = true
+        binding.swipeDataContainer.isRefreshing = true
         DataFeacher(object : DataFetcherCallBack {
             override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                swipeDataContainer.isRefreshing = false
+                binding.swipeDataContainer.isRefreshing = false
                 if (func == Constants.SUCCESS) {
                     driversList = obj as MutableList<DriverModel?>?
                     if (driversList?.isNotEmpty() == true) {
-                        rv.visibility = visible
-                        noDataLY.visibility = gone
+                        binding.rv.visibility = visible
+                        binding.lyEmpty.noDataLY.visibility = gone
                         initAdapter()
                     } else {
-                        rv.visibility = gone
-                        noDataLY.visibility = visible
-                        noDataTxt.text = getString(R.string.no_drivers)
+                        binding.rv.visibility = gone
+                        binding.lyEmpty.noDataLY.visibility = visible
+                        binding.lyEmpty.noDataTxt.text = getString(R.string.no_drivers)
                     }
                 } else {
-                    rv.visibility = gone
-                    noDataLY.visibility = visible
-                    noDataTxt.text = getString(R.string.fail_to_get_data)
+                    binding.rv.visibility = gone
+                    binding.lyEmpty.noDataLY.visibility = visible
+                    binding.lyEmpty.noDataTxt.text = getString(R.string.fail_to_get_data)
                 }
             }
         }).getAllDrivers()
@@ -109,6 +106,6 @@ class DriversFragment : FragmentBase() {
                         getDrivers()
                 }
             })
-        rv.adapter = adapter
+        binding.rv.adapter = adapter
     }
 }

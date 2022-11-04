@@ -21,17 +21,13 @@ import com.washcar.app.R
 import com.washcar.app.RootApplication
 import com.washcar.app.Utils.ImageHandler
 import com.washcar.app.apiHandlers.ApiUrl
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
-import com.washcar.app.classes.DataCallback
-import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
+import com.washcar.app.databinding.ActivityRequestDetailsBinding
 import com.washcar.app.dialogs.PayWayBottomDialog
 import com.washcar.app.models.MemberModel
 import com.washcar.app.models.PayWayImage
 import io.nlopez.smartlocation.SmartLocation
-import kotlinx.android.synthetic.main.activity_request_details.*
 
 class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
 
@@ -50,12 +46,15 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
     var user: MemberModel? = null
     private var userType: Int = 0;
 
+    lateinit var binding: ActivityRequestDetailsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_request_details)
+        binding = ActivityRequestDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        backBtn.setOnClickListener {
-           onBackPressedDispatcher.onBackPressed()
+        binding.  backBtn.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
 
         val bundle = intent.extras;
@@ -70,7 +69,7 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         }
 
 
-        myLocationBtn.setOnClickListener {
+        binding.myLocationBtn.setOnClickListener {
             checkLocationPermission()
         }
 
@@ -81,20 +80,20 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         user = UtilityApp.userData
         userType = user?.type!!
         if (userType == 1) {
-            finishOrder.visibility = View.GONE
+            binding.  finishOrder.visibility = View.GONE
             payNow(orderID!!)
 
         } else if (userType == 2) {
-            finishOrder.visibility = View.VISIBLE
+            binding. finishOrder.visibility = View.VISIBLE
         }
 
-        finishOrder.setOnClickListener {
-         //   updateOrderStatus(orderID, 3)
+        binding. finishOrder.setOnClickListener {
+            //   updateOrderStatus(orderID, 3)
         }
 
 
 
-        payBtn.setOnClickListener {
+        binding. payBtn.setOnClickListener {
             val payWayBottomDialog =
                 PayWayBottomDialog { obj, func, IsSuccess ->
                     val payWayImage: PayWayImage =
@@ -161,7 +160,7 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
             MarkerOptions().position(LatLng(latitude, longitude)).anchor(0.5f, 0.5f).title(title)
                 .snippet(snippet).icon(
                     BitmapDescriptorFactory.fromBitmap(
-                       ImageHandler.getBitmap(
+                        ImageHandler.getBitmap(
                             getActiviy(), iconResID
                         )
                     )
@@ -215,10 +214,10 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
                 val requestStatus = value!!.getLong("requestStatus")?.toInt()
                 println("Log payNow requestStatus $requestStatus")
 
-                if (requestStatus!! ==3) {
-                    payBtn.visibility = visible
+                if (requestStatus!! == 3) {
+                    binding.  payBtn.visibility = visible
                 } else {
-                    payBtn.visibility = gone
+                    binding.  payBtn.visibility = gone
 
                 }
 
@@ -436,6 +435,7 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
 //            map?.animateCamera(cameraUpdate)
 //        }
 
-        getOrderTracking()    }
+        getOrderTracking()
+    }
 
 }

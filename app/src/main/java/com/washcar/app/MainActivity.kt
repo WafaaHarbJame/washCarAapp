@@ -9,16 +9,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.washcar.app.models.MessageEvent
 import com.washcar.app.activities.ActivityBase
-import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
-import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityMainBottomNavBinding
-import com.washcar.app.databinding.ActivityRegisterTypeBinding
 import com.washcar.app.fragments.*
 import com.washcar.app.models.MemberModel
-import kotlinx.android.synthetic.main.layout_bottom_nav.*
+import com.washcar.app.models.MessageEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -48,8 +44,8 @@ class MainActivity : ActivityBase() {
         isMainActivityBottomNav = true
         mTitle = getString(com.washcar.app.R.string.app_name)
 
-        tabTextArr = arrayOf(tab1Txt, tab2Txt, tab3Txt)
-        tabIconsArr = arrayOf(tab1Icon, tab2Icon, tab3Icon)
+        tabTextArr = arrayOf(binding.botoomNav.tab1Txt, binding.botoomNav.tab2Txt, binding.botoomNav.tab3Txt)
+        tabIconsArr = arrayOf(binding.botoomNav.tab1Icon, binding.botoomNav.tab2Icon, binding.botoomNav.tab3Icon)
 
 
 

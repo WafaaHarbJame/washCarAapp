@@ -8,7 +8,7 @@ import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
 import com.washcar.app.R
-import kotlinx.android.synthetic.main.dialog_confirm_send.*
+import com.washcar.app.databinding.DialogConfirmSendBinding
 
 class SuccessSendDialog(
     var activity: Activity?
@@ -17,12 +17,13 @@ class SuccessSendDialog(
 
     val dialog: SuccessSendDialog
         get() = this
+    lateinit var binding: DialogConfirmSendBinding
 
     init {
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-        setContentView(R.layout.dialog_confirm_send)
+        binding = DialogConfirmSendBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         dialog.window?.setGravity(Gravity.BOTTOM);
         dialog.window?.setLayout(
@@ -32,7 +33,7 @@ class SuccessSendDialog(
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation;
 
 
-        okBtn.setOnClickListener {
+        binding.okBtn.setOnClickListener {
 
             dismiss()
 

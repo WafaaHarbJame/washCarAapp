@@ -6,9 +6,11 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_pre_loading" />
+    <include android:id="@+id/lyLoading"
+        layout="@layout/layout_pre_loading" />
 
-    <include layout="@layout/layout_fail_get_data" />
+    <include android:id="@+id/lyFail"
+        layout="@layout/layout_fail_get_data" />
 
     <LinearLayout
         android:id="@+id/dataLY"
@@ -27,7 +29,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/layout_no_data" />
+                <include android:id="@+id/lyEmpty"
+                    layout="@layout/layout_no_data" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv"

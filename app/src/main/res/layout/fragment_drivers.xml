@@ -65,7 +65,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_no_data" />
+            <include android:id="@+id/lyEmpty"
+                layout="@layout/layout_no_data" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv"

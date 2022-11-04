@@ -1,7 +1,6 @@
 package com.washcar.app.fragments
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -27,10 +26,8 @@ import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
 import com.washcar.app.R
 import com.washcar.app.Utils.MapHandler
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
-import com.washcar.app.classes.UtilityApp
+import com.washcar.app.databinding.FragmentHomeDriverBinding
 import com.washcar.app.models.GpsModel
 import io.nlopez.smartlocation.OnActivityUpdatedListener
 import io.nlopez.smartlocation.OnGeofencingTransitionListener
@@ -40,47 +37,40 @@ import io.nlopez.smartlocation.geofencing.utils.TransitionGeofence
 import io.nlopez.smartlocation.location.config.LocationAccuracy
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
-import kotlinx.android.synthetic.main.fragment_home_driver.*
-import java.util.*
 
 
 class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
     OnActivityUpdatedListener, OnGeofencingTransitionListener {
 
-
-    var activity: Activity? = null
     var isGrantPermission = false
-    private var selectedLat= 0.0
-    private  var selectedLng=0.0
-    var address:String = ""
+    private var selectedLat = 0.0
+    private var selectedLng = 0.0
+    var address: String = ""
     var isSelectLocation = false
 
+    private var _binding: FragmentHomeDriverBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home_driver, container, false)
-        activity = getActivity()
-        return view
+    ): View {
+        _binding = FragmentHomeDriverBinding.inflate(inflater, container, false)
+        return binding.root
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
-        mainTitleTxt.text =getString(R.string.app_name)
-        homeBtn.visibility = gone
-        
-        setupViewPager(viewpager);
-        tabs.setupWithViewPager(viewpager);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.mainTitleTxt.text = getString(R.string.app_name)
+        binding.homeBtn.visibility = gone
+
+        setupViewPager(binding.viewpager);
+        binding.tabs.setupWithViewPager(binding.viewpager);
         checkLocationRuntimePermission()
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity = getActivity()
-    }
 
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = ViewPagerAdapter(childFragmentManager)
@@ -89,18 +79,8 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
         currentBundle.putString(Constants.KEY_TYPE, Constants.CURRENT)
         val currentFragment: Fragment = CurrentDriverFragment()
         currentFragment.arguments = currentBundle
-        currentFragment.retainInstance = true
-
-        val completedBundle = Bundle()
-        completedBundle.putString(Constants.KEY_TYPE, Constants.COMPLETED)
-        val completedFragment: Fragment = FinishedDriveragment()
-        completedFragment.arguments = completedBundle
-        completedFragment.retainInstance = true
-
 
         adapter.addFragment(currentFragment, getString(R.string.current_request))
-        adapter.addFragment(completedFragment, getString(R.string.finshed_order))
-
 
 
         viewPager.adapter = adapter
@@ -138,7 +118,6 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
     }
 
 
-
     private fun checkLocationPermission(activity: Context?) {
         try {
             val builder = PermissionCompat.Builder(activity)
@@ -173,12 +152,11 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
     }
 
 
-
     private fun startLocation() {
-        isSelectLocation=true
-        val builder=LocationParams.Builder()
+        isSelectLocation = true
+        val builder = LocationParams.Builder()
             .setAccuracy(LocationAccuracy.HIGH)
-             .setDistance(12F)
+            .setDistance(12F)
             .setInterval(5000);
 
         val provider = LocationGooglePlayServicesWithFallbackProvider(context);
@@ -228,10 +206,13 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
                             selectedLat = apiLocationModel.getLat()
                             selectedLng = apiLocationModel.getLon()
                             address = MapHandler.getGpsAddress(context, selectedLat, selectedLng)
-                            Log.d(TAG, "getLatAndLong latitude $selectedLat"
+                            Log.d(
+                                TAG, "getLatAndLong latitude $selectedLat"
                             )
-                            Log.d(TAG,
-                                "getLatAndLong longitude $selectedLng")
+                            Log.d(
+                                TAG,
+                                "getLatAndLong longitude $selectedLng"
+                            )
                         }
                     }
 
@@ -250,17 +231,19 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
 
     override fun onGeofenceTransition(p0: TransitionGeofence?) {
     }
+
     private fun showLocation(location: Location?) {
         if (location != null) {
             val text = String.format(
                 "Latitude %.6f, Longitude %.6f",
                 location.latitude,
-                location.longitude)
+                location.longitude
+            )
 
             Log.d(TAG, "smart latitude " + location.latitude)
             Log.d(TAG, "smart longitude " + location.longitude)
-            selectedLat=location.latitude
-            selectedLng=location.longitude
+            selectedLat = location.latitude
+            selectedLng = location.longitude
             address = MapHandler.getGpsAddress(activity, selectedLat, selectedLng)
             //updateData();
             SmartLocation.with(activity).geocoding()
@@ -277,7 +260,8 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
                             addressElements.add(result.getAddressLine(i))
                         }
                         builder.append(TextUtils.join(", ", addressElements))
-                        Log.d(TAG, "builder$builder"
+                        Log.d(
+                            TAG, "builder$builder"
                         )
                     }
                 }
@@ -298,9 +282,6 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
 //
 //        }
 //    }
-
-
-
 
 
 }

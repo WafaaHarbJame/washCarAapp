@@ -7,6 +7,9 @@ import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
+import com.github.dhaval2404.form_validation.rule.EqualRule
+import com.github.dhaval2404.form_validation.rule.NonEmptyRule
+import com.github.dhaval2404.form_validation.validation.FormValidator
 import com.washcar.app.R
 import com.washcar.app.Utils.NumberHandler
 import com.washcar.app.apiHandlers.DataFeacher
@@ -15,11 +18,7 @@ import com.washcar.app.classes.AESCrypt
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
-import com.github.dhaval2404.form_validation.rule.EqualRule
-import com.github.dhaval2404.form_validation.rule.NonEmptyRule
-import com.github.dhaval2404.form_validation.validation.FormValidator
-import kotlinx.android.synthetic.main.dialog_change_password.*
-import kotlinx.android.synthetic.main.dialog_change_password.confirmPasswordTxt
+import com.washcar.app.databinding.DialogChangePasswordBinding
 
 class ChangePasswordDialog(
     var activity: Activity?
@@ -30,12 +29,13 @@ class ChangePasswordDialog(
         get() = this
     val TAG: String? = "ChangePasswordDialog"
 
+    lateinit var binding: DialogChangePasswordBinding
 
     init {
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-        setContentView(R.layout.dialog_change_password)
+        binding = DialogChangePasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         dialog.window?.setGravity(Gravity.BOTTOM)
         dialog.window?.setLayout(
@@ -45,7 +45,7 @@ class ChangePasswordDialog(
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation;
 
 
-        saveBtn.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
 
             if (isValidForm())
                 changePassword()
@@ -65,8 +65,10 @@ class ChangePasswordDialog(
         try {
 
             var mobileStr = UtilityApp.userData?.email;
-            val currentPasswordStr = NumberHandler.arabicToDecimal(currPasswordTV.text.toString())
-            val newPasswordStr = NumberHandler.arabicToDecimal(newPasswordTV.text.toString());
+            val currentPasswordStr =
+                NumberHandler.arabicToDecimal(binding.currPasswordTV.text.toString())
+            val newPasswordStr =
+                NumberHandler.arabicToDecimal(binding.newPasswordTV.text.toString());
 
             GlobalData.progressDialog(
                 activity,
@@ -116,18 +118,18 @@ class ChangePasswordDialog(
     private fun isValidForm(): Boolean {
         return FormValidator.getInstance()
             .addField(
-                currPasswordTV,
+                binding.currPasswordTV,
                 NonEmptyRule(R.string.enter_password)
             )
             .addField(
-                newPasswordTV,
+                binding.newPasswordTV,
                 NonEmptyRule(R.string.enter_confirm_password)
             )
             .addField(
-                confirmPasswordTxt,
+                binding.confirmPasswordTxt,
                 NonEmptyRule(R.string.enter_password),
                 EqualRule(
-                    newPasswordTV.text.toString(),
+                    binding.newPasswordTV.text.toString(),
                     R.string.password_confirm_not_match
                 )
             )

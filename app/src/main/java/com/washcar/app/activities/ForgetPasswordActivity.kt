@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
+import com.github.dhaval2404.form_validation.rule.LengthRule
+import com.github.dhaval2404.form_validation.rule.NonEmptyRule
+import com.github.dhaval2404.form_validation.validation.FormValidator
 import com.washcar.app.R
 import com.washcar.app.Utils.NumberHandler
 import com.washcar.app.apiHandlers.DataFeacher
@@ -12,14 +15,9 @@ import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
-import com.washcar.app.dialogs.CountryCodeDialog
-import com.washcar.app.models.*
-import com.github.dhaval2404.form_validation.rule.LengthRule
-import com.github.dhaval2404.form_validation.rule.NonEmptyRule
-import com.github.dhaval2404.form_validation.validation.FormValidator
-import kotlinx.android.synthetic.main.activity_forget_password.*
-import kotlinx.android.synthetic.main.activity_forget_password.countryCodeTxt
-import kotlinx.android.synthetic.main.activity_forget_password.mobileTxt
+import com.washcar.app.databinding.ActivityForgetPasswordBinding
+import com.washcar.app.models.CountryModel
+import com.washcar.app.models.MemberModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -33,18 +31,22 @@ class ForgetPasswordActivity : ActivityBase() {
     var selectedCountryCode = 966
     var countryCodeDialog: CountryCodeDialog? = null
 
+    lateinit var binding: ActivityForgetPasswordBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setContentView(R.layout.activity_forget_password)
         title = ""
 
 
         homeBtn.setOnClickListener {
-           onBackPressedDispatcher.onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
 
-        resetPasswordBtn.setOnClickListener {
+        binding.resetPasswordBtn.setOnClickListener {
 
             if (isValidForm())
                 forgetPassword()
@@ -53,9 +55,9 @@ class ForgetPasswordActivity : ActivityBase() {
         initLocalCountryCode()
 
         val countryCodeStr = "+$selectedCountryCode"
-        countryCodeTxt.text = countryCodeStr
+        binding. countryCodeTxt.text = countryCodeStr
 
-        countryCodeTxt.setOnClickListener {
+        binding. countryCodeTxt.setOnClickListener {
 
             if (countryCodeDialog == null) {
                 countryCodeDialog =
@@ -65,7 +67,7 @@ class ForgetPasswordActivity : ActivityBase() {
                                 val countryModel = obj as CountryModel
                                 selectedCountryCode = countryModel.code
                                 val codeStr = "+$selectedCountryCode"
-                                countryCodeTxt.text = codeStr
+                                binding. countryCodeTxt.text = codeStr
                             }
                         })
                 countryCodeDialog?.setOnDismissListener { countryCodeDialog = null }
@@ -87,14 +89,14 @@ class ForgetPasswordActivity : ActivityBase() {
         }
 //        val phoneUtils = PhoneNumberUtil.createInstance(getActiviy())
 
-     //   selectedCountryCode = phoneUtils.getCountryCodeForRegion(isoCode.toUpperCase())
+        //   selectedCountryCode = phoneUtils.getCountryCodeForRegion(isoCode.toUpperCase())
     }
 
     private fun forgetPassword() {
 
         try {
 
-            val mobileStr = NumberHandler.arabicToDecimal(mobileTxt.text.toString())
+            val mobileStr = NumberHandler.arabicToDecimal(binding.mobileTxt.text.toString())
 
             val mobile =
                 if (mobileStr.startsWith("0")) mobileStr.replaceFirst(
@@ -198,7 +200,7 @@ class ForgetPasswordActivity : ActivityBase() {
     private fun isValidForm(): Boolean {
         return FormValidator.getInstance()
             .addField(
-                mobileTxt,
+                binding. mobileTxt,
                 NonEmptyRule(R.string.enter_phone_number),
                 LengthRule(10, R.string.valid_phone_number)
             )

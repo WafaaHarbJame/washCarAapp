@@ -9,10 +9,9 @@ import com.washcar.app.R
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
-import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
+import com.washcar.app.databinding.ActivityProfileBinding
 import com.washcar.app.models.MemberModel
-import kotlinx.android.synthetic.main.activity_profile.*
 import java.util.*
 
 class ProfileActivity : ActivityBase() {
@@ -26,16 +25,19 @@ class ProfileActivity : ActivityBase() {
     private var changeAge: Boolean = false
     var email: String? = ""
 
+    lateinit var binding: ActivityProfileBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         title = getString(R.string.profile)
         activity = getActiviy()
 
 
         homeBtn.setOnClickListener {
-           onBackPressedDispatcher.onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         user = UtilityApp.userData
@@ -44,21 +46,21 @@ class ProfileActivity : ActivityBase() {
         getData()
 
         if (userType == 1) {
-            busLayout.visibility = View.GONE
+            binding.busLayout.visibility = View.GONE
 
         } else if (userType == 2) {
-            busLayout.visibility = View.VISIBLE
+            binding.busLayout.visibility = View.VISIBLE
 
         }
 
 
-        ageEt.setOnClickListener {
+        binding.ageEt.setOnClickListener {
             changeAge = true;
             val dpd = DatePickerDialog(this, { view2, thisYear, thisMonth, thisDay ->
                 monthStr = thisMonth + 1
                 dayStr = thisDay
                 yearStr = thisYear
-                ageEt.setText(" " + monthStr + "/" + dayStr + "/" + yearStr)
+                binding.ageEt.setText(" " + monthStr + "/" + dayStr + "/" + yearStr)
                 ageNumber = com.washcar.app.Utils.DateHandler.getAge(
                     yearStr.toString().toInt(),
                     monthStr.toString().toInt(),
@@ -73,7 +75,7 @@ class ProfileActivity : ActivityBase() {
 
         }
 
-        updateBtn.setOnClickListener {
+        binding.updateBtn.setOnClickListener {
 //            if (userType == 1) {
 //                updateProfile()
 //            } else {
@@ -92,15 +94,16 @@ class ProfileActivity : ActivityBase() {
 
                 if (func == Constants.SUCCESS) {
                     val user = obj as MemberModel
-                    nameEt.text = Editable.Factory.getInstance().newEditable(user.fullName)
-                    addressTxt.text = Editable.Factory.getInstance().newEditable(user.address)
-                    emailTxt.text =
+                    binding.nameEt.text = Editable.Factory.getInstance().newEditable(user.fullName)
+                    binding.addressTxt.text =
+                        Editable.Factory.getInstance().newEditable(user.address)
+                    binding.emailTxt.text =
                         Editable.Factory.getInstance().newEditable(user.email.toString())
                 }
 
 
             }
-        }).getMyAccount(email?:"")
+        }).getMyAccount(email ?: "")
     }
 
 //    private fun updateProfile() {

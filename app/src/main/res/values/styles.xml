@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -11,7 +11,7 @@
         <!--        <item name="android:fitsSystemWindows">true</item>-->
 
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
-        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowContentTransitions">true</item>
 
     </style>
 
@@ -25,7 +25,20 @@
         <item name="colorControlActivated">@color/order_pending</item>
     </style>
 
+    <style name="FullScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+
+        <!--        <item name="android:fitsSystemWindows">true</item>-->
+
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:windowContentTransitions">true</item>
+
+    </style>
 
 
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -46,9 +59,11 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">@dimen/_11ssp</item>
     </style>
+
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="primaryBtnStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/round_corner_primary_fill</item>
@@ -89,6 +104,7 @@
         <item name="android:textSize">@dimen/_12ssp</item>
         <!--        <item name="android:textColor">?android:attr/textColorSecondary</item>-->
     </style>
+
     <style name="RadioButtonStyle" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/gray6</item>
         <item name="colorControlActivated">@color/colorPrimary</item>

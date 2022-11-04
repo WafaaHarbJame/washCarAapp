@@ -182,6 +182,10 @@
     <string name="enter_desc">Enter Describtion</string>
     <string name="enter_start_time">Enter startTime</string>
     <string name="enter_end_time">Enter endTime</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="mobile">Mobile</string>
+    <string name="invalid_confirm_password">Invalid confirm password</string>
+    <string name="please_select_your_location">Please select your location</string>
 
 
 </resources>

@@ -20,6 +20,10 @@ class MemberModel : Serializable {
     var email: String? = ""
     var description: String? = ""
 
+    companion object{
+       const val TYPE_CUSTOMER = "customer"
+       const val TYPE_SERVICE_PROVIDER = "service_provider"
+    }
 
 
 

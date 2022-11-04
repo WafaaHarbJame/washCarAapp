@@ -1,6 +1,5 @@
 package com.washcar.app.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,55 +13,51 @@ import com.washcar.app.Utils.ActivityHandler
 import com.washcar.app.activities.LoginActivity
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.classes.UtilityApp
+import com.washcar.app.databinding.FragmentSettingsBinding
 import com.washcar.app.dialogs.ChangePasswordDialog
 import com.washcar.app.models.MemberModel
-import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.tool_bar.*
 
 
 class SettingsFragment : FragmentBase() {
-    var activity: Activity? = null
 
     private var changePasswordDialog: ChangePasswordDialog? = null
     lateinit var container: FrameLayout
 
     var user: MemberModel? = null
 
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
-        this.container = container as FrameLayout
-
-        activity = getActivity()
-        return view
+    ): View {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         user = UtilityApp.userData
 
-        mainTitleTxt.text = getString(R.string.settings)
-        homeBtn.visibility = gone
+        binding.toolBar.mainTitleTxt.text = getString(R.string.settings)
+        binding.toolBar.homeBtn.visibility = gone
 
 
         if (UtilityApp.isLogin) {
             if (user?.type == 3) {
-                profileBut.visibility = gone
+                binding.profileBut.visibility = gone
             }
-            signOutIcon.text = getString(R.string.fal_sign_out)
-            signOutLabel.text = getString(R.string.sign_out)
+            binding.signOutIcon.text = getString(R.string.fal_sign_out)
+            binding.signOutLabel.text = getString(R.string.sign_out)
         } else {
-            signOutIcon.text = getString(R.string.fal_sign_in)
-            signOutLabel.text = getString(R.string.sign_in)
+            binding.signOutIcon.text = getString(R.string.fal_sign_in)
+            binding.signOutLabel.text = getString(R.string.sign_in)
         }
 
 
-        passwordBtn.setOnClickListener {
+        binding.passwordBtn.setOnClickListener {
 
             if (changePasswordDialog == null) {
                 changePasswordDialog = ChangePasswordDialog(requireActivity())
@@ -70,14 +65,14 @@ class SettingsFragment : FragmentBase() {
             }
         }
 
-        ratingBtn.setOnClickListener {
+        binding.ratingBtn.setOnClickListener {
 
             ActivityHandler.OpenGooglePlay(requireActivity())
 
         }
 
 
-        profileBut.setOnClickListener {
+        binding.profileBut.setOnClickListener {
             val intent = Intent(requireActivity(), ProfileActivity::class.java)
             startActivity(intent)
 
@@ -85,7 +80,7 @@ class SettingsFragment : FragmentBase() {
 
 
 
-        logoutBtn.setOnClickListener {
+        binding.logoutBtn.setOnClickListener {
 
             var intent = Intent(requireActivity(), LoginActivity::class.java)
 
@@ -98,13 +93,6 @@ class SettingsFragment : FragmentBase() {
             startActivity(intent)
 
         }
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        activity = getActivity()
     }
 
 
