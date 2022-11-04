@@ -177,4 +177,11 @@
     <string name="end_time">End Time</string>
     <string name="enter_start_time">Enter startTime</string>
     <string name="enter_end_time">Enter endTime</string>
+    <string name="reviews">Reviews</string>
+    <string name="car_name">Car Name</string>
+    <string name="car_type">Car type</string>
+    <string name="carModel">Car Model</string>
+    <string name="plateNumber">plateNumber</string>
+    <string name="choose_services">Choose services</string>
+    <string name="about">About</string>
 </resources>

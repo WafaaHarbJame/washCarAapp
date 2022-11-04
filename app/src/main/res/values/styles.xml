@@ -87,6 +87,10 @@
 
     </style>
 
+    <style name="checkBoxStyle" parent="Theme.AppCompat.DayNight">
+        <item name="colorControlActivated">@color/order_rejected</item>
+        <item name="colorControlNormal">@color/gray3</item>
+    </style>
     <style name="TabLayoutStyle" parent="Widget.MaterialComponents.TabLayout.Colored">
 
         <item name="tabIndicatorColor">@color/white</item>
