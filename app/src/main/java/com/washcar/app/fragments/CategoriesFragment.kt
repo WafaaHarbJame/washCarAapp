@@ -10,7 +10,9 @@ import com.washcar.app.adapters.CategoriesAdapter
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
+import com.washcar.app.classes.GlobalData
 import com.washcar.app.databinding.FragmentCategoriesBinding
+import com.washcar.app.dialogs.AddCategoryDialog
 import com.washcar.app.models.CategoryModel
 
 /**
@@ -19,6 +21,8 @@ import com.washcar.app.models.CategoryModel
 class CategoriesFragment : FragmentBase() {
 
     var categoriesList: MutableList<CategoryModel>? = null
+
+    var addCategoryDialog: AddCategoryDialog? = null
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +45,7 @@ class CategoriesFragment : FragmentBase() {
         getData(true)
 
         binding.btnAdd.setOnClickListener {
-
+            showAddCategoryDialog()
         }
 
     }
@@ -81,6 +85,7 @@ class CategoriesFragment : FragmentBase() {
 
                     } else {
                         binding.lyEmpty.noDataLY.visibility = visible
+                        binding.lyEmpty.noDataTxt.text = getString(R.string.no_categories)
                         binding.rv.visibility = gone
                     }
                 } else {
@@ -93,4 +98,57 @@ class CategoriesFragment : FragmentBase() {
         }).getCategories()
     }
 
+    fun showAddCategoryDialog() {
+        if (addCategoryDialog == null) {
+            addCategoryDialog = AddCategoryDialog(requireActivity(), object : DataFetcherCallBack {
+                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                    val categoryName = obj as String
+                    addCategoryToFireBase(categoryName)
+                }
+            })
+            addCategoryDialog!!.setOnDismissListener {
+                addCategoryDialog = null
+            }
+        }
+    }
+
+    fun addCategoryToFireBase(name: String) {
+
+        GlobalData.progressDialog(
+            activity,
+            R.string.add_category,
+            R.string.please_wait_sending
+        )
+
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                GlobalData.progressDialogHide()
+                if (func == Constants.SUCCESS) {
+                    addCategoryDialog?.dismiss()
+                    GlobalData.successDialog(
+                        activity,
+                        R.string.add_category,
+                        activity?.getString(R.string.success_add_category), null
+                    )
+                    getData(false)
+
+
+                } else {
+                    var message = obj as String?
+                    if (message.isNullOrEmpty())
+                        message = getString(R.string.fail_to_add_category)
+
+                    GlobalData.errorDialog(
+                        activity,
+                        R.string.add_category,
+                        message
+                    )
+                }
+
+
+            }
+        }).addCategory(name)
+
+
+    }
 }

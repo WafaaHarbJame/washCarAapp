@@ -25,6 +25,7 @@ class CategoriesAdapter(
 
         val categoryModel = list?.get(position)
 
+        holder.binding.tvCount.text = position.plus(1).toString()
         holder.binding.tvName.text = categoryModel?.name
 
     }

@@ -45,8 +45,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 } else {
                     dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
                 }
-            }
-            ?.addOnSuccessListener { document ->
+            }?.addOnSuccessListener { document ->
                 if (document.exists()) {
                     dataFetcherCallBack?.Result(document, Constants.SUCCESS, true)
 
@@ -73,8 +72,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     dataFetcherCallBack?.Result(null, Constants.USER_EXIST, false)
 
                 } else {
-                    fireStoreDB!!.collection(ApiUrl.Users.name).document(email)
-                        .set(memberModel)
+                    fireStoreDB!!.collection(ApiUrl.Users.name).document(email).set(memberModel)
                         .addOnSuccessListener {
                             dataFetcherCallBack?.Result(memberModel, Constants.SUCCESS, true)
                         }.addOnFailureListener {
@@ -114,8 +112,8 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
             return
         }
-        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(email)
-            ?.get()?.addOnSuccessListener {
+        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(email)?.get()
+            ?.addOnSuccessListener {
 
                 val user = it.toObject(MemberModel::class.java)
                 dataFetcherCallBack?.Result(user, Constants.SUCCESS, true)
@@ -140,8 +138,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
 
                 }
-            }
-            ?.addOnFailureListener {
+            }?.addOnFailureListener {
                 dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
 
             }
@@ -224,8 +221,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     } else {
                         fireStoreDB!!.collection(ApiUrl.Users.name)
                             .document(driverModel.mobileWithCountry!!)
-                            .set(driverModel, SetOptions.merge())
-                            .addOnSuccessListener {
+                            .set(driverModel, SetOptions.merge()).addOnSuccessListener {
                                 dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
                             }.addOnFailureListener {
                                 dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
@@ -250,16 +246,14 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
 //        val phoneNumber = memberModel.mobileWithCountry.toString()
         fireStoreDB!!.collection(ApiUrl.Users.name).document(driverModel.mobileWithCountry!!).set(
-            driverModel,
-            SetOptions.merge()
-        )
-            .addOnSuccessListener {
+            driverModel, SetOptions.merge()
+        ).addOnSuccessListener {
 
-                dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
-            }.addOnFailureListener {
-                dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
-            }
+        }.addOnFailureListener {
+            dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
+        }
 
     }
 
@@ -273,8 +267,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
 //        val phoneNumber = memberModel.mobileWithCountry.toString()
         fireStoreDB!!.collection(ApiUrl.Users.name).document(driverModel.mobileWithCountry!!)
-            .delete()
-            .addOnSuccessListener {
+            .delete().addOnSuccessListener {
                 dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
             }.addOnFailureListener {
@@ -284,11 +277,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
     fun updateData(
-        mobile: String?,
-        lat: Double,
-        lng: Double,
-        address: String,
-        isSelectLocation: Boolean
+        mobile: String?, lat: Double, lng: Double, address: String, isSelectLocation: Boolean
     ) {
         fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)?.get()
             ?.addOnSuccessListener { document ->
@@ -303,8 +292,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                             address,
                             "isSelectLocation",
                             isSelectLocation
-                        )
-                        ?.addOnSuccessListener {
+                        )?.addOnSuccessListener {
                             dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
                         }?.addOnFailureListener { e ->
@@ -326,10 +314,8 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 if (document.exists()) {
                     RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile)
                         ?.update(
-                            "emptySeat",
-                            seatNumber
-                        )
-                        ?.addOnSuccessListener {
+                            "emptySeat", seatNumber
+                        )?.addOnSuccessListener {
                             dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
                         }?.addOnFailureListener { e ->
@@ -354,16 +340,14 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     Log.i(TAG, "Log updateOrder exists")
                     RootApplication.fireStoreDB?.collection(ApiUrl.Orders.name)?.document(
                         orderNumber
-                    )
-                        ?.update(
-                            "requestStatus", orderStatus
-                        )
-                        ?.addOnSuccessListener {
-                            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+                    )?.update(
+                        "requestStatus", orderStatus
+                    )?.addOnSuccessListener {
+                        dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
-                        }?.addOnFailureListener { e ->
-                            dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-                        }
+                    }?.addOnFailureListener { e ->
+                        dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
+                    }
                 } else {
                     dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
 
@@ -377,8 +361,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             ?.addOnSuccessListener { document ->
                 if (document.exists()) {
                     RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile)
-                        ?.update("driverActive", isDriverActive)
-                        ?.addOnSuccessListener {
+                        ?.update("driverActive", isDriverActive)?.addOnSuccessListener {
                             dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
                         }?.addOnFailureListener { e ->
@@ -395,9 +378,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         Log.i(TAG, "Log getFinishedRequests")
 
         fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("requestStatus", 3)
-            ?.whereEqualTo("driver_id", driver_id)
-            ?.get()
-            ?.addOnCompleteListener {
+            ?.whereEqualTo("driver_id", driver_id)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -421,9 +402,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         Log.i(TAG, "Log getFinishedRequests")
 
         fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("requestStatus", 3)
-            ?.whereEqualTo("clientId", clientId)
-            ?.get()
-            ?.addOnCompleteListener {
+            ?.whereEqualTo("clientId", clientId)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -448,9 +427,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         Log.i(TAG, "Log getCurrentRequests")
 
         fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("requestStatus", 0)
-            ?.whereEqualTo("driver_id", driver_id)
-            ?.get()
-            ?.addOnCompleteListener {
+            ?.whereEqualTo("driver_id", driver_id)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -474,8 +451,8 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         Log.i(TAG, "Log getAllRequests")
         Log.i(TAG, "Log updateOrder  $driver_id")
 
-        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("driver_id", driver_id)
-            ?.get()?.addOnCompleteListener {
+        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("driver_id", driver_id)?.get()
+            ?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -499,10 +476,8 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         Log.i(TAG, "Log getAllRequests")
         Log.i(TAG, "Log updateOrder  $clientId")
 
-        fireStoreDB?.collection(ApiUrl.Orders.name)
-            ?.whereEqualTo("clientId", clientId)
-            ?.orderBy("createdAt", Query.Direction.DESCENDING)
-            ?.get()?.addOnCompleteListener {
+        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("clientId", clientId)
+            ?.orderBy("createdAt", Query.Direction.DESCENDING)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -525,8 +500,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     fun getAllActiveDrivers() {
         Log.i(TAG, "Log getAllDrivers")
         fireStoreDB?.collection(ApiUrl.Users.name)?.whereEqualTo("type", 2)
-            ?.whereEqualTo("isDriverActive", true)
-            ?.get()?.addOnCompleteListener {
+            ?.whereEqualTo("isDriverActive", true)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -578,15 +552,16 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 if (it.isSuccessful) {
                     val query = it.result
 //                    val allAccountList = mutableListOf<RegisterUserModel>()
-                    if (query.isEmpty)
-                        dataFetcherCallBack?.Result(null, Constants.PASSWORD_WRONG, true)
+                    if (query.isEmpty) dataFetcherCallBack?.Result(
+                        null,
+                        Constants.PASSWORD_WRONG,
+                        true
+                    )
                     else {
                         val userDoc: RegisterUserModel? =
                             query.documents[0].toObject(RegisterUserModel::class.java)
                         dataFetcherCallBack?.Result(
-                            userDoc,
-                            Constants.SUCCESS,
-                            true
+                            userDoc, Constants.SUCCESS, true
                         )
 
                     }
@@ -601,6 +576,31 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
             }
 
+    }
+
+    fun addCategory( categoryName: String?) {
+
+        val categoryId = fireStoreDB?.collection(ApiUrl.Categories.name)?.document()?.id
+
+        Log.i(TAG, "Log addCategory")
+        Log.i(TAG, "Log categoryId  $categoryId")
+        Log.i(TAG, "Log categoryName $categoryName")
+
+        val categoryModel = CategoryModel().apply {
+            this.id = categoryId
+            this.name = categoryName
+        }
+
+        fireStoreDB?.collection(ApiUrl.Categories.name)?.document(categoryId!!)?.set(
+            categoryModel, SetOptions.merge()
+        )?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+            } else {
+
+                dataFetcherCallBack?.Result(it.exception?.message, Constants.FAIL_DATA, true)
+            }
+        }
     }
 
     fun getCategories() {
@@ -634,8 +634,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         val orderId: String = fireStoreDB!!.collection(ApiUrl.Orders.name).document().id
         requestModel["orderId"] = orderId
 
-        fireStoreDB!!.collection(ApiUrl.Orders.name).document(orderId)
-            .set(requestModel)
+        fireStoreDB!!.collection(ApiUrl.Orders.name).document(orderId).set(requestModel)
             .addOnSuccessListener {
                 dataFetcherCallBack?.Result(requestModel, Constants.SUCCESS, true)
             }.addOnFailureListener {
@@ -670,30 +669,29 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         busCapacity: Int,
         email: String
     ) {
-        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)
-            ?.update(
-                "fullName",
-                name,
-                "address",
-                address,
-                "age",
-                age,
-                "busModel",
-                busModel,
-                "busColor",
-                busColor,
-                "busLoading",
-                busCapacity,
-                "busNumber",
-                busNumber,
-                "email",
-                email
-            )?.addOnSuccessListener {
-                dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)?.update(
+            "fullName",
+            name,
+            "address",
+            address,
+            "age",
+            age,
+            "busModel",
+            busModel,
+            "busColor",
+            busColor,
+            "busLoading",
+            busCapacity,
+            "busNumber",
+            busNumber,
+            "email",
+            email
+        )?.addOnSuccessListener {
+            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
 
-            }?.addOnFailureListener { e ->
-                dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-            }
+        }?.addOnFailureListener { e ->
+            dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
+        }
 
     }
 

@@ -199,4 +199,7 @@
     <string name="plateNumber">plateNumber</string>
     <string name="choose_services">Choose services</string>
     <string name="about">About</string>
+    <string name="success_add_category">Success add category</string>
+    <string name="fail_to_add_category">Fail to add category</string>
+    <string name="no_categories">No Categories</string>
 </resources>

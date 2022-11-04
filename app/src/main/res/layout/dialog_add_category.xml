@@ -34,6 +34,7 @@
 
 
         <com.washcar.app.spichalViews.STextInputLayout
+            android:id="@+id/inputCategory"
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
