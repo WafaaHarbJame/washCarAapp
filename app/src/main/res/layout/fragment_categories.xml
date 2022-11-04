@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar" />
+
+    <include
+        android:id="@+id/lyLoading"
+        layout="@layout/layout_pre_loading" />
+
+    <include
+        android:id="@+id/lyFail"
+        layout="@layout/layout_fail_get_data" />
+
+    <FrameLayout
+        android:id="@+id/lyData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <include
+            android:id="@+id/lyEmpty"
+            layout="@layout/layout_no_data" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="4"
+            tools:listitem="@layout/row_category" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="2dp"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_add"
+            app:tint="@null"
+            app:useCompatPadding="true" />
+
+    </FrameLayout>
+
+
+</LinearLayout>
+

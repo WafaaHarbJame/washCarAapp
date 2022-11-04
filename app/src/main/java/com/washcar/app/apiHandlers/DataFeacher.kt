@@ -6,7 +6,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.gson.Gson
 import com.washcar.app.RootApplication
 import com.washcar.app.classes.Constants
-import com.washcar.app.classes.DBFunction
+import com.washcar.app.classes.UtilityApp
 import com.washcar.app.models.*
 
 
@@ -603,6 +603,29 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
+    fun getCategories() {
+        Log.i(TAG, "Log getCategories")
+
+        fireStoreDB?.collection(ApiUrl.Categories.name)?.get()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val query = it.result
+
+                val categoriesList = mutableListOf<CategoryModel>()
+                for (document in query!!) {
+                    val categoryModel = document?.toObject(CategoryModel::class.java)
+                    categoriesList.add(categoryModel!!)
+                }
+
+                val json = Gson().toJson(categoriesList)
+                UtilityApp.setToShPref(Constants.DB_Categories, json)
+                dataFetcherCallBack?.Result(categoriesList, Constants.SUCCESS, true)
+            } else {
+                it.exception?.printStackTrace()
+            }
+
+        }
+
+    }
 
     fun orderHandler(requestModel: MutableMap<String, Any?>) {
         Log.i(TAG, "Log orderHandler")

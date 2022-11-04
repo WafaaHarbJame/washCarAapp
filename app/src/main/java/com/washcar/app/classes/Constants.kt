@@ -54,4 +54,5 @@ object Constants {
     const val KEY_TO_ORDERS = "key_to_orders"
 
     const val DB_Countries = "countries_db"
+    const val DB_Categories = "categories_db"
 }

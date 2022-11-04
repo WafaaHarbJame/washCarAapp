@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_white_fill"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/_30sdp">
+
+        <ImageView
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:srcCompat="@drawable/ic_add"
+            app:tint="@color/black" />
+
+        <com.washcar.app.spichalViews.STextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:gravity="center"
+            android:text="@string/add_category"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_14ssp" />
+
+
+        <com.washcar.app.spichalViews.STextInputLayout
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:hint="@string/category_name">
+
+            <com.washcar.app.spichalViews.STextInputEditText
+                android:id="@+id/tvCategoryName"
+                style="@style/editTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.washcar.app.spichalViews.STextInputLayout>
+
+
+        <com.washcar.app.spichalViews.STextViewBold
+            android:id="@+id/btnSave"
+            style="@style/primaryBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:gravity="center"
+            android:minWidth="@dimen/_100sdp"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -6,14 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.washcar.app.R
-import com.washcar.app.databinding.FragmentRequestsBinding
+import com.washcar.app.adapters.CategoriesAdapter
+import com.washcar.app.apiHandlers.DataFeacher
+import com.washcar.app.apiHandlers.DataFetcherCallBack
+import com.washcar.app.classes.Constants
+import com.washcar.app.databinding.FragmentCategoriesBinding
+import com.washcar.app.models.CategoryModel
 
 /**
  * A simple [Fragment] subclass.
  */
 class CategoriesFragment : FragmentBase() {
 
-    private var _binding: FragmentRequestsBinding? = null
+    var categoriesList: MutableList<CategoryModel>? = null
+
+    private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -21,7 +28,7 @@ class CategoriesFragment : FragmentBase() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRequestsBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,7 +38,59 @@ class CategoriesFragment : FragmentBase() {
         binding.toolBar.mainTitleTxt.text = getString(R.string.categories)
         binding.toolBar.homeBtn.visibility = gone
 
+        getData(true)
+
+        binding.btnAdd.setOnClickListener {
+
+        }
+
     }
 
+    private fun initAdapter() {
+
+        val adapter = CategoriesAdapter(requireActivity(), categoriesList,
+            object : DataFetcherCallBack {
+                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+
+                }
+            })
+        binding.rv.adapter = adapter
+    }
+
+
+    private fun getData(loading: Boolean) {
+        if (loading) {
+            binding.lyLoading.loadingProgressLY.visibility = visible
+            binding.lyFail.failGetDataLY.visibility = gone
+            binding.lyData.visibility = gone
+        }
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+
+                binding.lyLoading.loadingProgressLY.visibility = gone
+
+                if (func == Constants.SUCCESS) {
+
+                    binding.lyData.visibility = visible
+                    categoriesList = obj as MutableList<CategoryModel>?
+
+                    if (categoriesList?.isNotEmpty() == true) {
+                        binding.lyEmpty.noDataLY.visibility = gone
+                        binding.rv.visibility = visible
+                        initAdapter()
+
+                    } else {
+                        binding.lyEmpty.noDataLY.visibility = visible
+                        binding.rv.visibility = gone
+                    }
+                } else {
+                    binding.lyFail.failGetDataLY.visibility = visible
+                    binding.lyData.visibility = gone
+                }
+
+
+            }
+        }).getCategories()
+    }
 
 }
