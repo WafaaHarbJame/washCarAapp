@@ -38,5 +38,6 @@
     <color name="order_accepted">#CD9B03</color>
     <color name="order_rejected">#F44336</color>
     <color name="order_finished">#2196F3</color>
+    <color name="gray_view">#d8d8d8</color>
 
 </resources>

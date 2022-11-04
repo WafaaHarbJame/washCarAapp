@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.washcar.app.R
-import com.washcar.app.Utils.ActivityHandler
 import com.washcar.app.activities.LoginActivity
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.classes.UtilityApp
@@ -22,35 +21,33 @@ class SettingsFragment : FragmentBase() {
 
     private var changePasswordDialog: ChangePasswordDialog? = null
     lateinit var container: FrameLayout
-
-    var user: MemberModel? = null
-
     var confirmDialog: MyConfirmDialog? = null
 
-    private var _binding: FragmentSettingsBinding? = null
-    private val binding get() = _binding!!
+    var user: MemberModel? = null
+    var type: String = ""
+
+
+    private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         user = UtilityApp.userData
-
+        type = user?.type ?: MemberModel.TYPE_CUSTOMER
         binding.toolBar.mainTitleTxt.text = getString(R.string.settings)
-        binding.toolBar.homeBtn.visibility = gone
+        user = UtilityApp.userData
+
 
 
         if (UtilityApp.isLogin) {
-            if (user?.type == MemberModel.TYPE_ADMIN) {
-                binding.profileBut.visibility = gone
-            }
             binding.signOutIcon.text = getString(R.string.fal_sign_out)
             binding.signOutLabel.text = getString(R.string.sign_out)
         } else {
@@ -67,11 +64,6 @@ class SettingsFragment : FragmentBase() {
             }
         }
 
-        binding.ratingBtn.setOnClickListener {
-
-            ActivityHandler.OpenGooglePlay(requireActivity())
-
-        }
 
 
         binding.profileBut.setOnClickListener {
@@ -85,37 +77,41 @@ class SettingsFragment : FragmentBase() {
         binding.logoutBtn.setOnClickListener {
 
             showConfirmDialog()
+
+
         }
     }
 
-    private fun showConfirmDialog() {
-        if (confirmDialog == null) {
-            val okClick = object : MyConfirmDialog.Click() {
-                override fun click() {
-                    var intent = Intent(requireActivity(), LoginActivity::class.java)
 
-                    if (UtilityApp.isLogin) {
-                        UtilityApp.logOut()
-                        FirebaseAuth.getInstance().signOut()
-                        intent = Intent(requireActivity(), LoginActivity::class.java)
-                    }
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
+
+
+private fun showConfirmDialog() {
+    if (confirmDialog == null) {
+        val okClick = object : MyConfirmDialog.Click() {
+            override fun click() {
+                var intent = Intent(requireActivity(), LoginActivity::class.java)
+
+                if (UtilityApp.isLogin) {
+                    UtilityApp.logOut()
+                    FirebaseAuth.getInstance().signOut()
+                    intent = Intent(requireActivity(), LoginActivity::class.java)
                 }
-            }
-            confirmDialog = MyConfirmDialog(
-                requireActivity(),
-                getString(R.string.want_signout),
-                R.string.sign_out,
-                R.string.cancel2,
-                okClick,
-                null
-            )
-            confirmDialog!!.setOnDismissListener {
-                confirmDialog = null
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
             }
         }
+        confirmDialog = MyConfirmDialog(
+            requireActivity(),
+            getString(R.string.want_signout),
+            R.string.sign_out,
+            R.string.cancel2,
+            okClick,
+            null
+        )
+        confirmDialog!!.setOnDismissListener {
+            confirmDialog = null
+        }
     }
-
+}
 
 }

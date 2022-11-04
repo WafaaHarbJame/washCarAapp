@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:paddingBottom="@dimen/_12sdp">
+
+    <com.washcar.app.spichalViews.SCheckBox
+        android:id="@+id/serviceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:checked="false"
+        android:text="washing"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_12ssp"
+        android:theme="@style/checkBoxStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/gray6" />
+
+</LinearLayout>

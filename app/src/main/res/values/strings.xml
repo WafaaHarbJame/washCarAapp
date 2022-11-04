@@ -190,5 +190,11 @@
     <string name="please_wait_get_location">Please wait get location</string>
     <string name="want_signout">Do you want to sign out ?</string>
 
-
+    <string name="reviews">Reviews</string>
+    <string name="car_name">Car Name</string>
+    <string name="car_type">Car type</string>
+    <string name="carModel">Car Model</string>
+    <string name="plateNumber">plateNumber</string>
+    <string name="choose_services">Choose services</string>
+    <string name="about">About</string>
 </resources>
