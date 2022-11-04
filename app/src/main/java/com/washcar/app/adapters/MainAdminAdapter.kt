@@ -33,6 +33,7 @@ class MainAdminAdapter(
         return list?.size ?: 0
     }
 
+
     inner class MyHolder(itemView: View?) :
         RecyclerView.ViewHolder(itemView!!) {
 

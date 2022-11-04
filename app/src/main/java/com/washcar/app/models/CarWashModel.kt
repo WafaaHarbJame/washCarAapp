@@ -9,6 +9,7 @@ class CarWashModel : Serializable {
     var date: String? = null
     var describtion: String? = null
     var discount = 0
+    var name:String?=null
     var type = 0
     var rating = 0.0
 

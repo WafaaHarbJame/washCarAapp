@@ -13,6 +13,7 @@
 
     <LinearLayout
         android:layout_width="@dimen/_200sdp"
+        android:id="@+id/detailsBut"
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_white_fill"
         android:gravity="center_vertical"
@@ -41,7 +42,7 @@
             android:orientation="vertical">
 
             <com.washcar.app.spichalViews.STextViewBold
-                android:id="@+id/driverNameTxt"
+                android:id="@+id/NameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_3sdp"
@@ -79,7 +80,7 @@
                     android:theme="@style/RatingBarStyle2"/>
 
                 <com.washcar.app.spichalViews.STextViewBold
-                    android:id="@+id/requestCarWash"
+                    android:id="@+id/requestCarWashBut"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/request"

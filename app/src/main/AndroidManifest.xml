@@ -84,7 +84,7 @@
 
 
         <activity
-            android:name=".activities.AddDriverActivity"
+            android:name=".activities.RequestCarActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
