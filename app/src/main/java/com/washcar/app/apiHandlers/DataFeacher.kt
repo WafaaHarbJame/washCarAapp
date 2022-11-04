@@ -62,19 +62,18 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     fun registerHandle(memberModel: MemberModel) {
 
-        Log.i(TAG, "Log countryCode ${memberModel.countryCode}")
-        Log.i(TAG, "Log mobile ${memberModel.mobile}")
+        Log.i(TAG, "Log email ${memberModel.email}")
 
-        val phoneNumber = memberModel.mobileWithCountry.toString()
+        val email = memberModel.email.toString()
 //        this.activity = activity
 
-        fireStoreDB!!.collection(ApiUrl.Users.name).document(phoneNumber).get()
+        fireStoreDB!!.collection(ApiUrl.Users.name).document(email).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     dataFetcherCallBack?.Result(null, Constants.USER_EXIST, false)
 
                 } else {
-                    fireStoreDB!!.collection(ApiUrl.Users.name).document(phoneNumber)
+                    fireStoreDB!!.collection(ApiUrl.Users.name).document(email)
                         .set(memberModel)
                         .addOnSuccessListener {
                             dataFetcherCallBack?.Result(memberModel, Constants.SUCCESS, true)
@@ -105,17 +104,17 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
-    fun getMyAccount(mobile: String?) {
+    fun getMyAccount(email: String?) {
 
         Log.i(TAG, "Log getMyAccount")
         Log.i(TAG, "Log headerMap $headerMap")
-        Log.i(TAG, "Log mobile $mobile")
+        Log.i(TAG, "Log email $email")
 
-        if (mobile == null) {
+        if (email == null) {
             dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
             return
         }
-        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile)
+        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(email)
             ?.get()?.addOnSuccessListener {
 
                 val user = it.toObject(MemberModel::class.java)

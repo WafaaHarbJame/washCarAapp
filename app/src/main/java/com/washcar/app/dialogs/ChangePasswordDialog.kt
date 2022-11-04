@@ -64,7 +64,7 @@ class ChangePasswordDialog(
     private fun changePassword() {
         try {
 
-            var mobileStr = UtilityApp.userData?.mobileWithCountry;
+            var mobileStr = UtilityApp.userData?.email;
             val currentPasswordStr = NumberHandler.arabicToDecimal(currPasswordTV.text.toString())
             val newPasswordStr = NumberHandler.arabicToDecimal(newPasswordTV.text.toString());
 

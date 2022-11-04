@@ -40,7 +40,7 @@ class ForgetPasswordActivity : ActivityBase() {
 
 
         homeBtn.setOnClickListener {
-            onBackPressed()
+           onBackPressedDispatcher.onBackPressed()
         }
 
 

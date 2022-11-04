@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.washcar.app.R
 import com.washcar.app.SplashScreen
 import com.washcar.app.Utils.ActivityHandler
-import com.washcar.app.activities.AboutAppActivity
 import com.washcar.app.activities.LoginActivity
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.classes.UtilityApp
@@ -84,12 +83,7 @@ class SettingsFragment : FragmentBase() {
 
         }
 
-        aboutAppBtn.setOnClickListener {
 
-            val intent = Intent(requireActivity(), AboutAppActivity::class.java)
-            startActivity(intent)
-
-        }
 
         logoutBtn.setOnClickListener {
 

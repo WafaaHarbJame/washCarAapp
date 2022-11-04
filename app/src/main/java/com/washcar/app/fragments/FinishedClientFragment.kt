@@ -112,7 +112,7 @@ class FinishedClientFragment : FragmentBase() {
 
 
             }
-        }).getFinishedClientRequests(UtilityApp.userData?.mobileWithCountry)
+        }).getFinishedClientRequests(UtilityApp.userData?.email)
     }
 
 

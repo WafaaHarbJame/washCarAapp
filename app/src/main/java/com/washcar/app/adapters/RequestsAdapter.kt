@@ -131,13 +131,13 @@ class RequestsAdapter(
             acceptBut.setOnClickListener {
                 Log.i(TAG, "Log requestModel.getOrderId()" + requestModel.getOrderId())
 
-                updateOrderStatus(requestModel.getOrderId(), 1, adapterPosition)
+             //   updateOrderStatus(requestModel.getOrderId(), 1, adapterPosition)
 
             }
             rejectBut.setOnClickListener {
                 Log.i(TAG, "Log requestModel.getOrderId()" + requestModel.getOrderId())
 
-                updateOrderStatus(requestModel.getOrderId(), 2, adapterPosition)
+               // updateOrderStatus(requestModel.getOrderId(), 2, adapterPosition)
 
             }
 
@@ -165,62 +165,62 @@ class RequestsAdapter(
         }
     }
 
-    private fun updateOrderStatus(orderNumber: String?, orderStatus: Int?, position: Int) {
-        try {
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    GlobalData.progressDialogHide()
-                    if (func == Constants.SUCCESS) {
-                        val emptySeatBefore = UtilityApp.userData!!.emptySeat
-                        val emptySeat: Int = emptySeatBefore - 1
-                        list!![position].requestStatus = orderStatus!!
-
-                        AwesomeSuccessDialog(activity)
-                            .setTitle(R.string.change_order_status)
-                            .setMessage(activity?.getString(R.string.sucess_change_satus))
-                            .setColoredCircle(R.color.white)
-                            .setDialogIconAndColor(R.drawable.ic_check, R.color.white)
-                            .setCancelable(true)
-                            .show()
-
-//                    .setButtonText(getString(R.string.ok))
-//            .setButtonBackgroundColor(R.color.dialogErrorBackgroundColor)
-
-                        notifyItemChanged(position)
-                        notifyDataSetChanged()
-//                        list!!.removeAt(position)
-
-                        DataFeacher(object : DataFetcherCallBack {
-                            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                                GlobalData.progressDialogHide()
-
-                                if (func == Constants.SUCCESS) {
-                                    UtilityApp.userData!!.emptySeat = emptySeat
-
-                                }
-
-                            }
-                        }).updateSeatData(UtilityApp.userData!!.mobileWithCountry, emptySeat);
-
-
-                    } else {
-                        var message = activity?.getString(R.string.fail_to_change_status)
-                        GlobalData.errorDialog(
-                            activity,
-                            R.string.change_order_status,
-                            message
-                        )
-                    }
-
-                }
-            }).updateOrder(orderNumber, orderStatus);
-
-        } catch (e: Exception) {
-
-            e.printStackTrace()
-
-        }
-    }
+//    private fun updateOrderStatus(orderNumber: String?, orderStatus: Int?, position: Int) {
+//        try {
+//            DataFeacher(object : DataFetcherCallBack {
+//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                    GlobalData.progressDialogHide()
+//                    if (func == Constants.SUCCESS) {
+////                        val emptySeatBefore = UtilityApp.userData!!.emptySeat
+////                        val emptySeat: Int = emptySeatBefore - 1
+//                        list!![position].requestStatus = orderStatus!!
+//
+//                        AwesomeSuccessDialog(activity)
+//                            .setTitle(R.string.change_order_status)
+//                            .setMessage(activity?.getString(R.string.sucess_change_satus))
+//                            .setColoredCircle(R.color.white)
+//                            .setDialogIconAndColor(R.drawable.ic_check, R.color.white)
+//                            .setCancelable(true)
+//                            .show()
+//
+////                    .setButtonText(getString(R.string.ok))
+////            .setButtonBackgroundColor(R.color.dialogErrorBackgroundColor)
+//
+//                        notifyItemChanged(position)
+//                        notifyDataSetChanged()
+////                        list!!.removeAt(position)
+//
+//                        DataFeacher(object : DataFetcherCallBack {
+//                            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                                GlobalData.progressDialogHide()
+//
+//                                if (func == Constants.SUCCESS) {
+//                                    UtilityApp.userData!!.emptySeat = emptySeat
+//
+//                                }
+//
+//                            }
+//                        }).updateSeatData(UtilityApp.userData!!.mobileWithCountry, emptySeat);
+//
+//
+//                    } else {
+//                        var message = activity?.getString(R.string.fail_to_change_status)
+//                        GlobalData.errorDialog(
+//                            activity,
+//                            R.string.change_order_status,
+//                            message
+//                        )
+//                    }
+//
+//                }
+//            }).updateOrder(orderNumber, orderStatus);
+//
+//        } catch (e: Exception) {
+//
+//            e.printStackTrace()
+//
+//        }
+//    }
 
 }
 

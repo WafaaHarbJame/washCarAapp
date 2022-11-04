@@ -175,6 +175,13 @@
     <string name="best_rate_car">Best Rated Car Wash </string>
     <string name="Details">Details</string>
     <string name="request">request</string>
+    <string name="email_exist">Email is used before</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_desc">Enter Describtion</string>
+    <string name="enter_start_time">Enter startTime</string>
+    <string name="enter_end_time">Enter endTime</string>
 
 
 </resources>

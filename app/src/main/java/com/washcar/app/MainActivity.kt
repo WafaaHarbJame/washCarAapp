@@ -200,7 +200,7 @@ class MainActivity : ActivityBase() {
                         .post( MessageEvent(MessageEvent.TYPE_PAGER, 0))
                     return false
                 } else {
-                    onBackPressed()
+                   onBackPressedDispatcher.onBackPressed()
                 }
             } else {
                 selectBottomTab( R.id.mainBtn)

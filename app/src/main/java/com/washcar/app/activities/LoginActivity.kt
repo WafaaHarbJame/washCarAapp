@@ -42,11 +42,11 @@ class LoginActivity : ActivityBase() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = ""
+        title = getString(R.string.login)
 
 
        binding.toolBar.homeBtn.setOnClickListener {
-            onBackPressed()
+           onBackPressedDispatcher.onBackPressed()
         }
 
         binding.loginBtn.setOnClickListener {

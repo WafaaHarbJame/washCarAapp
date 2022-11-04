@@ -51,7 +51,7 @@ class SplashScreen : ActivityBase() {
         Handler(Looper.getMainLooper()).postDelayed({
 
             if (UtilityApp.isLogin) {
-                val mobile = UtilityApp.userData?.mobileWithCountry
+                val email = UtilityApp.userData?.email
 
                 DataFeacher(object : DataFetcherCallBack {
                     override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
@@ -76,7 +76,7 @@ class SplashScreen : ActivityBase() {
                         }
 
                     }
-                }).getMyAccount(mobile)
+                }).getMyAccount(email)
 
             } else {
 //                val intent = Intent(getActiviy(), LoginActivity::class.java)

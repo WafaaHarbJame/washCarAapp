@@ -1,10 +1,7 @@
 package com.washcar.app.fragments
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,26 +9,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.washcar.app.R
-import com.washcar.app.Utils.MapHandler
-import com.washcar.app.activities.DriversMapActivity
-import com.washcar.app.activities.MapActivity
 import com.washcar.app.adapters.AnnouncementsAdapter
 import com.washcar.app.adapters.CarWashAdapter
-import com.washcar.app.adapters.RequestsAdapter
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
-import com.washcar.app.classes.Constants
-import com.washcar.app.classes.GlobalData
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.FragmentMainScreenBinding
-import com.washcar.app.databinding.FragmentServiceProviderBinding
 import com.washcar.app.models.CarWashModel
 import com.washcar.app.models.MemberModel
-import com.washcar.app.models.RequestModel
-import kotlinx.android.synthetic.main.fragment_main_screen.*
-import kotlinx.android.synthetic.main.layout_fail_get_data.*
-import kotlinx.android.synthetic.main.layout_no_data.*
-import kotlinx.android.synthetic.main.layout_pre_loading.*
 
 
 class HomeClientFragment : FragmentBase() {

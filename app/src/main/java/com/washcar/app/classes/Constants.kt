@@ -22,6 +22,8 @@ object Constants {
     const val FAIL_DATA = "fail_data"
     const val USER_EXIST = "user_exist"
     const val USER_NOT_EXIST = "user_not_exist"
+    const val user_type = 1
+    const val provider_type = 2
     const val ERROR_DATA = "error_data"
     const val NO_CONNECTION = "no_connection"
     const val PASSWORD_WRONG = "password_wrong"

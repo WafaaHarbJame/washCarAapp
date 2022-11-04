@@ -35,7 +35,7 @@ class ProfileActivity : ActivityBase() {
 
 
         homeBtn.setOnClickListener {
-            onBackPressed()
+           onBackPressedDispatcher.onBackPressed()
         }
 
         user = UtilityApp.userData
@@ -74,11 +74,11 @@ class ProfileActivity : ActivityBase() {
         }
 
         updateBtn.setOnClickListener {
-            if (userType == 1) {
-                updateProfile()
-            } else {
-                updateDriverProfile()
-            }
+//            if (userType == 1) {
+//                updateProfile()
+//            } else {
+//                updateDriverProfile()
+//            }
 
         }
 
@@ -87,131 +87,123 @@ class ProfileActivity : ActivityBase() {
 
 
     private fun getData() {
-        val mobile = UtilityApp.userData?.mobileWithCountry
         DataFeacher(object : DataFetcherCallBack {
             override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
 
                 if (func == Constants.SUCCESS) {
                     val user = obj as MemberModel
                     nameEt.text = Editable.Factory.getInstance().newEditable(user.fullName)
-                    ageEt.text = Editable.Factory.getInstance().newEditable(user.age.toString())
                     addressTxt.text = Editable.Factory.getInstance().newEditable(user.address)
-                    busModeTxt.text = Editable.Factory.getInstance().newEditable(user.busModel)
-                    busColoTxt.text = Editable.Factory.getInstance().newEditable(user.busColor)
-                    busCapacityTv.text =
-                        Editable.Factory.getInstance().newEditable(user.busLoading.toString())
-                    busNumbTxt.text =
-                        Editable.Factory.getInstance().newEditable(user.busNumber.toString())
                     emailTxt.text =
                         Editable.Factory.getInstance().newEditable(user.email.toString())
                 }
 
 
             }
-        }).getMyAccount(mobile!!)
+        }).getMyAccount(email?:"")
     }
 
-    private fun updateProfile() {
-        val address = addressTxt.text.toString()
-        val name = nameEt.text.toString()
-        var age: Int
-        val email = emailTxt.text.toString()
+//    private fun updateProfile() {
+//        val address = addressTxt.text.toString()
+//        val name = nameEt.text.toString()
+//        var age: Int
+//        val email = emailTxt.text.toString()
+//
+//        if (changeAge) {
+//            age = ageNumber!!
+//        } else {
+//            age = ageEt.text.toString().toInt()
+//
+//        }
+//
+//        try {
+//
+//            DataFeacher(object : DataFetcherCallBack {
+//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                    GlobalData.progressDialogHide()
+//
+//                    if (func == Constants.SUCCESS) {
+//                        GlobalData.successDialog(
+//                            getActiviy(),
+//                            R.string.update_profile,
+//                            getString(R.string.success_edit), null
+//                        )
+//
+//                    } else {
+//                        GlobalData.errorDialog(
+//                            getActiviy(),
+//                            R.string.update_profile,
+//                            getString(R.string.fail_to_edit)
+//                        )
+//                    }
+//
+//
+//                }
+//            }).updateUserData(UtilityApp.userData!!.mobileWithCountry, name, address, age, email)
+//
+//        } catch (e: Exception) {
+//
+//            e.printStackTrace()
+//        }
+//    }
 
-        if (changeAge) {
-            age = ageNumber!!
-        } else {
-            age = ageEt.text.toString().toInt()
-
-        }
-
-        try {
-
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    GlobalData.progressDialogHide()
-
-                    if (func == Constants.SUCCESS) {
-                        GlobalData.successDialog(
-                            getActiviy(),
-                            R.string.update_profile,
-                            getString(R.string.success_edit), null
-                        )
-
-                    } else {
-                        GlobalData.errorDialog(
-                            getActiviy(),
-                            R.string.update_profile,
-                            getString(R.string.fail_to_edit)
-                        )
-                    }
-
-
-                }
-            }).updateUserData(UtilityApp.userData!!.mobileWithCountry, name, address, age, email)
-
-        } catch (e: Exception) {
-
-            e.printStackTrace()
-        }
-    }
-
-    private fun updateDriverProfile() {
-        val address = addressTxt.text.toString()
-        val name = nameEt.text.toString()
-        var age: Int
-        val busColor = busColoTxt.text.toString()
-        val busModel = busModeTxt.text.toString()
-        val busNumber = busNumbTxt.text.toString().toInt()
-        val busCapacity = busCapacityTv.text.toString().toInt()
-        val email = emailTxt.text.toString()
-
-        if (changeAge) {
-            age = ageNumber!!
-        } else {
-            age = ageEt.text.toString().toInt()
-
-        }
-
-        try {
-
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    GlobalData.progressDialogHide()
-
-                    if (func == Constants.SUCCESS) {
-                        GlobalData.successDialog(
-                            getActiviy(),
-                            R.string.update_profile,
-                            getString(R.string.success_edit), null
-                        )
-
-                    } else {
-                        GlobalData.errorDialog(
-                            getActiviy(),
-                            R.string.update_profile,
-                            getString(R.string.fail_to_edit)
-                        )
-                    }
-
-
-                }
-            }).updateDriverData(
-                UtilityApp.userData!!.mobileWithCountry,
-                name,
-                address,
-                age,
-                busNumber,
-                busColor,
-                busModel,
-                busCapacity,
-                email
-            )
-
-        } catch (e: Exception) {
-
-            e.printStackTrace()
-        }
-    }
+//    private fun updateDriverProfile() {
+//        val address = addressTxt.text.toString()
+//        val name = nameEt.text.toString()
+//        var age: Int
+//        val busColor = busColoTxt.text.toString()
+//        val busModel = busModeTxt.text.toString()
+//        val busNumber = busNumbTxt.text.toString().toInt()
+//        val busCapacity = busCapacityTv.text.toString().toInt()
+//        val email = emailTxt.text.toString()
+//
+//        if (changeAge) {
+//            age = ageNumber!!
+//        } else {
+//            age = ageEt.text.toString().toInt()
+//
+//        }
+//
+//        try {
+//
+//            DataFeacher(object : DataFetcherCallBack {
+//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                    GlobalData.progressDialogHide()
+//
+//                    if (func == Constants.SUCCESS) {
+//                        GlobalData.successDialog(
+//                            getActiviy(),
+//                            R.string.update_profile,
+//                            getString(R.string.success_edit), null
+//                        )
+//
+//                    } else {
+//                        GlobalData.errorDialog(
+//                            getActiviy(),
+//                            R.string.update_profile,
+//                            getString(R.string.fail_to_edit)
+//                        )
+//                    }
+//
+//
+//                }
+//            }).updateDriverData(
+//                UtilityApp.userData!!.mobileWithCountry,
+//                name,
+//                address,
+//                age,
+//                busNumber,
+//                busColor,
+//                busModel,
+//                busCapacity,
+//                email
+//            )
+//
+//        } catch (e: Exception) {
+//
+//            e.printStackTrace()
+//        }
+//    }
 
 
 }

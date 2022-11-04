@@ -106,7 +106,7 @@ class FinishedDriveragment : FragmentBase() {
                 }
 
             }
-        }).getFinishedRequests(UtilityApp.userData?.mobileWithCountry)
+        }).getFinishedRequests(UtilityApp.userData?.email)
     }
 
 

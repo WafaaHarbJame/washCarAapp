@@ -66,7 +66,7 @@ open class ActivityBase : LocalizationActivity() {
             homeBtn.visibility = View.VISIBLE
         }
 
-        homeBtn.setOnClickListener { onBackPressed() }
+        homeBtn.setOnClickListener {onBackPressedDispatcher.onBackPressed() }
 
         super.setTitle(title)
     }

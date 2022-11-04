@@ -55,7 +55,7 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         setContentView(R.layout.activity_request_details)
 
         backBtn.setOnClickListener {
-            onBackPressed()
+           onBackPressedDispatcher.onBackPressed()
         }
 
         val bundle = intent.extras;
@@ -89,7 +89,7 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         }
 
         finishOrder.setOnClickListener {
-            updateOrderStatus(orderID, 3)
+         //   updateOrderStatus(orderID, 3)
         }
 
 
@@ -322,58 +322,56 @@ class RequestDetailsActivity : ActivityBase(), OnMapReadyCallback {
         alert.show()
     }
 
-    private fun updateOrderStatus(orderNumber: String?, orderStatus: Int?) {
-        try {
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                    GlobalData.progressDialogHide()
-                    if (func == Constants.SUCCESS) {
-                        val emptySeatBefore = UtilityApp.userData!!.emptySeat
-                        val emptySeat: Int = emptySeatBefore + 1
-
-                        AwesomeSuccessDialog(getActiviy())
-                            .setTitle(R.string.change_order_status)
-                            .setMessage(getString(R.string.sucess_change_satus))
-                            .setColoredCircle(R.color.white)
-                            .setDialogIconAndColor(R.drawable.ic_check, R.color.white)
-                            .setCancelable(true)
-                            .show()
-                            .setOnDismissListener {
-                                finish()
-                            }
-
-
-                        DataFeacher(object : DataFetcherCallBack {
-                            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                                GlobalData.progressDialogHide()
-
-                                if (func == Constants.SUCCESS) {
-                                    UtilityApp.userData!!.emptySeat = emptySeat
-
-                                }
-
-                            }
-                        }).updateSeatData(UtilityApp.userData!!.mobileWithCountry, emptySeat);
-
-
-                    } else {
-                        var message = getActiviy()?.getString(R.string.fail_to_change_status)
-                        GlobalData.errorDialog(
-                            getActiviy(),
-                            R.string.change_order_status,
-                            message
-                        )
-                    }
-
-                }
-            }).updateOrder(orderNumber, orderStatus);
-
-        } catch (e: Exception) {
-
-            e.printStackTrace()
-
-        }
-    }
+//    private fun updateOrderStatus(orderNumber: String?, orderStatus: Int?) {
+//        try {
+//            DataFeacher(object : DataFetcherCallBack {
+//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                    GlobalData.progressDialogHide()
+//                    if (func == Constants.SUCCESS) {
+//
+//                        AwesomeSuccessDialog(getActiviy())
+//                            .setTitle(R.string.change_order_status)
+//                            .setMessage(getString(R.string.sucess_change_satus))
+//                            .setColoredCircle(R.color.white)
+//                            .setDialogIconAndColor(R.drawable.ic_check, R.color.white)
+//                            .setCancelable(true)
+//                            .show()
+//                            .setOnDismissListener {
+//                                finish()
+//                            }
+//
+//
+//                        DataFeacher(object : DataFetcherCallBack {
+//                            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                                GlobalData.progressDialogHide()
+//
+//                                if (func == Constants.SUCCESS) {
+////                                    UtilityApp.userData!!.emptySeat = emptySeat
+//
+//                                }
+//
+//                            }
+//                        }).updateSeatData(UtilityApp.userData!!.mobileWithCountry, emptySeat);
+//
+//
+//                    } else {
+//                        var message = getActiviy()?.getString(R.string.fail_to_change_status)
+//                        GlobalData.errorDialog(
+//                            getActiviy(),
+//                            R.string.change_order_status,
+//                            message
+//                        )
+//                    }
+//
+//                }
+//            }).updateOrder(orderNumber, orderStatus);
+//
+//        } catch (e: Exception) {
+//
+//            e.printStackTrace()
+//
+//        }
+//    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap

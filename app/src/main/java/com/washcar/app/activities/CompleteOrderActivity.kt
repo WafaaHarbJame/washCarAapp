@@ -32,7 +32,7 @@ class CompleteOrderActivity : ActivityBase() {
         user = UtilityApp.userData
 
         homeBtn.setOnClickListener {
-            onBackPressed()
+           onBackPressedDispatcher.onBackPressed()
         }
 
         val bundle = intent.extras;
@@ -89,7 +89,7 @@ class CompleteOrderActivity : ActivityBase() {
             val requestMap = mutableMapOf<String, Any?>().apply {
 
                 this["orderId"] = ""
-                this["clientId"] = user?.mobileWithCountry
+                this["clientId"] = user?.email
                 this["address"] = user?.address
                 this["client_name"] = user?.fullName
                 this["destinationLat"] = destinationLat

@@ -100,7 +100,7 @@ class CurrentDriverFragment : FragmentBase() {
                 }
 
             }
-        }).getCurrentRequests(UtilityApp.userData?.mobileWithCountry)
+        }).getCurrentRequests(UtilityApp.userData?.email)
     }
 
 

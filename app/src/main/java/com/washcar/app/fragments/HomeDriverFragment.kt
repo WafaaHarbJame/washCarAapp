@@ -262,7 +262,7 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
             selectedLat=location.latitude
             selectedLng=location.longitude
             address = MapHandler.getGpsAddress(activity, selectedLat, selectedLng)
-            updateData();
+            //updateData();
             SmartLocation.with(activity).geocoding()
                 .reverse(
                     location
@@ -285,20 +285,19 @@ class HomeDriverFragment : FragmentBase(), OnLocationUpdatedListener,
     }
 
 
-    private fun updateData() {
-        try {
-            var mobileStr = UtilityApp.userData?.mobileWithCountry;
-            DataFeacher(object : DataFetcherCallBack {
-                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-                }
-            }).updateData(mobileStr,selectedLat,selectedLng,address,isSelectLocation);
-
-        } catch (e: Exception) {
-
-            e.printStackTrace()
-
-        }
-    }
+//    private fun updateData() {
+//        try {
+//            DataFeacher(object : DataFetcherCallBack {
+//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+//                }
+//            }).updateData(mobileStr,selectedLat,selectedLng,address,isSelectLocation);
+//
+//        } catch (e: Exception) {
+//
+//            e.printStackTrace()
+//
+//        }
+//    }
 
 
 

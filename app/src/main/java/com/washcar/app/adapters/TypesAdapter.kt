@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 import com.washcar.app.R
-import com.washcar.app.fragments.CustomerRegisterFragment
-import com.washcar.app.fragments.ServiceProviderRegisterFragment
+import com.washcar.app.fragments.RegisterCustomerFragment
+import com.washcar.app.fragments.RegisterCarWashFragment
 
 
 class TypesAdapter(private val mContext: Context, fm: FragmentManager?) :
@@ -19,9 +19,9 @@ class TypesAdapter(private val mContext: Context, fm: FragmentManager?) :
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment? = null
         if (position == 0) {
-            fragment = CustomerRegisterFragment()
+            fragment = RegisterCustomerFragment()
         }
-        if (position == 1) fragment = ServiceProviderRegisterFragment()
+        if (position == 1) fragment = RegisterCarWashFragment()
         return fragment!!
     }
 

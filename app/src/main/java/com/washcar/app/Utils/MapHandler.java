@@ -17,9 +17,7 @@ import com.washcar.app.R;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by wokman on 4/2/2017.
- */
+
 
 public class MapHandler {
 
