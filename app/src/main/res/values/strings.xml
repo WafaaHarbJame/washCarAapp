@@ -202,4 +202,5 @@
     <string name="success_add_category">Success add category</string>
     <string name="fail_to_add_category">Fail to add category</string>
     <string name="no_categories">No Categories</string>
+    <string name="send_oder">Send Order</string>
 </resources>
