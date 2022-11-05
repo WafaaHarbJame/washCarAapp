@@ -1,5 +1,6 @@
 package com.washcar.app.models
 
+import com.google.firebase.firestore.Exclude
 import java.io.Serializable
 
 class MemberModel : Serializable {
@@ -19,6 +20,9 @@ class MemberModel : Serializable {
     var rate: Float? = 0f
     var description: String? = ""
     var announced: Boolean? = false
+
+    @Exclude
+    var distance: Float? = 0f
 
     companion object {
         const val TYPE_CUSTOMER = "customer"

@@ -3,16 +3,19 @@ package com.washcar.app.activities
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
 import com.washcar.app.R
-import com.washcar.app.Utils.NumberHandler
 import com.washcar.app.adapters.CarWashAdapter
+import com.washcar.app.adapters.ServiceTextAdapter
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
@@ -21,17 +24,20 @@ import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivitySearchProviderBinding
 import com.washcar.app.models.CategoryModel
 import com.washcar.app.models.MemberModel
-import com.washcar.app.models.RequestModel
 import io.nlopez.smartlocation.SmartLocation
 
 
 class SearchProvidersActivity : ActivityBase() {
-    var providerCategoriesList: MutableList<CategoryModel?>? = null
+
+    var categoriesList: MutableList<CategoryModel?>? = null
     var providersList: MutableList<MemberModel?>? = null
 
     private var selectedLat = 0.0
     private var selectedLng = 0.0
+    private var maxSearchDistance = 1
+
     private var user: MemberModel? = null
+
 
     lateinit var binding: ActivitySearchProviderBinding
 
@@ -40,24 +46,74 @@ class SearchProvidersActivity : ActivityBase() {
         binding = ActivitySearchProviderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolBar.mainTitleTxt.text = getString(R.string.filters)
 
         user = UtilityApp.userData
 
         binding.rv.layoutManager = LinearLayoutManager(getActiviy())
         binding.rv.setHasFixedSize(true)
+        binding.rvCategories.layoutManager = LinearLayoutManager(getActiviy())
 
+        binding.swipeDataContainer.isEnabled = false
+
+        getCategories()
         initListeners()
 
+        binding.sbDistance.progress = maxSearchDistance
 
+        getData(true)
+
+    }
+
+    fun setDistanceText() {
+        binding.tvDistance.text = maxSearchDistance.toString().plus(" Km")
     }
 
     private fun initListeners() {
 //        binding.myLocationBtn.setOnClickListener {
 //            checkLocationPermission()
 //        }
-//        binding.requestBtn.setOnClickListener {
-//            sendRequest()
-//        }
+        binding.rbNear.setOnClickListener {
+            binding.lyDistance.visibility = visible
+            if (selectedLat == 0.0 && selectedLng == 0.0) {
+                checkLocationPermission()
+            } else {
+                filterListToAdapters("near")
+            }
+        }
+        binding.rbPrice.setOnClickListener {
+            binding.lyDistance.visibility = gone
+            filterListToAdapters(null)
+        }
+        binding.rbRating.setOnClickListener {
+            binding.lyDistance.visibility = gone
+            filterListToAdapters("rating")
+        }
+        binding.rbTime.setOnClickListener {
+            binding.lyDistance.visibility = gone
+            filterListToAdapters(null)
+        }
+
+
+        binding.sbDistance.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, value: Int, isFromUser: Boolean) {
+                maxSearchDistance = value
+                setDistanceText()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+                filterListToAdapters("near")
+            }
+        })
+
+    }
+
+    private fun initCategoriesAdapter() {
+        val adapter = ServiceTextAdapter(getActiviy(), categoriesList, false)
+        binding.rvCategories.adapter = adapter
     }
 
     private fun initAdapter(list: MutableList<MemberModel?>?) {
@@ -101,6 +157,7 @@ class SearchProvidersActivity : ActivityBase() {
                 selectedLat = location.latitude
                 selectedLng = location.longitude
 
+                filterListToAdapters("near")
 
             }
 
@@ -130,25 +187,25 @@ class SearchProvidersActivity : ActivityBase() {
         alert.show()
     }
 
-//    private fun getProviderCategories(providerEmail: String?) {
-//
-//        DataFeacher(object : DataFetcherCallBack {
-//            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-//
-//                if (func == Constants.SUCCESS) {
-//
-//                    providerCategoriesList = obj as MutableList<CategoryModel?>?
-//                    if (providerCategoriesList?.isNotEmpty() == true) {
-//
-//
-//                    }
-//
-//                }
-//
-//
-//            }
-//        }).getProviderCategories(providerEmail ?: "")
-//    }
+    private fun getCategories() {
+
+        categoriesList = UtilityApp.getCategoriesList()
+        if (categoriesList == null) {
+            DataFeacher(object : DataFetcherCallBack {
+                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+
+                    if (func == Constants.SUCCESS) {
+
+                        categoriesList = obj as MutableList<CategoryModel?>?
+                        initCategoriesAdapter()
+                    }
+
+                }
+            }).getCategories()
+        } else {
+            initCategoriesAdapter()
+        }
+    }
 
     private fun getData(loading: Boolean) {
         if (loading) {
@@ -170,7 +227,7 @@ class SearchProvidersActivity : ActivityBase() {
                     }?.toMutableList()
 
                     if (providersList?.isNotEmpty() == true) {
-                        filterListToAdapters()
+                        filterListToAdapters(null)
                     }
                 } else {
                     binding.lyFail.failGetDataLY.visibility = visible
@@ -182,10 +239,37 @@ class SearchProvidersActivity : ActivityBase() {
         }).getUsers()
     }
 
-    fun filterListToAdapters() {
-        val filteredList = providersList?.filter {
-            it?.announced == true
-        }?.toMutableList()
+    fun filterListToAdapters(sortBy: String?) {
+        var list = providersList?.toMutableList()
+        var filteredList = mutableListOf<MemberModel?>()
+        if (sortBy?.isNotEmpty() == true) {
+            if (sortBy == "rating") {
+                list?.sortByDescending {
+                    it?.rate
+                }
+                filteredList = list ?: mutableListOf()
+            } else if (sortBy == "near") {
+                list?.forEach {
+                    val distanceResultArr = floatArrayOf(0f)
+                    Location.distanceBetween(
+                        selectedLat, selectedLng, it?.lat ?: 0.0, it?.lng ?: 0.0, distanceResultArr
+                    )
+                    it?.distance = distanceResultArr.firstOrNull()?.div(1000f)
+                }
+                list = list?.filter {
+                    (it?.distance?.toInt() ?: 0) <= maxSearchDistance
+                }?.toMutableList()
+                list?.sortByDescending {
+                    it?.distance
+                }
+                filteredList = list ?: mutableListOf()
+            }
+
+
+        } else {
+            filteredList = list ?: mutableListOf()
+        }
+
         initAdapter(filteredList)
 
     }

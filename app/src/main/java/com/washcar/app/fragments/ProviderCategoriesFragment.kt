@@ -21,7 +21,7 @@ import com.washcar.app.models.MemberModel
  */
 class ProviderCategoriesFragment : FragmentBase() {
 
-    var categoriesList: MutableList<CategoryModel>? = null
+    var categoriesList: MutableList<CategoryModel?>? = null
     var providerCategoriesList: MutableList<CategoryModel>? = null
 
     var user: MemberModel? = null
@@ -87,10 +87,10 @@ class ProviderCategoriesFragment : FragmentBase() {
                         binding.rv.visibility = visible
                         categoriesList?.forEach { mainCategory ->
                             val providerCategoryModel = providerCategoriesList?.firstOrNull {
-                                it.id == mainCategory.id
+                                it.id == mainCategory?.id
                             }
-                            mainCategory.price = providerCategoryModel?.price
-                            mainCategory.selected = providerCategoryModel?.selected
+                            mainCategory?.price = providerCategoryModel?.price
+                            mainCategory?.selected = providerCategoryModel?.selected
                         }
                         initAdapter()
 
@@ -118,7 +118,7 @@ class ProviderCategoriesFragment : FragmentBase() {
 
                     if (func == Constants.SUCCESS) {
 
-                        categoriesList = obj as MutableList<CategoryModel>?
+                        categoriesList = obj as MutableList<CategoryModel?>?
 
                     }
 

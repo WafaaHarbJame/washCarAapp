@@ -1,6 +1,7 @@
 package com.washcar.app.fragments
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.washcar.app.R
+import com.washcar.app.activities.SearchProvidersActivity
 import com.washcar.app.adapters.AnnouncementsAdapter
 import com.washcar.app.adapters.CarWashAdapter
 import com.washcar.app.adapters.HorizontalCarWashAdapter
@@ -60,6 +62,11 @@ class HomeClientFragment : FragmentBase() {
             LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false)
         binding.carsWashRecycler.layoutManager = LinearLayoutManager(requireActivity())
 
+
+        binding.filterBut.setOnClickListener {
+            val intent = Intent(requireActivity(), SearchProvidersActivity::class.java)
+            startActivity(intent)
+        }
 
         getData(true)
 

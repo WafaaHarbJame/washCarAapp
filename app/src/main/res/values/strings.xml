@@ -233,4 +233,12 @@
     <string name="select_service">Select Servce</string>
     <string name="date_time"><![CDATA[Date & Time]]></string>
     <string name="currency">SAR</string>
+    <string name="filters">Filters</string>
+    <string name="sort_by">Sort By</string>
+    <string name="near">Near</string>
+    <string name="price">Price</string>
+    <string name="rating">Rating</string>
+    <string name="time">Time</string>
+    <string name="distance_km">Distance in Km</string>
+    <string name="filter_service_providers">Filter service providers</string>
 </resources>

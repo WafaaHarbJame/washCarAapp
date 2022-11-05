@@ -44,9 +44,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/round_corner_big_gray_trans"
                     android:hint="@string/search"
                     android:padding="@dimen/_8sdp"
+                    android:text="@string/filter_service_providers"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorAccent3"
                     android:textSize="@dimen/_11ssp" />
@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/app_name"
                     android:gravity="center"
+                    android:minWidth="@dimen/_40sdp"
                     android:minHeight="@dimen/_40sdp"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/filter"
@@ -87,20 +88,20 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/_12ssp" />
 
-<!--                <com.washcar.app.spichalViews.STextView-->
-<!--                    android:id="@+id/moreAnnounBut"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:drawablePadding="@dimen/_8sdp"-->
-<!--                    android:gravity="start|center_vertical"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:paddingStart="@dimen/_10sdp"-->
-<!--                    android:paddingTop="@dimen/_5sdp"-->
-<!--                    android:paddingEnd="@dimen/_10sdp"-->
-<!--                    android:text="@string/view_all"-->
-<!--                    android:textAlignment="viewStart"-->
-<!--                    android:textColor="@color/colorAccent"-->
-<!--                    android:textSize="@dimen/_12ssp" />-->
+                <!--                <com.washcar.app.spichalViews.STextView-->
+                <!--                    android:id="@+id/moreAnnounBut"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:drawablePadding="@dimen/_8sdp"-->
+                <!--                    android:gravity="start|center_vertical"-->
+                <!--                    android:maxLines="1"-->
+                <!--                    android:paddingStart="@dimen/_10sdp"-->
+                <!--                    android:paddingTop="@dimen/_5sdp"-->
+                <!--                    android:paddingEnd="@dimen/_10sdp"-->
+                <!--                    android:text="@string/view_all"-->
+                <!--                    android:textAlignment="viewStart"-->
+                <!--                    android:textColor="@color/colorAccent"-->
+                <!--                    android:textSize="@dimen/_12ssp" />-->
 
             </LinearLayout>
 
@@ -190,20 +191,20 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/_12ssp" />
 
-<!--                <com.washcar.app.spichalViews.STextView-->
-<!--                    android:id="@+id/moreCarWashNear"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:drawablePadding="@dimen/_8sdp"-->
-<!--                    android:gravity="start|center_vertical"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:paddingStart="@dimen/_10sdp"-->
-<!--                    android:paddingTop="@dimen/_5sdp"-->
-<!--                    android:paddingEnd="@dimen/_10sdp"-->
-<!--                    android:text="@string/view_all"-->
-<!--                    android:textAlignment="viewStart"-->
-<!--                    android:textColor="@color/colorAccent"-->
-<!--                    android:textSize="@dimen/_12ssp" />-->
+                <!--                <com.washcar.app.spichalViews.STextView-->
+                <!--                    android:id="@+id/moreCarWashNear"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:drawablePadding="@dimen/_8sdp"-->
+                <!--                    android:gravity="start|center_vertical"-->
+                <!--                    android:maxLines="1"-->
+                <!--                    android:paddingStart="@dimen/_10sdp"-->
+                <!--                    android:paddingTop="@dimen/_5sdp"-->
+                <!--                    android:paddingEnd="@dimen/_10sdp"-->
+                <!--                    android:text="@string/view_all"-->
+                <!--                    android:textAlignment="viewStart"-->
+                <!--                    android:textColor="@color/colorAccent"-->
+                <!--                    android:textSize="@dimen/_12ssp" />-->
 
             </LinearLayout>
 
@@ -218,7 +219,6 @@
                 app:spanCount="2"
                 tools:itemCount="4"
                 tools:listitem="@layout/row_car_wash" />
-
 
 
         </LinearLayout>

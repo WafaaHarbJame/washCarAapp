@@ -2,14 +2,19 @@ package com.washcar.app.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.washcar.app.databinding.RowServiceTextBinding
 import com.washcar.app.models.CategoryModel
 
 
-class ServiceTextAdapter(private val context: Context, private var list: MutableList<CategoryModel?>?) :
-        RecyclerView.Adapter<ServiceTextAdapter.Holder>() {
+class ServiceTextAdapter(
+    private val context: Context,
+    private var list: MutableList<CategoryModel?>?,
+    val showPrice: Boolean = true
+) :
+    RecyclerView.Adapter<ServiceTextAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView = RowServiceTextBinding.inflate(LayoutInflater.from(context), parent, false)
         return Holder(itemView)
@@ -34,17 +39,22 @@ class ServiceTextAdapter(private val context: Context, private var list: Mutable
 
         fun bind(categoryModel: CategoryModel?) {
 
-          binding.serviceName.text=categoryModel?.name
-          binding.servicePrice.text=categoryModel?.price.toString()
+            binding.serviceName.text = categoryModel?.name
+            if (showPrice) {
+                binding.servicePrice.text = categoryModel?.price.toString()
+                binding.servicePrice.visibility = View.VISIBLE
+            } else {
+                binding.servicePrice.visibility = View.GONE
+            }
         }
 
         init {
 
 
-           binding.serviceName.setOnCheckedChangeListener { _, isChecked ->
-              binding.serviceName.isSelected = isChecked
-               val categoryModel:CategoryModel= list?.get(bindingAdapterPosition)!!
-               categoryModel.userSelected=true
+            binding.serviceName.setOnCheckedChangeListener { _, isChecked ->
+                binding.serviceName.isSelected = isChecked
+                val categoryModel: CategoryModel = list?.get(bindingAdapterPosition)!!
+                categoryModel.userSelected = true
 
             }
 

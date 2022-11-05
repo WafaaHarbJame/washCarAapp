@@ -13,7 +13,7 @@ import com.washcar.app.models.CategoryModel
 
 class ProviderCategoriesAdapter(
     private val activity: Activity,
-    var list: MutableList<CategoryModel>?,
+    var list: MutableList<CategoryModel?>?,
     var dataFetcherCallBack: DataFetcherCallBack?
 ) :
     RecyclerView.Adapter<ProviderCategoriesAdapter.MyHolder>() {
