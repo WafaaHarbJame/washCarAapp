@@ -38,6 +38,8 @@ class LoginActivity : ActivityBase() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.toolBar.homeBtn.visibility = gone
+
         binding.loginBtn.setOnClickListener {
 
             loginUser()
