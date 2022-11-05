@@ -15,7 +15,7 @@ class RequestModel {
     var carPlateNumber: String? = null
     var destinationLat = 0.0
     var destinationLng = 0.0
-    var categoryModels: ArrayList<CategoryModel>? = null
+    var selectedService: String? = null
 
     @ServerTimestamp
     var createdAt: Date? = null
