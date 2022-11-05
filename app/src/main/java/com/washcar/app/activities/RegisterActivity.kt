@@ -363,11 +363,6 @@ class RegisterActivity : ActivityBase() {
 
                 if (func == Constants.SUCCESS) {
 
-//                        val intent = Intent(this@RegisterActivity, ConfirmActivity::class.java)
-//                        intent.putExtra(Constants.KEY_MEMBER, registerUserModel)
-//                        intent.putExtra(Constants.KEY_MOBILE, registerUserModel.email)
-//                        startActivity(intent)
-
                     UtilityApp.userData = registerUserModel
 
                     val intent = Intent(this@RegisterActivity, MainActivity::class.java)

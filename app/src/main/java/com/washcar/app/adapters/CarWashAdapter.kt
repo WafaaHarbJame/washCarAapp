@@ -2,6 +2,7 @@ package com.washcar.app.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.washcar.app.R
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.activities.RequestCarActivity
+import com.washcar.app.classes.Constants
 import com.washcar.app.databinding.RowCarWashBinding
 import com.washcar.app.models.MemberModel
 
@@ -49,11 +51,13 @@ class CarWashAdapter(private val context: Context, private var list: MutableList
                 .into(binding.ivUser)
 
         }
-
         init {
             binding.requestCarWashBut.setOnClickListener {
-
+                val carWashModel = list?.get(bindingAdapterPosition)
                 val intent = Intent(context, RequestCarActivity::class.java)
+                intent.putExtra(Constants.key_provider_data, carWashModel)
+                intent.putExtra(Constants.KEY_EMAIL, carWashModel?.email)
+                Log.i(javaClass.simpleName, "Log carWashModel adapter email ${carWashModel?.email}")
                 context.startActivity(intent)
             }
 

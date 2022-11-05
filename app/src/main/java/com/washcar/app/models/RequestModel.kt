@@ -9,17 +9,18 @@ class RequestModel {
     var providerId: String? = null
     var customerId: String? = null
     var customerName: String? = null
+    var fullName: String? = null
     var carName: String? = null
     var carType: String? = null
     var carModel: String? = null
     var carPlateNumber: String? = null
-    var destinationLat = 0.0
-    var destinationLng = 0.0
-    var categoryModels: ArrayList<CategoryModel>? = null
-
+    var customerLat = 0.0
+    var customerLng = 0.0
+    var selectedService: String? = null
+    var total: Float? = null
     @ServerTimestamp
     var createdAt: Date? = null
-    var requestStatus: String? = null
+    var requestType:String? = null
 
     companion object {
         const val STATUS_UPCOMING = "upcoming"

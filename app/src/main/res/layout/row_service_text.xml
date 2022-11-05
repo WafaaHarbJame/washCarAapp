@@ -8,18 +8,32 @@
     android:layout_marginStart="@dimen/_15sdp"
     android:layout_marginEnd="@dimen/_15sdp"
     android:paddingBottom="@dimen/_12sdp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
     <com.washcar.app.spichalViews.SCheckBox
         android:id="@+id/serviceName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginEnd="@dimen/_6sdp"
         android:checked="false"
         android:text="washing"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/_12ssp"
         android:theme="@style/checkBoxStyle" />
-
+    <com.washcar.app.spichalViews.STextView
+        android:id="@+id/servicePrice"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_height="wrap_content"
+        android:text="150 SAR"
+        android:textAlignment="viewStart"
+        android:textColor="@color/gray4"
+        android:textSize="@dimen/_13ssp" />
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"

@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.washcar.app.R
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.activities.RequestCarActivity
+import com.washcar.app.classes.Constants
 import com.washcar.app.databinding.RowCarWashHorizontalBinding
 import com.washcar.app.models.MemberModel
 
@@ -56,9 +57,11 @@ class HorizontalCarWashAdapter(
         }
 
         init {
-            binding.requestCarWashBut.setOnClickListener {
 
+            binding.requestCarWashBut.setOnClickListener {
+                val carWashModel = list?.get(bindingAdapterPosition)
                 val intent = Intent(context, RequestCarActivity::class.java)
+                intent.putExtra(Constants.key_provider_data, carWashModel)
                 context.startActivity(intent)
             }
 

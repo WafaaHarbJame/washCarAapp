@@ -196,4 +196,5 @@
     <string name="please_fill_rate">Please Fill Rate</string>
     <string name="please_fill_comment">Please Fill Comment</string>
     <string name="search">Search</string>
+    <string name="select_service">Select Servce</string>
 </resources>

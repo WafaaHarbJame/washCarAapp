@@ -230,4 +230,5 @@
     <string name="fail_upload_image">Fail upload image</string>
     <string name="upload_photo">Upload Photo</string>
     <string name="please_select_photo">Please select your photo</string>
+    <string name="select_service">Select Servce</string>
 </resources>
