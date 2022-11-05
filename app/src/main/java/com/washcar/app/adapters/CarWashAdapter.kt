@@ -64,8 +64,6 @@ class CarWashAdapter(private val context: Context, private var list: MutableList
             binding.detailsBut.setOnClickListener {
                 val intent = Intent(context, ProfileActivity::class.java)
                 val carWashModel = list?.get(bindingAdapterPosition)
-                intent.putExtra(Constants.key_show_profile, true)
-                intent.putExtra(Constants.KEY_TYPE, MemberModel.TYPE_SERVICE_PROVIDER)
                 intent.putExtra(Constants.key_provider_data, carWashModel)
                 context.startActivity(intent)
             }

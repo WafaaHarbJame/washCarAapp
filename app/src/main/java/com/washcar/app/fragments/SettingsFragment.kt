@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.washcar.app.R
 import com.washcar.app.activities.LoginActivity
 import com.washcar.app.activities.ProfileActivity
+import com.washcar.app.classes.Constants
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.FragmentSettingsBinding
 import com.washcar.app.dialogs.ChangePasswordDialog
@@ -72,6 +73,7 @@ class SettingsFragment : FragmentBase() {
 
         binding.profileBut.setOnClickListener {
             val intent = Intent(requireActivity(), ProfileActivity::class.java)
+            intent.putExtra(Constants.key_provider_data, user)
             startActivity(intent)
 
         }

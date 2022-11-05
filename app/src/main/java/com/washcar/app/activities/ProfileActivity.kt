@@ -1,6 +1,6 @@
 package com.washcar.app.activities
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -18,16 +18,18 @@ import com.washcar.app.models.MemberModel
 import com.washcar.app.models.ReviewModel
 
 class ProfileActivity : ActivityBase() {
-    lateinit var binding: ActivityProfileBinding
-    var activity: Activity? = null
+
     var user: MemberModel? = null
-    var email: String = ""
-    var showProfile: Boolean=false
-    private var type: String = ""
+
     private var carWashModel: MemberModel? = null
     var reviewList: MutableList<ReviewModel?>? = null
-    private var userType: String = ""
 
+    val PROFILE = "profile"
+    val REVIEWS = "reviews"
+
+    var tabType: String? = PROFILE
+
+    lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,59 +37,46 @@ class ProfileActivity : ActivityBase() {
         setContentView(binding.root)
 
         binding.toolBar.mainTitleTxt.text = getString(R.string.profile)
-        activity = getActiviy()
 
 
         binding.toolBar.homeBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
         user = UtilityApp.userData
-        type = user?.type ?: MemberModel.TYPE_CUSTOMER
 
         val bundle = intent.extras
         if (bundle != null) {
-            showProfile=bundle.getBoolean(Constants.key_show_profile)
-            type=bundle.getString(Constants.KEY_TYPE)?: MemberModel.TYPE_CUSTOMER
             carWashModel = bundle.getSerializable(Constants.key_provider_data) as MemberModel?
 
         }
 
-        if(showProfile){
-            binding.editProfile.visibility=gone
-            initServiceData(carWashModel)
-        }
+//        if (showProfile) {
+//            binding.editProfile.visibility = gone
+//            initServiceData(carWashModel)
+//        }
 
 
-        reviewList= mutableListOf()
-
-        reviewList?.add(ReviewModel())
-        reviewList?.add(ReviewModel())
-        reviewList?.add(ReviewModel())
-        reviewList?.add(ReviewModel())
-
-        val reviewManger = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        val reviewManger = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.reviewRecycler.layoutManager = reviewManger
         binding.reviewRecycler.setHasFixedSize(true)
 
-        initReviewAdapter()
+//        initReviewAdapter()
 
-
-        initData()
         initListeners()
 
+        initData()
 
     }
 
     private fun initServiceData(carWashModel: MemberModel?) {
         getReview()
-        binding.serviceProviderLy.visibility= View.VISIBLE
-        binding.customerLy.visibility= View.GONE
-        binding.providerEmailTv.text=carWashModel?.email
-        binding.fullNameTv.text=carWashModel?.fullName
-        binding.aboutTv.text=carWashModel?.description
-        binding.mobilelTv.text=carWashModel?.mobile
-        binding.startTv.text=carWashModel?.startTime
-        binding.endTv.text=carWashModel?.endTime
+        binding.serviceProviderLy.visibility = View.VISIBLE
+        binding.customerLy.visibility = View.GONE
+        binding.providerEmailTv.text = carWashModel?.email
+        binding.fullNameTv.text = carWashModel?.fullName
+        binding.aboutTv.text = carWashModel?.description
+        binding.mobilelTv.text = carWashModel?.mobile
+        binding.tvTime.text = carWashModel?.startTime?.plus(" > ${carWashModel.endTime}")
 
     }
 
@@ -95,13 +84,20 @@ class ProfileActivity : ActivityBase() {
 
 
         binding.btnCustomer.setOnClickListener {
-            userType = MemberModel.TYPE_CUSTOMER
-            selectType(userType == MemberModel.TYPE_CUSTOMER)
+            tabType = PROFILE
+            selectType(true)
         }
 
-        binding.btnProvider.setOnClickListener {
-            userType = MemberModel.TYPE_SERVICE_PROVIDER
-            selectType(userType == MemberModel.TYPE_CUSTOMER)
+        binding.btnReview.setOnClickListener {
+            tabType = REVIEWS
+            selectType(false)
+        }
+
+        binding.requestBtn.setOnClickListener {
+            val intent = Intent(this, RequestCarActivity::class.java)
+            intent.putExtra(Constants.key_provider_data, carWashModel)
+            intent.putExtra(Constants.KEY_EMAIL, carWashModel?.email)
+            startActivity(intent)
         }
 
     }
@@ -109,76 +105,85 @@ class ProfileActivity : ActivityBase() {
 
     private fun initData() {
 
-        binding.tvUserName.text = user?.fullName
-        Glide.with(this)
-            .asBitmap()
-            .load(user?.photoUrl)
-            .placeholder(R.drawable.error_logo)
-            .into(binding.userImage)
+        binding.tvUserName.text = carWashModel?.fullName
 
 
-        if(type==MemberModel.TYPE_SERVICE_PROVIDER){
-            getReview()
-            binding.serviceProviderLy.visibility= View.VISIBLE
-            binding.customerLy.visibility= View.GONE
-            binding.providerEmailTv.text=user?.email
-            binding.fullNameTv.text=user?.fullName
-            binding.aboutTv.text=user?.description
-            binding.mobilelTv.text=user?.mobile
-            binding.startTv.text=user?.startTime
-            binding.endTv.text=user?.endTime
+        binding.customerEmailTv.text = carWashModel?.email
+        binding.customerNameTv.text = carWashModel?.fullName
+
+        if (user?.email == carWashModel?.email) {
+            binding.editProfile.visibility = visible
+        } else {
+            binding.editProfile.visibility = gone
         }
-        else{
-            binding.serviceProviderLy.visibility= View.GONE
-            binding.customerLy.visibility= View.VISIBLE
-            binding.customerEmailTv.text=user?.email
-            binding.customerNameTv.text=user?.fullName
 
+        if (carWashModel?.type == MemberModel.TYPE_SERVICE_PROVIDER) {
+            getReview()
+            binding.serviceProviderLy.visibility = View.VISIBLE
+            binding.customerLy.visibility = View.GONE
+            binding.providerEmailTv.text = carWashModel?.email
+            binding.fullNameTv.text = carWashModel?.fullName
+            binding.aboutTv.text = carWashModel?.description
+            binding.mobilelTv.text = carWashModel?.mobile
+            binding.tvTime.text = carWashModel?.startTime?.plus(" > ${carWashModel?.endTime}")
+            binding.userImage.visibility = visible
+            Glide.with(this)
+                .asBitmap()
+                .load(carWashModel?.photoUrl)
+                .placeholder(R.drawable.error_logo)
+                .into(binding.userImage)
+
+            binding.btnReview.visibility = visible
+        } else {
+            binding.serviceProviderLy.visibility = View.GONE
+            binding.customerLy.visibility = View.VISIBLE
+            binding.customerEmailTv.text = carWashModel?.email
+            binding.customerNameTv.text = carWashModel?.fullName
+            binding.userImage.visibility = gone
+            binding.btnReview.visibility = gone
         }
     }
 
-    private fun selectType(isCustomer: Boolean) {
+    private fun selectType(isProfile: Boolean) {
 
         binding.tvCustomer.setTextColor(
             ContextCompat.getColor(
-                this, if (isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (isProfile) R.color.colorPrimary else R.color.gray6
             )
         )
         binding.indcCustomer.setBackgroundColor(
             ContextCompat.getColor(
-                this, if (isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (isProfile) R.color.colorPrimary else R.color.gray6
             )
         )
-        binding.tvProvider.setTextColor(
+        binding.tvReview.setTextColor(
             ContextCompat.getColor(
-                this, if (!isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (!isProfile) R.color.colorPrimary else R.color.gray6
             )
         )
-        binding.indcProvider.setBackgroundColor(
+        binding.indcReviews.setBackgroundColor(
             ContextCompat.getColor(
-                this, if (!isCustomer) R.color.colorPrimary else R.color.gray6
+                this, if (!isProfile) R.color.colorPrimary else R.color.gray6
             )
         )
 
-        if (isCustomer) {
+        if (isProfile) {
 
-            if(type == MemberModel.TYPE_CUSTOMER){
-                binding.customerLy.visibility=visible
-                binding.serviceProviderLy.visibility=gone
+            if (carWashModel?.type == MemberModel.TYPE_CUSTOMER) {
+                binding.customerLy.visibility = visible
+                binding.serviceProviderLy.visibility = gone
+            } else {
+                binding.customerLy.visibility = gone
+                binding.serviceProviderLy.visibility = visible
             }
-            else{
-                binding.customerLy.visibility=gone
-                binding.serviceProviderLy.visibility=visible
-            }
 
-
-            binding.reviewRecycler.visibility=gone
+            binding.reviewRecycler.visibility = gone
 
 
         } else {
-            binding.reviewRecycler.visibility=visible
-            binding.customerLy.visibility=gone
-            binding.serviceProviderLy.visibility=gone
+            binding.reviewRecycler.visibility = visible
+            binding.customerLy.visibility = gone
+            binding.serviceProviderLy.visibility = gone
 
         }
 
@@ -186,12 +191,12 @@ class ProfileActivity : ActivityBase() {
 
 
     private fun initReviewAdapter() {
-        val reviewAdapter = ReviewAdapter(activity!!, reviewList)
+        val reviewAdapter = ReviewAdapter(this, reviewList)
         binding.reviewRecycler.adapter = reviewAdapter
     }
 
 
-    private fun getReview(){
+    private fun getReview() {
 
         DataFeacher(object : DataFetcherCallBack {
             override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
@@ -202,6 +207,7 @@ class ProfileActivity : ActivityBase() {
                     reviewList = obj as MutableList<ReviewModel?>?
 
                     if (reviewList?.isNotEmpty() == true) {
+                        binding.noDataTv.visibility = gone
                         initReviewAdapter()
                     } else {
                         binding.noDataTv.visibility = visible
@@ -210,7 +216,7 @@ class ProfileActivity : ActivityBase() {
 
 
             }
-        }).getReviews(user?.email)
+        }).getReviews(carWashModel?.email)
     }
 
 

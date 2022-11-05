@@ -1,7 +1,6 @@
 package com.washcar.app.apiHandlers
 
 import android.util.Log
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.gson.Gson
 import com.washcar.app.RootApplication
@@ -559,7 +558,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
 
-    fun getAllClientRequests(customerId: String?,status:String?) {
+    fun getAllClientRequests(customerId: String?, status: String?) {
         Log.i(TAG, "Log getAllRequests")
         Log.i(TAG, "Log customerId  $customerId")
 
@@ -571,7 +570,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     val requestList = mutableListOf<RequestModel>()
                     for (document in query!!) {
                         val requestModel = document?.toObject(RequestModel::class.java)
-                        requestList.add(requestModel?:RequestModel())
+                        requestList.add(requestModel ?: RequestModel())
                     }
 
                     dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
@@ -824,13 +823,13 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                 if (it.isSuccessful) {
                     val query = it.result
 
-                    val requestList = mutableListOf<RequestModel>()
-                    for (document in query!!) {
-                        val requestModel = document?.toObject(RequestModel::class.java)
-                        requestList.add(requestModel?:RequestModel())
+                    val list = mutableListOf<ReviewModel?>()
+                    for (document in query) {
+                        val reviewModel = document?.toObject(ReviewModel::class.java)
+                        list.add(reviewModel)
                     }
 
-                    dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
+                    dataFetcherCallBack?.Result(list, Constants.SUCCESS, true)
                 } else {
                     it.exception?.printStackTrace()
                 }
@@ -838,9 +837,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             }
 
     }
-
-
-
 
 
 }

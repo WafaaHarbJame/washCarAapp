@@ -54,11 +54,11 @@ public class DateHandler {
         return date;
     }
 
-    public static String GetLongToDateString(long time_stamp) {
+    public static String GetLongToDateString(long timeInMilli) {
         try {
             DateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-            Date time = new Date((time_stamp * 1000));
+            Date time = new Date(timeInMilli);
             String dateStr = parser.format(time);
 
             return dateStr;
