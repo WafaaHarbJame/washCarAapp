@@ -28,8 +28,8 @@
             android:textSize="@dimen/_12ssp" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
-            android:id="@+id/ratingBar"
-            android:theme="@style/RatingBarStyle2"
+            android:id="@+id/ratingBarBut"
+            android:theme="@style/RatingBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stepSize="1"
@@ -37,8 +37,7 @@
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_4sdp"
             android:rating="0"
-        />
-
+            />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +84,7 @@
                 android:minWidth="@dimen/_100sdp"
                 android:padding="@dimen/_8sdp"
                 android:text="@string/add"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_12ssp" />
 
             <com.washcar.app.spichalViews.STextViewBold

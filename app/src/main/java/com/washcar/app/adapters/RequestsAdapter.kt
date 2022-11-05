@@ -1,7 +1,6 @@
 package com.washcar.app.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
@@ -9,11 +8,15 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.common.data.DataHolder
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.washcar.app.R
 import com.washcar.app.Utils.DateHandler
+import com.washcar.app.apiHandlers.DataFeacher
+import com.washcar.app.apiHandlers.DataFetcherCallBack
+import com.washcar.app.classes.Constants
+import com.washcar.app.classes.GlobalData
+import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.RowRequestBinding
 import com.washcar.app.dialogs.AddRateDialog
 import com.washcar.app.models.CategoryModel
@@ -24,6 +27,7 @@ import java.text.DateFormat
 
 class RequestsAdapter(private val context: Context, private var list: MutableList<RequestModel?>?) :
     RecyclerView.Adapter<RequestsAdapter.Holder>() {
+    var addCommentDialog: AddRateDialog? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView = RowRequestBinding.inflate(LayoutInflater.from(context), parent, false)
         return Holder(itemView)
@@ -48,7 +52,6 @@ class RequestsAdapter(private val context: Context, private var list: MutableLis
     inner class Holder(var binding: RowRequestBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-
         fun bind(requestModel: RequestModel?) {
             binding.carNameTxt.text=requestModel?.carName
             binding.carModelTxt.text=requestModel?.carModel
@@ -57,7 +60,6 @@ class RequestsAdapter(private val context: Context, private var list: MutableLis
             binding.carNameTxt.text=requestModel?.carName
             binding.nameTV.text=requestModel?.providerName
             binding.dateTxt.text=DateFormat.getDateInstance().format(requestModel?.createdAt?:"",)
-//            binding.timeTxt.text=DateHandler.GetDateString(requestModel?.createdAt)
             binding.timeTxt.text=DateHandler.GetTimeFromDateString(DateHandler.GetDateTimeLong(DateHandler.GetDateString(requestModel?.createdAt)))
                 binding.totalTv.text=requestModel?.total.toString().plus(" "+context.getString(R.string.currency))
 
@@ -74,36 +76,79 @@ class RequestsAdapter(private val context: Context, private var list: MutableLis
 
         init {
             binding.rateBut.setOnClickListener {
+                val user=UtilityApp.userData
                 val reviewModel = ReviewModel()
-                var addCommentDialog: AddRateDialog? = null
-                val note = addCommentDialog?.findViewById<EditText>(R.id.rateEt)
-                val ratingBar =
-                    addCommentDialog?.findViewById<RatingBar>(R.id.ratingBar)
-                val notes = note?.text.toString()
-                reviewModel.comment = notes
-                reviewModel.rate = ratingBar?.rating?.toInt()
-                when {
-                    ratingBar?.rating == 0f -> {
-                        Toast.makeText(context, R.string.please_fill_rate, Toast.LENGTH_SHORT)
-                            .show()
-                        ratingBar.requestFocus()
-                    }
-                    note?.text.toString().isEmpty() -> {
-                        note?.requestFocus()
-                        note?.error = context.getString(R.string.please_fill_comment)
-                    }
-                    else -> {
-                        addComment(reviewModel)
+                val requestModel=list?.get(bindingAdapterPosition)
+
+                val okClick: AddRateDialog.Click = object : AddRateDialog.Click() {
+                    override fun click() {
+                        val note = addCommentDialog?.findViewById<EditText>(R.id.rateEt)
+                        val ratingBar = addCommentDialog?.findViewById<RatingBar>(R.id.ratingBarBut)
+                        val notes = note?.text.toString()
+                        reviewModel.comment = notes
+                        reviewModel.userName=user?.fullName
+                        reviewModel.rate = ratingBar?.rating?.toInt()
+                        reviewModel.providerId = requestModel?.providerId
+                        when {
+                            ratingBar?.rating == 0f -> {
+                                Toast.makeText(context, R.string.please_fill_rate, Toast.LENGTH_SHORT)
+                                    .show()
+                                ratingBar.requestFocus()
+                            }
+                            note?.text.toString().isEmpty() -> {
+                                note?.requestFocus()
+                                note?.error = context.getString(R.string.please_fill_comment)
+                            }
+                            else -> {
+                                addComment(reviewModel)
+                            }
+                        }
+
                     }
                 }
+
+                val cancelClick: AddRateDialog.Click = object : AddRateDialog.Click() {
+                    override fun click() {
+                        addCommentDialog!!.dismiss()
+                    }
+                }
+                addCommentDialog = AddRateDialog(
+                    context,
+                    context.getString(R.string.add_comment),
+                    R.string.ok,
+                    R.string.cancel2,
+                    okClick,
+                    cancelClick
+                )
+                addCommentDialog?.show()
+            }
             }
 
 
         }
 
-    }
 
     private fun addComment(reviewModel: ReviewModel) {
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                GlobalData.progressDialogHide()
+
+                if (func == Constants.SUCCESS) {
+                    Toast.makeText(context, context.getString(R.string.success_send), Toast.LENGTH_SHORT).show()
+                    addCommentDialog?.dismiss()
+
+                } else {
+                    val message = context.getString(R.string.fail_to_send)
+                    GlobalData.errorDialog(
+                        context,
+                        R.string.reviews,
+                        message
+                    )
+                }
+
+
+            }
+        }).sendReviewHandle(reviewModel)
 
     }
 

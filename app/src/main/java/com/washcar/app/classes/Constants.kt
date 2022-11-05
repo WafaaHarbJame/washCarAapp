@@ -25,6 +25,8 @@ object Constants {
     const val user_type = 1
     const val provider_type = 2
     const val key_provider_data ="key_provider_data"
+    const val profile ="profile"
+    const val review ="review"
     const val key_show_profile ="key_show_profile"
     const val KEY_EMAIL ="KEY_EMAIL"
     const val ERROR_DATA = "error_data"

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -60,28 +61,366 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="1dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:background="@color/gray_view" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:tabIndicatorColor="@color/white"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextAppearance="@style/tab_text"
-        app:tabTextColor="@color/gray3" />
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal">
 
-    <com.duolingo.open.rtlviewpager.RtlViewPager
-        android:id="@+id/viewPager"
+        <LinearLayout
+            android:id="@+id/btnCustomer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:orientation="vertical">
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/tvCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="@string/profile"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12ssp" />
+
+            <View
+                android:id="@+id/indcCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnProvider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:orientation="vertical">
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/tvProvider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="@string/reviews"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/_12ssp" />
+
+            <View
+                android:id="@+id/indcProvider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray6" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:overScrollMode="never">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_30sdp">
+
+            <LinearLayout
+                android:id="@+id/customerLy"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/full_name"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/customerNameTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/dummy"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/email"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/customerEmailTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:inputType="textPersonName"
+                    android:text="wafaa"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/serviceProviderLy"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:visibility="visible">
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/about"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/aboutTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/dummy"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/full_name"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/fullNameTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/dummy"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/email"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/providerEmailTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="wafaa"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/mobile"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/mobilelTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="0898888"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+                <com.washcar.app.spichalViews.STextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/address"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.washcar.app.spichalViews.STextView
+                    android:id="@+id/addresssTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="0898888"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="horizontal">
+
+                    <com.washcar.app.spichalViews.STextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:text="@string/start_time"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <com.washcar.app.spichalViews.STextView
+                        android:id="@+id/startTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:text="15"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@color/gray_view" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="horizontal">
+
+                    <com.washcar.app.spichalViews.STextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:text="@string/start_time"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <com.washcar.app.spichalViews.STextView
+                        android:id="@+id/endTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:text="12"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <com.loopeer.shadow.ShadowView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_50sdp"
+                    app:backgroundColor="@color/white"
+                    app:cornerRadius="@dimen/round_corner_thin"
+                    app:shadowColor="@color/colorPrimaryTrans"
+                    app:shadowMarginBottom="@dimen/_8sdp"
+                    app:shadowRadius="@dimen/_8sdp">
+
+                    <com.washcar.app.spichalViews.STextViewBold
+                        android:id="@+id/requestBtn"
+                        style="@style/primaryBtnStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/request"
+                        android:textColor="@color/white" />
+
+                </com.loopeer.shadow.ShadowView>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:visibility="gone"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/row_item_review" />
+
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/noDataTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="@string/no_data"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12ssp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

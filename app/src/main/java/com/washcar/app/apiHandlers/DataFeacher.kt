@@ -798,6 +798,46 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
 
+    fun sendReviewHandle(reviewModel: ReviewModel) {
+
+        Log.i(TAG, "Log sendReviewHandle")
+
+        val reviewId: String = fireStoreDB!!.collection(ApiUrl.Reviews.name).document().id
+        reviewModel.id = reviewId
+
+        fireStoreDB!!.collection(ApiUrl.Reviews.name).document(reviewId).set(reviewModel)
+            .addOnSuccessListener {
+                dataFetcherCallBack?.Result(reviewId, Constants.SUCCESS, true)
+            }.addOnFailureListener {
+                dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
+            }
+
+
+    }
+
+    fun getReviews(providerId: String?) {
+        Log.i(TAG, "Log getReviews")
+        Log.i(TAG, "Log providerId  $providerId")
+
+        fireStoreDB?.collection(ApiUrl.Reviews.name)?.whereEqualTo("providerId", providerId)
+            ?.get()?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val query = it.result
+
+                    val requestList = mutableListOf<RequestModel>()
+                    for (document in query!!) {
+                        val requestModel = document?.toObject(RequestModel::class.java)
+                        requestList.add(requestModel?:RequestModel())
+                    }
+
+                    dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
+                } else {
+                    it.exception?.printStackTrace()
+                }
+
+            }
+
+    }
 
 
 
