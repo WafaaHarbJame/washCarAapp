@@ -81,13 +81,13 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/loginHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ivUser"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_16ssp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                app:srcCompat="@drawable/ic_login_icon" />
+                android:src="@drawable/avatar" />
 
             <com.washcar.app.spichalViews.STextInputLayout
                 android:id="@+id/fullNameInput"

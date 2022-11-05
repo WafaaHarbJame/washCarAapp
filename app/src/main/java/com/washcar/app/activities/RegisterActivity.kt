@@ -4,11 +4,20 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
 import com.washcar.app.MainActivity
@@ -24,6 +33,7 @@ import com.washcar.app.databinding.ActivityRegisterTypeBinding
 import com.washcar.app.models.MemberModel
 import io.nlopez.smartlocation.SmartLocation
 
+
 class RegisterActivity : ActivityBase() {
 
     private var userType: String = ""
@@ -32,6 +42,15 @@ class RegisterActivity : ActivityBase() {
     private var selectedLng = 0.0
 
     private lateinit var auth: FirebaseAuth
+
+    val REQUEST_PICK_IMAGE = 100
+
+    var photoLauncher: ActivityResultLauncher<Intent>? = null
+
+    var selectedMediaUri: Uri? = null
+
+    var imagesRef: StorageReference? = null
+    var uploadTask: UploadTask? = null
 
     lateinit var binding: ActivityRegisterTypeBinding
 
@@ -44,6 +63,22 @@ class RegisterActivity : ActivityBase() {
         binding.toolBar.mainTitleTxt.text = getString(R.string.register)
 
         auth = FirebaseAuth.getInstance()
+
+        val storageRef = FirebaseStorage.getInstance().reference;
+        imagesRef = storageRef.child("images");
+
+        photoLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    selectedMediaUri = result.data?.data
+
+                    Glide.with(this).asBitmap()
+                        .load(selectedMediaUri)
+                        .placeholder(R.drawable.avatar)
+                        .into(binding.ivUser)
+
+                }
+            }
 
         binding.btnCustomer.setOnClickListener {
             userType = MemberModel.TYPE_CUSTOMER
@@ -66,10 +101,53 @@ class RegisterActivity : ActivityBase() {
 
         binding.btnCustomer.performClick()
 
+        binding.ivUser.setOnClickListener {
+
+            openSelectPhoto()
+
+        }
+
     }
 
+    private fun openSelectPhoto() {
 
-    fun selectType(isCustomer: Boolean) {
+        try {
+            val builder = PermissionCompat.Builder(this)
+            builder.addPermissions(
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            )
+            builder.addPermissionRationale(getString(R.string.should_allow_permission))
+            builder.addRequestPermissionsCallBack(object : OnRequestPermissionsCallBack {
+                override fun onGrant() {
+                    pickImage()
+
+                }
+
+                override fun onDenied(permission: String) {
+                    Toast(R.string.some_permission_denied)
+                }
+            })
+            builder.build().request()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun pickImage() {
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "image/*"
+        photoLauncher?.launch(intent)
+
+    }
+
+    private fun selectType(isCustomer: Boolean) {
 
         binding.tvCustomer.setTextColor(
             ContextCompat.getColor(
@@ -97,11 +175,13 @@ class RegisterActivity : ActivityBase() {
             binding.lyAddress.visibility = gone
             binding.startTimeInput.visibility = gone
             binding.endTimeInput.visibility = gone
+            binding.ivUser.visibility = gone
         } else {
             binding.descInput.visibility = visible
             binding.lyAddress.visibility = visible
             binding.startTimeInput.visibility = visible
             binding.endTimeInput.visibility = visible
+            binding.ivUser.visibility = visible
         }
 
     }
@@ -150,6 +230,10 @@ class RegisterActivity : ActivityBase() {
                 hasError = true
             }
             if (userType == MemberModel.TYPE_SERVICE_PROVIDER) {
+                if (selectedMediaUri == null) {
+                    Toast(R.string.please_select_photo)
+                    hasError = true
+                }
                 if (descriptionStr.isEmpty()) {
                     binding.descInput.error = getString(R.string.invalid_input)
                     hasError = true
@@ -203,7 +287,11 @@ class RegisterActivity : ActivityBase() {
                         // Sign in success, update UI with the signed-in user's information
                         val authUser = auth.currentUser
                         registerUserModel.token = authUser?.uid
-                        sendUserToFirebase(registerUserModel)
+
+                        if (selectedMediaUri != null)
+                            uploadFile(selectedMediaUri, registerUserModel)
+                        else
+                            sendUserToFirebase(registerUserModel)
                     } else {
                         GlobalData.progressDialogHide()
                         // If sign in fails, display a message to the user.
@@ -226,6 +314,45 @@ class RegisterActivity : ActivityBase() {
             e.printStackTrace()
 
         }
+    }
+
+    private fun uploadFile(
+        imageUri: Uri?,
+        registerUserModel: MemberModel
+    ) {
+
+        if (imageUri == null)
+            return
+//        GlobalData.progressDialog(this, R.string.upload_photo, R.string.please_wait_sending)
+        imagesRef = imagesRef?.child(System.currentTimeMillis().toString() + ".jpg")
+        uploadTask = imagesRef?.putFile(imageUri)
+        uploadTask?.addOnFailureListener {
+            GlobalData.progressDialogHide()
+        }?.addOnSuccessListener {
+
+            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+//            Uri downloadUrl = taskSnapshot.getUploadSessionUri();
+            val onCompleteListener =
+                OnCompleteListener { task: Task<Uri> ->
+//                    GlobalData.progressDialogHide()
+                    if (task.isSuccessful) {
+                        val downloadUrl = task.result
+
+                        registerUserModel.photoUrl = downloadUrl.toString()
+                        sendUserToFirebase(registerUserModel)
+                    } else {
+                        GlobalData.progressDialogHide()
+                    }
+                }
+
+            imagesRef?.downloadUrl?.addOnCompleteListener(onCompleteListener)
+
+        }
+
+//        if (isAudio)
+//            System.out.println("Log imagesRef ActiveUploadTasks " + audioRef.getActiveUploadTasks());
+//        else
+//            System.out.println("Log imagesRef ActiveUploadTasks " + imagesRef.getActiveUploadTasks());
     }
 
     fun sendUserToFirebase(registerUserModel: MemberModel) {
@@ -296,7 +423,6 @@ class RegisterActivity : ActivityBase() {
                 GlobalData.progressDialogHide()
                 selectedLat = location.latitude
                 selectedLng = location.longitude
-
 
             }
 

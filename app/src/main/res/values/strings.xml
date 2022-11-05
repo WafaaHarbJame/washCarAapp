@@ -226,4 +226,8 @@
     <string name="announced">Announced</string>
     <string name="fail_to_change_provider">Fail to change provider</string>
     <string name="success_change_provider">Success change provider</string>
+    <string name="should_allow_permission">Should allow permission to run successfully</string>
+    <string name="fail_upload_image">Fail upload image</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="please_select_photo">Please select your photo</string>
 </resources>

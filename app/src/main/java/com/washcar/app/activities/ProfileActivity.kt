@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
 import com.washcar.app.R
 import com.washcar.app.adapters.SettingTabAdapter
 import com.washcar.app.apiHandlers.DataFeacher
@@ -22,12 +23,12 @@ import com.washcar.app.models.MemberModel
 import java.util.*
 
 class ProfileActivity : ActivityBase() {
-     lateinit var binding: ActivityProfileBinding
+    lateinit var binding: ActivityProfileBinding
     var activity: Activity? = null
     var user: MemberModel? = null
     var email: String? = ""
 
-    var type:String=""
+    var type: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,13 +44,19 @@ class ProfileActivity : ActivityBase() {
             onBackPressedDispatcher.onBackPressed()
         }
         user = UtilityApp.userData
-        type=user?.type?:MemberModel.TYPE_CUSTOMER
+        type = user?.type ?: MemberModel.TYPE_CUSTOMER
 
         initData()
 
-        val adapter = SettingTabAdapter(this, supportFragmentManager,type)
+        val adapter = SettingTabAdapter(this, supportFragmentManager, type)
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
             override fun onPageSelected(position: Int) {
                 when (position) {
                     0 -> {
@@ -73,11 +80,14 @@ class ProfileActivity : ActivityBase() {
 
 
     private fun initData() {
-        binding.tvUserName.text=user?.fullName
+        binding.tvUserName.text = user?.fullName
+
+        Glide.with(this)
+            .asBitmap()
+            .load(user?.photoUrl)
+            .placeholder(R.drawable.error_logo)
+            .into(binding.userImage)
     }
-
-
-
 
 
 }

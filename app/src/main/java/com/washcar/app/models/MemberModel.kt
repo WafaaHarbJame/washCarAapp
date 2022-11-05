@@ -5,6 +5,7 @@ import java.io.Serializable
 class MemberModel : Serializable {
 
     var token: String? = null
+    var photoUrl: String? = null
     var mobile: String? = null
     var type: String? = null
     var fullName: String? = null
