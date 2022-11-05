@@ -35,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:orientation="horizontal">
 
@@ -49,7 +48,7 @@
                     android:text="@string/filter_service_providers"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorAccent3"
-                    android:textSize="@dimen/_11ssp" />
+                    android:textSize="@dimen/_13ssp" />
 
                 <ImageView
                     android:id="@+id/filterBut"
@@ -64,7 +63,10 @@
                     android:visibility="visible" />
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_view" />
             <LinearLayout
                 android:id="@+id/announceLy"
                 android:layout_width="match_parent"

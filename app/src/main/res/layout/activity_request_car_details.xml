@@ -169,7 +169,15 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/row_service_text" />
-
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/loadingLY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/_15sdp"
+                android:visibility="gone"
+                app:indicatorColor="@color/colorPrimaryDark"
+                app:indicatorName="@string/L_2x2" />
 
 
 
