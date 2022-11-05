@@ -223,4 +223,7 @@
     <string name="my_categories">My Categories</string>
     <string name="category_setting">Category Settings</string>
     <string name="category_price">Category Price</string>
+    <string name="announced">Announced</string>
+    <string name="fail_to_change_provider">Fail to change provider</string>
+    <string name="success_change_provider">Success change provider</string>
 </resources>

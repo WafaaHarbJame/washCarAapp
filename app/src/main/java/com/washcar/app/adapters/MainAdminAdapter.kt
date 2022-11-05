@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.washcar.app.R
+import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
+import com.washcar.app.classes.Constants
+import com.washcar.app.classes.GlobalData
 import com.washcar.app.databinding.RowAdminUserBinding
 import com.washcar.app.models.MemberModel
 
@@ -45,6 +49,8 @@ class MainAdminAdapter(
             if (memberModel.type == MemberModel.TYPE_SERVICE_PROVIDER) {
                 binding.tvWorkTime.visibility = View.VISIBLE
                 binding.tvWorkTime.text = memberModel.startTime?.plus(" - ${memberModel.endTime}")
+                binding.swAnnounced.visibility = View.VISIBLE
+                binding.swAnnounced.isChecked = memberModel.announced == true
             } else {
                 binding.tvWorkTime.visibility = View.GONE
             }
@@ -89,7 +95,36 @@ class MainAdminAdapter(
 
 
             }
+
+            binding.swAnnounced.setOnClickListener {
+                var memberModel = list?.get(bindingAdapterPosition)
+                memberModel?.announced = memberModel?.announced == false
+                setProviderAnnounced(
+                    memberModel,
+                    memberModel?.announced == true,
+                    bindingAdapterPosition
+                )
+            }
+
         }
+
+    }
+
+    fun setProviderAnnounced(memberModel: MemberModel?, announced: Boolean, position: Int) {
+        GlobalData.progressDialog(activity, R.string.service_provider, R.string.please_wait_sending)
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                GlobalData.progressDialogHide()
+                if (func == Constants.SUCCESS) {
+                    GlobalData.Toast(activity, R.string.success_change_provider)
+                } else {
+                    list?.get(position)?.announced = !announced
+                    notifyItemChanged(position)
+                    GlobalData.Toast(activity, R.string.fail_to_change_provider)
+                }
+
+            }
+        }).setProviderAnnounced(memberModel?.email ?: "", announced)
     }
 
 }

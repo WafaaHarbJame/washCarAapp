@@ -538,6 +538,27 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             }
     }
 
+    fun setProviderAnnounced(providerEmail: String, announced: Boolean) {
+
+        Log.i(TAG, "Log setProviderAnnounced")
+        Log.i(TAG, "Log announced  $announced")
+
+        val dataMap = mutableMapOf<String, Any>().apply {
+            this["announced"] = announced
+        }
+
+        fireStoreDB?.collection(ApiUrl.Users.name)?.document(providerEmail)
+            ?.set(dataMap, SetOptions.merge())?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+                } else {
+
+                    dataFetcherCallBack?.Result(it.exception?.message, Constants.FAIL_DATA, true)
+                }
+            }
+    }
+
+
     fun getAllClientRequests(clientId: String?) {
         Log.i(TAG, "Log getAllRequests")
         Log.i(TAG, "Log updateOrder  $clientId")
