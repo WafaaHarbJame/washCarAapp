@@ -1,81 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar" />
+
+    <include
+        android:id="@+id/lyLoading"
+        layout="@layout/layout_pre_loading" />
+
+    <include
+        android:id="@+id/lyFail"
+        layout="@layout/layout_fail_get_data" />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeDataContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ECEAEA">
-        <RelativeLayout
-            android:id="@+id/tool_bar"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:background="@color/colorPrimaryDark">
-            <com.washcar.app.spichalViews.STextViewIcon
-                android:id="@+id/homeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_40sdp"
-                android:gravity="center"
-                android:padding="@dimen/_5sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:scaleX="@integer/scaleX"
-                android:text="@string/fal_arrow_left"
-                android:textColor="@color/toolbar_icons"
-                android:textSize="@dimen/_15ssp"
-                android:visibility="visible" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <include
+                android:id="@+id/lyEmpty"
+                layout="@layout/layout_no_data" />
 
-            <com.washcar.app.spichalViews.STextViewBold
-                android:id="@+id/mainTitleTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_centerHorizontal="true"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxWidth="@dimen/_160sdp"
-                android:maxLines="1"
-                android:text="@string/title"
-                android:textColor="@color/toolbar_icons"
-                android:textSize="@dimen/_13ssp"
-                android:visibility="visible" />
-
-
-
-            <com.washcar.app.spichalViews.STextViewIcon
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="@dimen/_5sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:scaleX="@integer/scaleX"
-                android:text="@string/fa_search"
-                android:textColor="@color/toolbar_icons"
-                android:textSize="@dimen/_15ssp"
-                android:visibility="gone" />
-
-            <View
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
                 android:layout_width="match_parent"
-                android:layout_height="28dp" />
-        </RelativeLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_12sdp" />
 
-    <com.washcar.app.spichalViews.STabLayout
-        android:id="@+id/tabs"
-        style="@style/TabLayoutStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        android:background="@color/gray8" />
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

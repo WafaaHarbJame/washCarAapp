@@ -219,4 +219,8 @@
     <string name="service_providers">Service Providers</string>
     <string name="admin">Admin</string>
     <string name="other_car_wash">Other Car Wash</string>
+    <string name="my_requests">My Requests</string>
+    <string name="my_categories">My Categories</string>
+    <string name="category_setting">Category Settings</string>
+    <string name="category_price">Category Price</string>
 </resources>

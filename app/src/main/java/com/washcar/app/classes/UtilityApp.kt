@@ -5,7 +5,9 @@ import android.content.pm.PackageManager
 import android.provider.Settings
 import androidx.core.content.pm.PackageInfoCompat
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.washcar.app.RootApplication
+import com.washcar.app.models.CategoryModel
 import com.washcar.app.models.MemberModel
 
 
@@ -157,6 +159,12 @@ object UtilityApp {
 
     fun getFromShPref(key: String?): String? {
         return RootApplication.instance?.sharedPManger?.getDataString(key)
+    }
+
+    fun getCategoriesList(): MutableList<CategoryModel>? {
+        val json = getFromShPref(Constants.DB_Categories)
+        return if (json?.isNotEmpty() == true) Gson().fromJson(json,
+            object : TypeToken<MutableList<CategoryModel>>() {}.type) else null
     }
 
     fun isCustomer(): Boolean {

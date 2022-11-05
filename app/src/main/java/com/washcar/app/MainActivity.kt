@@ -69,6 +69,8 @@ class MainActivity : ActivityBase() {
 
         if (user?.type == MemberModel.TYPE_ADMIN)
             binding.botoomNav.tab2Txt.text = getString(R.string.categories)
+        else if (user?.type == MemberModel.TYPE_SERVICE_PROVIDER)
+            binding.botoomNav.tab2Txt.text = getString(R.string.my_categories)
         else
             binding.botoomNav.tab2Txt.text = getString(R.string.all_orders)
 
@@ -145,7 +147,7 @@ class MainActivity : ActivityBase() {
 
                 newFragment = when (user?.type) {
                     MemberModel.TYPE_SERVICE_PROVIDER -> {
-                        AllDriverRequestsFragment()
+                        ProviderCategoriesFragment()
                     }
                     MemberModel.TYPE_ADMIN -> {
                         CategoriesFragment()

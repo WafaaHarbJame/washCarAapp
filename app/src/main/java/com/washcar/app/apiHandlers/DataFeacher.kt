@@ -445,7 +445,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
 
-
     fun getCurrentRequests(driver_id: String?) {
         Log.i(TAG, "Log getCurrentRequests")
 
@@ -470,12 +469,13 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
-    fun getAllRequests(driver_id: String?) {
-        Log.i(TAG, "Log getAllRequests")
-        Log.i(TAG, "Log updateOrder  $driver_id")
+    fun getProviderAllRequests(providerId: String, status: String) {
+        Log.i(TAG, "Log getDriverAllRequests")
+        Log.i(TAG, "Log providerId  $providerId")
+        Log.i(TAG, "Log status  $status")
 
-        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("driver_id", driver_id)?.get()
-            ?.addOnCompleteListener {
+        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("providerId", providerId)
+            ?.whereEqualTo("status", status)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
@@ -493,6 +493,49 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
             }
 
+    }
+
+    fun getProviderCategories(providerEmail: String) {
+        Log.i(TAG, "Log getProviderCategories")
+
+        fireStoreDB?.collection(ApiUrl.Users.name)?.document(providerEmail)
+            ?.collection(ApiUrl.Categories.name)?.get()?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val query = it.result
+
+                    val categoriesList = mutableListOf<CategoryModel>()
+                    for (document in query!!) {
+                        val categoryModel = document?.toObject(CategoryModel::class.java)
+                        categoriesList.add(categoryModel!!)
+                    }
+
+                    dataFetcherCallBack?.Result(categoriesList, Constants.SUCCESS, true)
+                } else {
+                    it.exception?.printStackTrace()
+                }
+
+            }
+
+    }
+
+    fun editProviderCategory(providerEmail: String, categoryModel: CategoryModel) {
+
+//        val categoryId = fireStoreDB?.collection(ApiUrl.Users.name)?.document()?.id
+
+        Log.i(TAG, "Log editProviderCategory")
+        Log.i(TAG, "Log category  $categoryModel")
+
+        fireStoreDB?.collection(ApiUrl.Users.name)?.document(providerEmail)
+            ?.collection(ApiUrl.Categories.name)?.document(categoryModel.id ?: "")?.set(
+                categoryModel, SetOptions.merge()
+            )?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+                } else {
+
+                    dataFetcherCallBack?.Result(it.exception?.message, Constants.FAIL_DATA, true)
+                }
+            }
     }
 
     fun getAllClientRequests(clientId: String?) {
@@ -576,9 +619,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
                     val query = it.result
 //                    val allAccountList = mutableListOf<RegisterUserModel>()
                     if (query.isEmpty) dataFetcherCallBack?.Result(
-                        null,
-                        Constants.PASSWORD_WRONG,
-                        true
+                        null, Constants.PASSWORD_WRONG, true
                     )
                     else {
                         val userDoc: RegisterUserModel? =
@@ -601,7 +642,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
-    fun addCategory( categoryName: String?) {
+    fun addCategory(categoryName: String?) {
 
         val categoryId = fireStoreDB?.collection(ApiUrl.Categories.name)?.document()?.id
 

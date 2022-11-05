@@ -43,6 +43,7 @@ class SplashScreen : ActivityBase() {
 
     private fun initData() {
 
+        DataFeacher(null).getCategories()
 
         Handler(Looper.getMainLooper()).postDelayed({
 

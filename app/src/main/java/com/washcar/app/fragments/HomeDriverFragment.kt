@@ -4,22 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.core.content.ContextCompat
 import com.washcar.app.R
+import com.washcar.app.adapters.RequestsAdapter
+import com.washcar.app.apiHandlers.DataFeacher
+import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
+import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.FragmentHomeDriverBinding
+import com.washcar.app.models.MemberModel
+import com.washcar.app.models.RequestModel
 
 
 class HomeDriverFragment : FragmentBase() {
 
-    var isGrantPermission = false
-    private var selectedLat = 0.0
-    private var selectedLng = 0.0
-    var address: String = ""
-    var isSelectLocation = false
+    var user: MemberModel? = null
+
+    var ordersList: MutableList<RequestModel?>? = null
 
     private var _binding: FragmentHomeDriverBinding? = null
     private val binding get() = _binding!!
@@ -36,67 +37,67 @@ class HomeDriverFragment : FragmentBase() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.mainTitleTxt.text = getString(R.string.app_name)
-        binding.homeBtn.visibility = gone
 
-        setupViewPager(binding.viewpager);
-        binding.tabs.setupWithViewPager(binding.viewpager);
+        user = UtilityApp.userData
+
+        binding.toolBar.mainTitleTxt.text = getString(R.string.my_requests)
+
+        binding.swipeDataContainer.setColorSchemeColors(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.colorPrimary
+            )
+        )
+
+        binding.swipeDataContainer.setOnRefreshListener {
+//            getData(false)
+        }
+
+        binding.lyFail.refreshBtn.setOnClickListener {
+            getData(true)
+        }
+
 
     }
 
-
-    private fun setupViewPager(viewPager: ViewPager) {
-        val adapter = ViewPagerAdapter(childFragmentManager)
-
-        val currentBundle = Bundle()
-        currentBundle.putString(Constants.KEY_TYPE, Constants.CURRENT)
-        val currentFragment: Fragment = CurrentDriverFragment()
-        currentFragment.arguments = currentBundle
-
-        adapter.addFragment(currentFragment, getString(R.string.current_request))
-
-
-        viewPager.adapter = adapter
+    fun initAdapter(list: MutableList<RequestModel?>?) {
+        val adapter = RequestsAdapter(requireActivity(), list)
+        binding.rv.adapter = adapter
     }
 
-    class ViewPagerAdapter(manager: FragmentManager) :
-        FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-
-        private val mFragmentList: MutableList<Fragment> = ArrayList<Fragment>()
-        private val mFragmentTitleList: MutableList<String> = ArrayList()
-
-        override fun getItem(position: Int): Fragment {
-            return mFragmentList[position]
+    private fun getData(loading: Boolean) {
+        if (loading) {
+            binding.lyLoading.loadingProgressLY.visibility = visible
+            binding.lyFail.failGetDataLY.visibility = gone
+            binding.swipeDataContainer.visibility = gone
         }
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
 
-        override fun getCount(): Int {
-            return mFragmentList.size
-        }
+                binding.lyLoading.loadingProgressLY.visibility = gone
 
-        fun addFragment(fragment: Fragment, title: String) {
-            mFragmentList.add(fragment)
-            mFragmentTitleList.add(title)
-        }
+                if (func == Constants.SUCCESS) {
 
-        override fun getPageTitle(position: Int): CharSequence? {
-            return mFragmentTitleList[position]
-        }
+                    binding.swipeDataContainer.visibility = visible
+                    ordersList = obj as MutableList<RequestModel?>?
+
+                    if (ordersList?.isNotEmpty() == true) {
+                        binding.lyEmpty.noDataLY.visibility = gone
+                        binding.rv.visibility = visible
+                        initAdapter(ordersList)
+                    } else {
+                        binding.lyEmpty.noDataLY.visibility = visible
+                        binding.lyEmpty.noDataTxt.text = getString(R.string.no_categories)
+                        binding.rv.visibility = gone
+                    }
+                } else {
+                    binding.lyFail.failGetDataLY.visibility = visible
+                    binding.swipeDataContainer.visibility = gone
+                }
+
+
+            }
+        }).getProviderAllRequests(user?.token ?: "", RequestModel.STATUS_UPCOMING)
     }
-
-
-//    private fun updateData() {
-//        try {
-//            DataFeacher(object : DataFetcherCallBack {
-//                override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
-//                }
-//            }).updateData(mobileStr,selectedLat,selectedLng,address,isSelectLocation);
-//
-//        } catch (e: Exception) {
-//
-//            e.printStackTrace()
-//
-//        }
-//    }
-
 
 }
