@@ -112,9 +112,9 @@ class ProfileActivity : ActivityBase() {
         binding.customerNameTv.text = carWashModel?.fullName
 
         if (user?.email == carWashModel?.email) {
-            binding.editProfile.visibility = visible
+//            binding.editProfile.visibility = visible
         } else {
-            binding.editProfile.visibility = gone
+//            binding.editProfile.visibility = gone
         }
 
         if (carWashModel?.type == MemberModel.TYPE_SERVICE_PROVIDER) {

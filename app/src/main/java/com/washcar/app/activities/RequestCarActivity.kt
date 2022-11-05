@@ -36,25 +36,29 @@ class RequestCarActivity : ActivityBase() {
     var serviceList: MutableList<CategoryModel?>? = null
     private var selectedLat = 0.0
     private var selectedLng = 0.0
-    private var total:Double? = 0.0
-    private var selectedService:String?=null
+    private var total: Double? = 0.0
+    private var selectedService: String? = null
     private var carWashModel: MemberModel? = null
     private var user: MemberModel? = null
-    var selectedServiceList:MutableList<CategoryModel?>? = null
+    var selectedServiceList: MutableList<CategoryModel?>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRequestCarDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         user = UtilityApp.userData
+
+        getProviderCategories(carWashModel?.email)
+
+
         val lyManger = LinearLayoutManager(getActiviy(), RecyclerView.VERTICAL, false)
         binding.serviceRecycler.layoutManager = lyManger
         binding.serviceRecycler.setHasFixedSize(true)
+
         binding.serviceRecycler.itemAnimator = null
         binding.toolBar.mainTitleTxt.text = getString(R.string.send_oder)
 
-        selectedServiceList= mutableListOf()
+        selectedServiceList = mutableListOf()
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -63,7 +67,7 @@ class RequestCarActivity : ActivityBase() {
         }
         providerCategoriesList = mutableListOf()
 
-        getProviderCategories(carWashModel?.email)
+
 
         initListeners()
 
@@ -151,9 +155,10 @@ class RequestCarActivity : ActivityBase() {
     }
 
     private fun getProviderCategories(providerEmail: String?) {
-
+        binding.loadingLY.visibility = visible
         DataFeacher(object : DataFetcherCallBack {
             override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+                binding.loadingLY.visibility = gone
 
                 if (func == Constants.SUCCESS) {
 
@@ -178,7 +183,8 @@ class RequestCarActivity : ActivityBase() {
             val carNameStr = NumberHandler.arabicToDecimal(binding.carNameEt.text.toString())
             val carTypeStr = NumberHandler.arabicToDecimal(binding.carTxt.text.toString())
             val carModelStr = NumberHandler.arabicToDecimal(binding.carModelTxt.text.toString())
-            val plateNumberStr = NumberHandler.arabicToDecimal(binding.plateNumberTxt.text.toString())
+            val plateNumberStr =
+                NumberHandler.arabicToDecimal(binding.plateNumberTxt.text.toString())
             val addressStr = NumberHandler.arabicToDecimal(binding.etAddress.text.toString())
 
             var hasError = false
@@ -221,8 +227,8 @@ class RequestCarActivity : ActivityBase() {
             }?.toMutableList()
 
 
-            for (selectService in selectedServiceList?: mutableListOf()) {
-               total= total?.plus(selectService?.price?:0.0)
+            for (selectService in selectedServiceList ?: mutableListOf()) {
+                total = total?.plus(selectService?.price ?: 0.0)
 
             }
             selectedService = Gson().toJson(selectedServiceList)
@@ -233,7 +239,7 @@ class RequestCarActivity : ActivityBase() {
             requestModel.providerId = carWashModel?.email
             requestModel.customerId = user?.email
             requestModel.customerName = user?.fullName
-            requestModel.customerLat =selectedLat
+            requestModel.customerLat = selectedLat
             requestModel.customerLng = selectedLng
             requestModel.carName = carNameStr
             requestModel.carModel = carModelStr
@@ -271,8 +277,6 @@ class RequestCarActivity : ActivityBase() {
 
                 }
             }).sendOrderHandle(requestModel)
-
-
 
 
         } catch (e: Exception) {
