@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.washcar.app.R
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.activities.RequestCarActivity
 import com.washcar.app.databinding.RowCarWashBinding
@@ -34,11 +36,17 @@ class CarWashAdapter(private val context: Context, private var list: MutableList
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(carWashModel: MemberModel?) {
-            binding.tvName.text = carWashModel?.fullName
-            binding.tvAddress.text = carWashModel?.address
-            binding.tvRate.text = carWashModel?.rate.toString()
-            binding.ratingBar.rating = carWashModel?.rate ?: 0f
+        fun bind(memberModel: MemberModel?) {
+            binding.tvName.text = memberModel?.fullName
+            binding.tvAddress.text = memberModel?.address
+            binding.tvRate.text = memberModel?.rate.toString()
+            binding.ratingBar.rating = memberModel?.rate ?: 0f
+
+            Glide.with(context)
+                .asBitmap()
+                .load(memberModel?.photoUrl)
+                .placeholder(R.drawable.error_logo)
+                .into(binding.ivUser)
 
         }
 

@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.washcar.app.R
 import com.washcar.app.databinding.RowCarAnnouceBinding
 import com.washcar.app.models.MemberModel
 
@@ -25,6 +27,12 @@ class AnnouncementsAdapter(
         holder.binding.tvAddress.text = memberModel?.address
         holder.binding.tvDesc.text = memberModel?.description
         holder.binding.tvTime.text = memberModel?.startTime?.plus(" | ${memberModel.endTime}")
+
+        Glide.with(context)
+            .asBitmap()
+            .load(memberModel?.photoUrl)
+            .placeholder(R.drawable.error_logo)
+            .into(holder.binding.ivUser)
     }
 
 
