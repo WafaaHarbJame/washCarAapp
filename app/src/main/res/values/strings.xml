@@ -231,4 +231,6 @@
     <string name="upload_photo">Upload Photo</string>
     <string name="please_select_photo">Please select your photo</string>
     <string name="select_service">Select Servce</string>
+    <string name="date_time"><![CDATA[Date & Time]]></string>
+    <string name="currency">SAR</string>
 </resources>

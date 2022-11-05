@@ -2,6 +2,7 @@ package com.washcar.app.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -62,11 +63,17 @@ class HorizontalCarWashAdapter(
                 val carWashModel = list?.get(bindingAdapterPosition)
                 val intent = Intent(context, RequestCarActivity::class.java)
                 intent.putExtra(Constants.key_provider_data, carWashModel)
+                intent.putExtra(Constants.KEY_EMAIL, carWashModel?.email)
+                Log.i(javaClass.simpleName, "Log carWashModel adapter email ${carWashModel?.email}")
                 context.startActivity(intent)
             }
 
             binding.detailsBut.setOnClickListener {
                 val intent = Intent(context, ProfileActivity::class.java)
+                val carWashModel = list?.get(bindingAdapterPosition)
+                intent.putExtra(Constants.KEY_TYPE, MemberModel.TYPE_SERVICE_PROVIDER)
+                intent.putExtra(Constants.key_provider_data, carWashModel)
+                intent.putExtra(Constants.key_show_profile, true)
                 context.startActivity(intent)
             }
 

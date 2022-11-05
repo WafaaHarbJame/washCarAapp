@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.washcar.app.R
 import com.washcar.app.adapters.SettingTabAdapter
+import com.washcar.app.classes.Constants
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityProfileBinding
 import com.washcar.app.models.MemberModel
@@ -17,9 +18,11 @@ class ProfileActivity : ActivityBase() {
     lateinit var binding: ActivityProfileBinding
     var activity: Activity? = null
     var user: MemberModel? = null
-    var email: String? = ""
+    var email: String = ""
+    var showProfile: Boolean=false
 
     var type: String = ""
+    private var carWashModel: MemberModel? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +39,18 @@ class ProfileActivity : ActivityBase() {
         }
         user = UtilityApp.userData
         type = user?.type ?: MemberModel.TYPE_CUSTOMER
+
+        val bundle = intent.extras
+        if (bundle != null) {
+            showProfile=bundle.getBoolean(Constants.key_show_profile)
+            type=bundle?.getString(Constants.KEY_TYPE)?:""
+            carWashModel = bundle.getSerializable(Constants.key_provider_data) as MemberModel?
+
+        }
+
+        if(showProfile){
+
+        }
 
         initData()
 

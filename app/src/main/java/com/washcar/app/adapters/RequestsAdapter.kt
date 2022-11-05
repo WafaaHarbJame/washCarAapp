@@ -1,6 +1,7 @@
 package com.washcar.app.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
@@ -8,12 +9,18 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.data.DataHolder
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import com.washcar.app.R
+import com.washcar.app.Utils.DateHandler
 import com.washcar.app.databinding.RowRequestBinding
 import com.washcar.app.dialogs.AddRateDialog
 import com.washcar.app.models.CategoryModel
 import com.washcar.app.models.RequestModel
 import com.washcar.app.models.ReviewModel
+import java.text.DateFormat
+
 
 class RequestsAdapter(private val context: Context, private var list: MutableList<RequestModel?>?) :
     RecyclerView.Adapter<RequestsAdapter.Holder>() {
@@ -43,21 +50,24 @@ class RequestsAdapter(private val context: Context, private var list: MutableLis
 
 
         fun bind(requestModel: RequestModel?) {
-            var categoryList: MutableList<CategoryModel?>? = null
+            binding.carNameTxt.text=requestModel?.carName
+            binding.carModelTxt.text=requestModel?.carModel
+            binding.carTypeTxt.text=requestModel?.carType
+            binding.carPlatNumberTxt.text=requestModel?.carPlateNumber
+            binding.carNameTxt.text=requestModel?.carName
+            binding.nameTV.text=requestModel?.providerName
+            binding.dateTxt.text=DateFormat.getDateInstance().format(requestModel?.createdAt?:"",)
+//            binding.timeTxt.text=DateHandler.GetDateString(requestModel?.createdAt)
+            binding.timeTxt.text=DateHandler.GetTimeFromDateString(DateHandler.GetDateTimeLong(DateHandler.GetDateString(requestModel?.createdAt)))
+                binding.totalTv.text=requestModel?.total.toString().plus(" "+context.getString(R.string.currency))
 
-
-            categoryList = mutableListOf()
-
-            categoryList.add(CategoryModel("1", "Washing"))
-            categoryList.add(CategoryModel("2", "Washing Steam"))
-            categoryList.add(CategoryModel("3", "Shine"))
+            val categoryList: MutableList<CategoryModel?>? =
+                Gson().fromJson(requestModel?.selectedService, object :TypeToken<List<CategoryModel?>?>() {}.type)
 
             val selectedServiceAdapter = SelectedServiceAdapter(
                 context, categoryList
             )
 
-//            val selectedServiceAdapter = SelectedServiceAdapter(
-//                context, requestModel?.categoryModels
             binding.rv.adapter = selectedServiceAdapter
 
         }

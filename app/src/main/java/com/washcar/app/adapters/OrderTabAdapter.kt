@@ -1,17 +1,16 @@
 package com.washcar.app.adapters
 
 import android.content.Context
+import android.os.Bundle
 import android.util.SparseArray
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-
 import com.washcar.app.R
 import com.washcar.app.classes.Constants
 import com.washcar.app.fragments.*
-import com.washcar.app.models.MemberModel
+import com.washcar.app.models.RequestModel
 
 
 class OrderTabAdapter(val mContext: Context, fm: FragmentManager?) :
@@ -25,8 +24,17 @@ class OrderTabAdapter(val mContext: Context, fm: FragmentManager?) :
 
         if (position == 0) {
             fragment = OrdersListFragment()
+            val bundle = Bundle()
+            bundle.putString(Constants.KEY_REQUEST_TYPE, RequestModel.STATUS_UPCOMING)
+            fragment.setArguments(bundle)
         }
-        if (position == 1) fragment = OrdersListFragment()
+        if (position == 1) {
+            fragment = OrdersListFragment()
+            val bundle = Bundle()
+            bundle.putString(Constants.KEY_REQUEST_TYPE, RequestModel.STATUS_FINISHED)
+            fragment.setArguments(bundle)
+        }
+
 
 
         return fragment!!

@@ -36,6 +36,7 @@ class RequestCarActivity : ActivityBase() {
     var serviceList: MutableList<CategoryModel?>? = null
     private var selectedLat = 0.0
     private var selectedLng = 0.0
+    private var total:Double? = 0.0
     private var selectedService:String?=null
     private var carWashModel: MemberModel? = null
     private var user: MemberModel? = null
@@ -51,7 +52,7 @@ class RequestCarActivity : ActivityBase() {
         binding.serviceRecycler.layoutManager = lyManger
         binding.serviceRecycler.setHasFixedSize(true)
         binding.serviceRecycler.itemAnimator = null
-//        binding.toolBar.mainTitleTxt.text = getString(R.string.send_oder)
+        binding.toolBar.mainTitleTxt.text = getString(R.string.send_oder)
 
         selectedServiceList= mutableListOf()
 
@@ -64,12 +65,6 @@ class RequestCarActivity : ActivityBase() {
 
         getProviderCategories(carWashModel?.email)
 
-
-        selectedServiceList = providerCategoriesList?.filter {
-            it?.userSelected == true
-        }?.toMutableList()
-
-        selectedService = Gson().toJson(selectedServiceList)
         initListeners()
 
 
@@ -219,8 +214,18 @@ class RequestCarActivity : ActivityBase() {
                 hasError = true
             }
 
-
             if (hasError) return
+
+            selectedServiceList = providerCategoriesList?.filter {
+                it?.userSelected == true
+            }?.toMutableList()
+
+
+            for (selectService in selectedServiceList?: mutableListOf()) {
+               total= total?.plus(selectService?.price?:0.0)
+
+            }
+            selectedService = Gson().toJson(selectedServiceList)
 
             val requestModel = RequestModel()
 
@@ -235,8 +240,10 @@ class RequestCarActivity : ActivityBase() {
             requestModel.carType = carTypeStr
             requestModel.carPlateNumber = plateNumberStr
             requestModel.providerId = carWashModel?.email
+            requestModel.providerName = carWashModel?.fullName
             requestModel.selectedService = selectedService
-            requestModel.requestType = RequestModel.STATUS_UPCOMING
+            requestModel.status = RequestModel.STATUS_UPCOMING
+            requestModel.total = total
 
             GlobalData.progressDialog(
                 getActiviy(),

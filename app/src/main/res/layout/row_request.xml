@@ -42,21 +42,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:text="@string/car_wash"
+            android:text=""
             android:textAlignment="viewStart"
             android:textColor="@color/gray4"
             android:textSize="@dimen/_13ssp" />
        
 
-        <com.washcar.app.spichalViews.STextView
-            android:id="@+id/addressTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:text="6.4 km | ryida-test"
-            android:textAlignment="viewStart"
-            android:textColor="@color/gray4"
-            android:textSize="@dimen/_13ssp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -73,7 +64,34 @@
         android:textSize="@dimen/_13ssp" />
 
         <com.washcar.app.spichalViews.STextView
+            android:id="@+id/carNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/car_wash"
+            android:textAlignment="viewStart"
+            android:textColor="@color/gray4"
+            android:textSize="@dimen/_13ssp" />
+        <com.washcar.app.spichalViews.STextView
+            android:id="@+id/carTypeTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/car_wash"
+            android:textAlignment="viewStart"
+            android:textColor="@color/gray4"
+            android:textSize="@dimen/_13ssp" />
+        <com.washcar.app.spichalViews.STextView
             android:id="@+id/carModelTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/car_wash"
+            android:textAlignment="viewStart"
+            android:textColor="@color/gray4"
+            android:textSize="@dimen/_13ssp" />
+        <com.washcar.app.spichalViews.STextView
+            android:id="@+id/carPlatNumberTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_10sdp"
@@ -90,7 +108,7 @@
         <com.washcar.app.spichalViews.STextViewBold
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/service_provider"
+            android:text="@string/date_time"
             android:textAlignment="viewStart"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_13ssp" />
@@ -163,7 +181,7 @@
                 android:textSize="@dimen/_13ssp" />
 
             <com.washcar.app.spichalViews.STextView
-                android:id="@+id/servicePrice"
+                android:id="@+id/totalTv"
                 android:layout_width="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_height="wrap_content"
