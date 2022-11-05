@@ -5,6 +5,7 @@ enum class ApiUrl {
     Settings,
     Categories,
     Users,
-    Orders
+    Orders,
+    Reviews
 
 }

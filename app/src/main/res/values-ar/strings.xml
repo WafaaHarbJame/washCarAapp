@@ -198,4 +198,5 @@
     <string name="search">Search</string>
     <string name="select_service">Select Servce</string>
     <string name="date_time"><![CDATA[Date & Time]]></string>
+    <string name="no_data">No Data</string>
 </resources>
