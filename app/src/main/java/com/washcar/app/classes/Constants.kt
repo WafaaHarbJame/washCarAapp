@@ -25,6 +25,7 @@ object Constants {
     const val user_type = 1
     const val provider_type = 2
     const val key_provider_data ="key_provider_data"
+    const val key_show_profile ="key_show_profile"
     const val KEY_EMAIL ="KEY_EMAIL"
     const val ERROR_DATA = "error_data"
     const val NO_CONNECTION = "no_connection"
@@ -50,6 +51,7 @@ object Constants {
     const val KEY_EDIT = "key_edit"
     const val KEY_DRIVER_MODEL = "key_driver_model"
     const val KEY_TYPE = "key_type"
+    const val KEY_REQUEST_TYPE = "KEY_REQUEST_TYPE"
     const val KEY_MOBILE = "key_mobile"
     const val KEY_MAP_TYPE = "key_map_type"
     const val KEY_LOGIN_PREFERANCE = "key_login_preferance"

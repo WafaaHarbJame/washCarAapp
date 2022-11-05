@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.washcar.app.R
 import com.washcar.app.databinding.RowSelectedServiceBinding
 import com.washcar.app.databinding.RowServiceTextBinding
 import com.washcar.app.models.CategoryModel
@@ -35,7 +36,8 @@ class SelectedServiceAdapter(private val context: Context, private var list: Mut
 
         fun bind(categoryModel: CategoryModel?) {
 
-         // binding.serviceName.text=categoryModel?.name
+          binding.serviceName.text=categoryModel?.name
+          binding.servicePrice.text=categoryModel?.price.toString().plus(" "+context.getString(R.string.currency))
         }
 
         init {

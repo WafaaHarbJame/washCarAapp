@@ -559,22 +559,21 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
 
-    fun getAllClientRequests(clientId: String?) {
+    fun getAllClientRequests(customerId: String?,status:String?) {
         Log.i(TAG, "Log getAllRequests")
-        Log.i(TAG, "Log updateOrder  $clientId")
+        Log.i(TAG, "Log customerId  $customerId")
 
-        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("clientId", clientId)
-            ?.orderBy("createdAt", Query.Direction.DESCENDING)?.get()?.addOnCompleteListener {
+        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("customerId", customerId)
+            ?.whereEqualTo("status", status)?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
                     val requestList = mutableListOf<RequestModel>()
                     for (document in query!!) {
                         val requestModel = document?.toObject(RequestModel::class.java)
-                        requestList.add(requestModel!!)
+                        requestList.add(requestModel?:RequestModel())
                     }
 
-                    val json = Gson().toJson(requestList)
                     dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
                 } else {
                     it.exception?.printStackTrace()
@@ -797,6 +796,9 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
 
     }
+
+
+
 
 
 
