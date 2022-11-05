@@ -203,6 +203,28 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
+    fun getUsers() {
+        Log.i(TAG, "Log getUsers")
+
+        fireStoreDB?.collection(ApiUrl.Users.name)?.get()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val query = it.result
+
+                val list = mutableListOf<MemberModel>()
+                for (document in query!!) {
+                    val objectModel = document?.toObject(MemberModel::class.java)
+                    list.add(objectModel!!)
+                }
+
+                dataFetcherCallBack?.Result(list, Constants.SUCCESS, true)
+            } else {
+                it.exception?.printStackTrace()
+            }
+
+        }
+
+    }
+
 
     fun addDriver(driverModel: DriverModel) {
 
@@ -421,6 +443,7 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             }
 
     }
+
 
 
     fun getCurrentRequests(driver_id: String?) {

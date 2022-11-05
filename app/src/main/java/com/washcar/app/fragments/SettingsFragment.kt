@@ -48,6 +48,10 @@ class SettingsFragment : FragmentBase() {
 
 
         if (UtilityApp.isLogin) {
+            if (user?.type == MemberModel.TYPE_ADMIN) {
+                binding.profileBut.visibility = gone
+                binding.passwordBtn.visibility = gone
+            }
             binding.signOutIcon.text = getString(R.string.fal_sign_out)
             binding.signOutLabel.text = getString(R.string.sign_out)
         } else {
@@ -83,35 +87,33 @@ class SettingsFragment : FragmentBase() {
     }
 
 
+    private fun showConfirmDialog() {
+        if (confirmDialog == null) {
+            val okClick = object : MyConfirmDialog.Click() {
+                override fun click() {
+                    var intent = Intent(requireActivity(), LoginActivity::class.java)
 
-
-private fun showConfirmDialog() {
-    if (confirmDialog == null) {
-        val okClick = object : MyConfirmDialog.Click() {
-            override fun click() {
-                var intent = Intent(requireActivity(), LoginActivity::class.java)
-
-                if (UtilityApp.isLogin) {
-                    UtilityApp.logOut()
-                    FirebaseAuth.getInstance().signOut()
-                    intent = Intent(requireActivity(), LoginActivity::class.java)
+                    if (UtilityApp.isLogin) {
+                        UtilityApp.logOut()
+                        FirebaseAuth.getInstance().signOut()
+                        intent = Intent(requireActivity(), LoginActivity::class.java)
+                    }
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
                 }
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
+            }
+            confirmDialog = MyConfirmDialog(
+                requireActivity(),
+                getString(R.string.want_signout),
+                R.string.sign_out,
+                R.string.cancel2,
+                okClick,
+                null
+            )
+            confirmDialog!!.setOnDismissListener {
+                confirmDialog = null
             }
         }
-        confirmDialog = MyConfirmDialog(
-            requireActivity(),
-            getString(R.string.want_signout),
-            R.string.sign_out,
-            R.string.cancel2,
-            okClick,
-            null
-        )
-        confirmDialog!!.setOnDismissListener {
-            confirmDialog = null
-        }
     }
-}
 
 }

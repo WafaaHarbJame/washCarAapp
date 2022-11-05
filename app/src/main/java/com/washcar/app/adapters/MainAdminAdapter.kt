@@ -4,22 +4,22 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.washcar.app.R
-import com.washcar.app.activities.*
-import com.washcar.app.models.MainAdminModel
+import com.washcar.app.apiHandlers.DataFetcherCallBack
+import com.washcar.app.databinding.RowAdminUserBinding
+import com.washcar.app.models.MemberModel
 
 class MainAdminAdapter(
-    private val activity: Activity?,
-    var list: MutableList<MainAdminModel>?
+    private val activity: Activity,
+    var list: MutableList<MemberModel>?,
+    val dataFetcherCallBack: DataFetcherCallBack
 ) :
     RecyclerView.Adapter<MainAdminAdapter.MyHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.row_main_admin, null, false)
-        return MyHolder(view)
+        val binding =
+            RowAdminUserBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        return MyHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
@@ -34,31 +34,55 @@ class MainAdminAdapter(
     }
 
 
-    inner class MyHolder(itemView: View?) :
-        RecyclerView.ViewHolder(itemView!!) {
+    inner class MyHolder(val binding: RowAdminUserBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        private val nameTV: TextView = itemView!!.findViewById(R.id.nameTV)
 
-        fun bind(mainAdminModel: MainAdminModel) {
+        fun bind(memberModel: MemberModel) {
 
-            nameTV.text = mainAdminModel.name
+            binding.tvName.text = memberModel.fullName
+            binding.tvEmail.text = memberModel.email
+            if (memberModel.type == MemberModel.TYPE_SERVICE_PROVIDER) {
+                binding.tvWorkTime.visibility = View.VISIBLE
+                binding.tvWorkTime.text = memberModel.startTime?.plus(" - ${memberModel.endTime}")
+            } else {
+                binding.tvWorkTime.visibility = View.GONE
+            }
+
+
+//            binding.tvType.text =
+//                activity.getString(if (memberModel.type == MemberModel.TYPE_SERVICE_PROVIDER) R.string.service_provider else R.string.customer)
+
+//            var userType = ""
+//            val backgroundResId: Drawable?
+//            when (memberModel.type) {
+//                MemberModel.TYPE_ADMIN -> {
+//                    userType = activity.getString(R.string.admin)
+//                    backgroundResId =
+//                        ContextCompat.getDrawable(activity, R.drawable.round_corner_yellow_fill)
+//                }
+//                MemberModel.TYPE_SERVICE_PROVIDER -> {
+//                    userType = activity.getString(R.string.service_provider)
+//                    backgroundResId =
+//                        ContextCompat.getDrawable(activity, R.drawable.round_corner_primary_fill)
+//                }
+//                else -> {
+//                    userType = activity.getString(R.string.customer)
+//                    backgroundResId =
+//                        ContextCompat.getDrawable(activity, R.drawable.round_corner_green_fill)
+//                }
+//            }
+//            binding.tvType.text = userType
+//            binding.tvType.background = backgroundResId
         }
 
         init {
 
-            itemView?.setOnClickListener {
+            itemView.setOnClickListener {
 
-                var mainAdminModel: MainAdminModel? = null
                 list?.let {
 
-                    mainAdminModel = list!![adapterPosition]
-
-                    when (mainAdminModel!!.id) {
-                        MainAdminModel.MANAGE_DRIVERS -> {
-//                            val intent = Intent(activity, DriversActivity::class.java)
-//                            activity?.startActivity(intent)
-                        }
-                    }
+                    var memberModel = list?.get(bindingAdapterPosition)
 
 
                 }

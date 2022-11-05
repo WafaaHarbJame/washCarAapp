@@ -32,7 +32,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="2"
             tools:itemCount="5"
-            tools:listitem="@layout/row_main_admin" />
+            tools:listitem="@layout/row_admin_user" />
 
 
     </LinearLayout>

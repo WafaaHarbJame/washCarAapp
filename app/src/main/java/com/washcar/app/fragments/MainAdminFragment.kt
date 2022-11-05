@@ -7,20 +7,22 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.washcar.app.R
-import com.washcar.app.adapters.DriversAdapter
+import com.washcar.app.adapters.MainAdminAdapter
 import com.washcar.app.apiHandlers.DataFeacher
 import com.washcar.app.apiHandlers.DataFetcherCallBack
 import com.washcar.app.classes.Constants
 import com.washcar.app.classes.GlobalData
-import com.washcar.app.databinding.FragmentDriversBinding
-import com.washcar.app.models.DriverModel
+import com.washcar.app.databinding.FragmentMainAdminBinding
+import com.washcar.app.models.MemberModel
 
 
 class MainAdminFragment : FragmentBase() {
 
-    var driversList: MutableList<DriverModel?>? = null
+    var usersList: MutableList<MemberModel>? = null
 
-    private var _binding: FragmentDriversBinding? = null
+    var userType = MemberModel.TYPE_CUSTOMER
+
+    private var _binding: FragmentMainAdminBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -28,7 +30,7 @@ class MainAdminFragment : FragmentBase() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDriversBinding.inflate(inflater, container, false)
+        _binding = FragmentMainAdminBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,13 +41,26 @@ class MainAdminFragment : FragmentBase() {
 
         binding.rv.layoutManager = LinearLayoutManager(requireActivity())
 
-        binding.addDoctorBtn.setOnClickListener {
+//        binding.addDoctorBtn.setOnClickListener {
+//
+////            val intent = Intent(requireActivity(), AddDriverActivity::class.java)
+////            intent.putExtra(Constants.KEY_DOCTOR_MODEL, doctorModel)
+////            startActivity(intent)
+//
+//        }
 
-//            val intent = Intent(requireActivity(), AddDriverActivity::class.java)
-//            intent.putExtra(Constants.KEY_DOCTOR_MODEL, doctorModel)
-//            startActivity(intent)
-
+        binding.btnCustomer.setOnClickListener {
+            userType = MemberModel.TYPE_CUSTOMER
+            selectType(userType == MemberModel.TYPE_CUSTOMER)
+            filterList()
         }
+
+        binding.btnProvider.setOnClickListener {
+            userType = MemberModel.TYPE_SERVICE_PROVIDER
+            selectType(userType == MemberModel.TYPE_CUSTOMER)
+            filterList()
+        }
+
 
         binding.swipeDataContainer.setColorSchemeColors(
             ContextCompat.getColor(
@@ -54,8 +69,14 @@ class MainAdminFragment : FragmentBase() {
             )
         )
         binding.swipeDataContainer.setOnRefreshListener {
-
+            getData(false)
         }
+
+        binding.lyFail.refreshBtn.setOnClickListener {
+            getData(true)
+        }
+
+        getData(true)
 
     }
 
@@ -66,10 +87,33 @@ class MainAdminFragment : FragmentBase() {
         }
     }
 
+    fun selectType(isCustomer: Boolean) {
 
+        binding.tvCustomer.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), if (isCustomer) R.color.colorPrimary else R.color.gray6
+            )
+        )
+        binding.indcCustomer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(), if (isCustomer) R.color.colorPrimary else R.color.gray6
+            )
+        )
+        binding.tvProvider.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), if (!isCustomer) R.color.colorPrimary else R.color.gray6
+            )
+        )
+        binding.indcProvider.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(), if (!isCustomer) R.color.colorPrimary else R.color.gray6
+            )
+        )
 
-    fun initAdapter() {
-        val adapter = DriversAdapter(requireActivity(), driversList!!,
+    }
+
+    fun initAdapter(list: MutableList<MemberModel>) {
+        val adapter = MainAdminAdapter(requireActivity(), list,
             object : DataFetcherCallBack {
                 override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
 
@@ -77,4 +121,49 @@ class MainAdminFragment : FragmentBase() {
             })
         binding.rv.adapter = adapter
     }
+
+    private fun getData(loading: Boolean) {
+        if (loading) {
+            binding.lyLoading.loadingProgressLY.visibility = visible
+            binding.lyFail.failGetDataLY.visibility = gone
+            binding.swipeDataContainer.visibility = gone
+        }
+        DataFeacher(object : DataFetcherCallBack {
+            override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
+
+                binding.lyLoading.loadingProgressLY.visibility = gone
+
+                if (func == Constants.SUCCESS) {
+
+                    binding.swipeDataContainer.visibility = visible
+                    usersList = obj as MutableList<MemberModel>?
+
+                    if (usersList?.isNotEmpty() == true) {
+                        binding.lyEmpty.noDataLY.visibility = gone
+                        binding.rv.visibility = visible
+
+                        filterList()
+
+                    } else {
+                        binding.lyEmpty.noDataLY.visibility = visible
+                        binding.lyEmpty.noDataTxt.text = getString(R.string.no_categories)
+                        binding.rv.visibility = gone
+                    }
+                } else {
+                    binding.lyFail.failGetDataLY.visibility = visible
+                    binding.swipeDataContainer.visibility = gone
+                }
+
+
+            }
+        }).getUsers()
+    }
+
+    fun filterList() {
+        val list = usersList?.filter {
+            it.type == userType
+        }
+        initAdapter(list?.toMutableList() ?: mutableListOf())
+    }
+
 }
