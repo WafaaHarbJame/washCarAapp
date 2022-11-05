@@ -135,10 +135,16 @@ object UtilityApp {
         get() {
             val userJsonData: String? =
                 RootApplication.instance!!.sharedPManger!!.getDataString(Constants.KEY_MEMBER)
-            return if (userJsonData != null) Gson().fromJson(
-                userJsonData,
-                MemberModel::class.java
-            ) else null
+            try {
+                return if (userJsonData != null) Gson().fromJson(
+                    userJsonData,
+                    MemberModel::class.java
+                ) else null
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logOut()
+            }
+            return null
         }
         set(user) {
             val userData: String = Gson().toJson(user)

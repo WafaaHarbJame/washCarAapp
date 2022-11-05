@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="start"
     android:gravity="center_vertical|start"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="@dimen/_4sdp"
+    android:orientation="vertical"
     android:padding="@dimen/_4sdp"
-    app:strokeColor="@color/colorAccent"
-    app:strokeWidth="@dimen/_1sdp"
+    app:cardCornerRadius="@dimen/_4sdp"
     app:cardElevation="@dimen/_4sdp"
-    android:orientation="vertical">
+    app:cardUseCompatPadding="true"
+    app:strokeColor="@color/colorAccent"
+    app:strokeWidth="@dimen/_1sdp">
 
 
     <LinearLayout
@@ -25,43 +25,44 @@
         android:paddingTop="@dimen/_10sdp"
         android:paddingEnd="@dimen/_15sdp"
         android:paddingBottom="@dimen/_10sdp">
+
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/loginHeader"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"
-            android:scaleType="center"
-            app:siBorderColor="@color/colorAccent"
-            app:siBorderWidth="@dimen/_1sdp"
-            app:siSquare="true"
-            app:siRadius="@dimen/_8sdp"
-            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
             android:src="@drawable/service_provider"
-            />
+            app:siBorderColor="@color/colorAccent"
+            app:siBorderWidth="@dimen/_1sdp"
+            app:siRadius="@dimen/_8sdp" />
 
-
-        <LinearLayout
+        <com.washcar.app.spichalViews.STextViewBold
+            android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/dummy"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorAccent3"
+            android:textSize="@dimen/_12ssp" />
 
-            <com.washcar.app.spichalViews.STextViewBold
-                android:id="@+id/dateTxt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1"
-                android:capitalize="sentences"
-                android:text="27 may 2022 | 10:00 am"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_13ssp" />
-
-        </LinearLayout>
 
         <com.washcar.app.spichalViews.STextView
-            android:id="@+id/addressTxt"
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="08:00 | 10:00 am"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_11ssp" />
+
+        <com.washcar.app.spichalViews.STextView
+            android:id="@+id/tvAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_10sdp"
@@ -70,97 +71,102 @@
             android:textAlignment="viewStart"
             android:textColor="@color/gray4"
             android:textSize="@dimen/_13ssp" />
-        <com.washcar.app.spichalViews.STextViewBold
-            android:id="@+id/descTxt"
+
+        <com.washcar.app.spichalViews.STextView
+            android:id="@+id/tvDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:text="@string/dummy"
             android:textAlignment="viewStart"
-            android:textColor="@color/colorAccent3"
+            android:textColor="@color/gray13"
             android:textSize="@dimen/_12ssp" />
 
-            <LinearLayout
+        <LinearLayout
+            android:id="@+id/detailsBut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.washcar.app.spichalViews.STextViewBold
                 android:layout_width="wrap_content"
-                android:id="@+id/detailsBut"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="@string/Details"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_13ssp" />
 
-                <com.washcar.app.spichalViews.STextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="@string/Details"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_13ssp" />
-                <com.washcar.app.spichalViews.STextViewIcon
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:text="@string/fal_arrow_right"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_10ssp" />
+            <com.washcar.app.spichalViews.STextViewIcon
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="@string/fal_arrow_right"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_10ssp" />
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-                </Space>
+            </Space>
 
-                <com.washcar.app.spichalViews.STextView
-                    android:id="@+id/orderStatusBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/circle_corner_primary_light"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:text="@string/finish"
-                    android:textAlignment="viewStart"
-                    android:visibility="gone"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_12ssp" />
-                <com.washcar.app.spichalViews.STextView
-                    android:id="@+id/acceptBut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/circle_corner_primary_light"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:text="@string/accept"
-                    android:textAlignment="viewStart"
-                    android:visibility="gone"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_12ssp" />
-                <com.washcar.app.spichalViews.STextView
-                    android:id="@+id/rejectBut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/circle_corner_primary_light"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:text="@string/reject"
-                    android:textAlignment="viewStart"
-                    android:visibility="gone"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_12ssp" />
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/orderStatusBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/circle_corner_primary_light"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="@string/finish"
+                android:textAlignment="viewStart"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="gone" />
 
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/acceptBut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_corner_primary_light"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="@string/accept"
+                android:textAlignment="viewStart"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="gone" />
 
-            </LinearLayout>
+            <com.washcar.app.spichalViews.STextView
+                android:id="@+id/rejectBut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/circle_corner_primary_light"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="@string/reject"
+                android:textAlignment="viewStart"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="gone" />
 
 
         </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </com.google.android.material.card.MaterialCardView>

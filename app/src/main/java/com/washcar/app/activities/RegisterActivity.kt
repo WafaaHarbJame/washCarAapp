@@ -70,6 +70,7 @@ class RegisterActivity : ActivityBase() {
 
 
     fun selectType(isCustomer: Boolean) {
+
         binding.tvCustomer.setTextColor(
             ContextCompat.getColor(
                 this, if (isCustomer) R.color.colorPrimary else R.color.gray6

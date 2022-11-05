@@ -15,8 +15,9 @@ class MemberModel : Serializable {
     var startTime: String? = null
     var endTime: String? = null
     var email: String? = ""
+    var rate: Float? = 0f
     var description: String? = ""
-    var isAnnounced: Boolean? = false
+    var announced: Boolean? = false
 
     companion object {
         const val TYPE_CUSTOMER = "customer"

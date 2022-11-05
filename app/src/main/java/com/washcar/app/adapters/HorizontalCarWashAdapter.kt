@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.washcar.app.activities.ProfileActivity
 import com.washcar.app.activities.RequestCarActivity
-import com.washcar.app.databinding.RowCarWashBinding
+import com.washcar.app.databinding.RowCarWashHorizontalBinding
 import com.washcar.app.models.MemberModel
 
 
-class CarWashAdapter(private val context: Context, private var list: MutableList<MemberModel?>?) :
-    RecyclerView.Adapter<CarWashAdapter.Holder>() {
+class HorizontalCarWashAdapter(
+    private val context: Context,
+    private var list: MutableList<MemberModel?>?
+) :
+    RecyclerView.Adapter<HorizontalCarWashAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val itemView = RowCarWashBinding.inflate(LayoutInflater.from(context), parent, false)
+        val itemView =
+            RowCarWashHorizontalBinding.inflate(LayoutInflater.from(context), parent, false)
         return Holder(itemView)
     }
 
@@ -30,7 +34,7 @@ class CarWashAdapter(private val context: Context, private var list: MutableList
     }
 
 
-    inner class Holder(var binding: RowCarWashBinding) :
+    inner class Holder(var binding: RowCarWashHorizontalBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 

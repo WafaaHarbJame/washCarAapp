@@ -218,4 +218,5 @@
     <string name="customers">Customers</string>
     <string name="service_providers">Service Providers</string>
     <string name="admin">Admin</string>
+    <string name="other_car_wash">Other Car Wash</string>
 </resources>

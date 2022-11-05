@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.loopeer.shadow.ShadowView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/_220sdp"
     android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/_10sdp"
     app:backgroundColor="@color/white"
     app:cornerRadius="@dimen/round_corner_thin"
     app:shadowColor="@color/colorPrimaryTrans"
@@ -102,7 +103,6 @@
                 android:textSize="@dimen/_12ssp" />
 
         </LinearLayout>
-
     </LinearLayout>
 
 </com.loopeer.shadow.ShadowView>
