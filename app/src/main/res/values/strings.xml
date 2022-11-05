@@ -39,7 +39,7 @@
     <string name="confirm_code">Confirm Code</string>
     <string name="settings">Settings</string>
     <string name="success_send">Success Send</string>
-    <string name="finish">Finished</string>
+    <string name="finish">Finish</string>
     <string name="success_send_question_will_replay_soon">Success send question, will replay to you soon</string>
     <string name="change_password">Change Password</string>
     <string name="rate_application">Rate App</string>
@@ -243,4 +243,7 @@
     <string name="filter_service_providers">Filter service providers</string>
     <string name="no_data">No Data</string>
     <string name="work_time">Work Time</string>
+    <string name="user_not_exist">User not exist</string>
+    <string name="finish_request">Finish Request</string>
+    <string name="want_finish_request">Do you want to finish request ?</string>
 </resources>

@@ -174,12 +174,17 @@ class LoginActivity : ActivityBase() {
             override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
                 GlobalData.progressDialogHide()
                 if (func == Constants.SUCCESS) {
-                    val user = obj as MemberModel
-                    UtilityApp.userData = user
+                    val user = obj as MemberModel?
+                    if (user != null) {
+                        UtilityApp.userData = user
 
-                    val intent = Intent(getActiviy(), MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                        val intent = Intent(getActiviy(), MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast(R.string.user_not_exist)
+                    }
+
                 }
             }
         }).getMyAccount(email)

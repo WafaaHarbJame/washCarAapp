@@ -1,6 +1,7 @@
 package com.washcar.app.apiHandlers
 
 import android.util.Log
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.gson.Gson
 import com.washcar.app.RootApplication
@@ -224,60 +225,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
-
-    fun addDriver(driverModel: DriverModel) {
-
-//        val phoneNumber = map["mobileWithCountry"] as String
-
-        Log.i(TAG, "Log addDoctorHandle")
-        Log.i(TAG, "Log phoneNumber ${driverModel.mobileWithCountry}")
-
-        fireStoreDB!!.collection(ApiUrl.Users.name).document(driverModel.mobileWithCountry!!).get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val document = it.result
-                    if (document?.exists() == true) {
-                        dataFetcherCallBack?.Result(null, Constants.USER_EXIST, false)
-
-                    } else {
-                        fireStoreDB!!.collection(ApiUrl.Users.name)
-                            .document(driverModel.mobileWithCountry!!)
-                            .set(driverModel, SetOptions.merge()).addOnSuccessListener {
-                                dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-                            }.addOnFailureListener {
-                                dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
-                            }
-
-                    }
-                } else {
-                    dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
-                }
-            }
-
-
-    }
-
-    fun editDriver(driverModel: DriverModel) {
-
-//        val phoneNumber = map["mobileWithCountry"] as String
-////        val mobile = map["countryCode"]
-
-        Log.i(TAG, "Log editDoctorHandle")
-        Log.i(TAG, "Log phoneNumber ${driverModel.mobileWithCountry}")
-
-//        val phoneNumber = memberModel.mobileWithCountry.toString()
-        fireStoreDB!!.collection(ApiUrl.Users.name).document(driverModel.mobileWithCountry!!).set(
-            driverModel, SetOptions.merge()
-        ).addOnSuccessListener {
-
-            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-        }.addOnFailureListener {
-            dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, false)
-        }
-
-    }
-
     fun deleteDriver(driverModel: DriverModel) {
 
 //        val phoneNumber = map["mobileWithCountry"] as String
@@ -296,153 +243,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
             }
 
     }
-
-    fun updateData(
-        mobile: String?, lat: Double, lng: Double, address: String, isSelectLocation: Boolean
-    ) {
-        fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)?.get()
-            ?.addOnSuccessListener { document ->
-                if (document.exists()) {
-                    RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile)
-                        ?.update(
-                            "lat",
-                            lat,
-                            "lng",
-                            lng,
-                            "address",
-                            address,
-                            "isSelectLocation",
-                            isSelectLocation
-                        )?.addOnSuccessListener {
-                            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-                        }?.addOnFailureListener { e ->
-                            dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-                        }
-                } else {
-                    dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-
-                }
-            }
-    }
-
-
-    fun updateSeatData(
-        mobile: String?, seatNumber: Int?
-    ) {
-        fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)?.get()
-            ?.addOnSuccessListener { document ->
-                if (document.exists()) {
-                    RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile)
-                        ?.update(
-                            "emptySeat", seatNumber
-                        )?.addOnSuccessListener {
-                            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-                        }?.addOnFailureListener { e ->
-                            dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-                        }
-                } else {
-                    dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-
-                }
-            }
-    }
-
-    fun updateOrder(orderNumber: String?, orderStatus: Int?) {
-
-        Log.i(TAG, "Log updateOrder")
-        Log.i(TAG, "Log updateOrder  $orderNumber")
-        Log.i(TAG, "Log updateOrder $orderStatus")
-
-        fireStoreDB?.collection(ApiUrl.Orders.name)?.document(orderNumber!!)?.get()
-            ?.addOnSuccessListener { document ->
-                if (document.exists()) {
-                    Log.i(TAG, "Log updateOrder exists")
-                    RootApplication.fireStoreDB?.collection(ApiUrl.Orders.name)?.document(
-                        orderNumber
-                    )?.update(
-                        "requestStatus", orderStatus
-                    )?.addOnSuccessListener {
-                        dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-                    }?.addOnFailureListener { e ->
-                        dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-                    }
-                } else {
-                    dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-
-                }
-            }
-    }
-
-    fun updateStatus(mobile: String?, isDriverActive: Boolean) {
-
-        fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)?.get()
-            ?.addOnSuccessListener { document ->
-                if (document.exists()) {
-                    RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile)
-                        ?.update("driverActive", isDriverActive)?.addOnSuccessListener {
-                            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-                        }?.addOnFailureListener { e ->
-                            dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-                        }
-                } else {
-                    dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-
-                }
-            }
-    }
-
-    fun getFinishedRequests(driver_id: String?) {
-        Log.i(TAG, "Log getFinishedRequests")
-
-        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("requestStatus", 3)
-            ?.whereEqualTo("driver_id", driver_id)?.get()?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val query = it.result
-
-                    val requestList = mutableListOf<RequestModel>()
-                    for (document in query!!) {
-                        val requestModel = document?.toObject(RequestModel::class.java)
-                        requestList.add(requestModel!!)
-                    }
-
-                    val json = Gson().toJson(requestList)
-                    dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
-                } else {
-                    it.exception?.printStackTrace()
-                }
-
-            }
-
-    }
-
-    fun getFinishedClientRequests(clientId: String?) {
-        Log.i(TAG, "Log getFinishedRequests")
-
-        fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("requestStatus", 3)
-            ?.whereEqualTo("clientId", clientId)?.get()?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val query = it.result
-
-                    val requestList = mutableListOf<RequestModel>()
-                    for (document in query!!) {
-                        val requestModel = document?.toObject(RequestModel::class.java)
-                        requestList.add(requestModel!!)
-                    }
-
-                    val json = Gson().toJson(requestList)
-                    dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
-                } else {
-                    it.exception?.printStackTrace()
-                }
-
-            }
-
-    }
-
 
     fun getCurrentRequests(driver_id: String?) {
         Log.i(TAG, "Log getCurrentRequests")
@@ -469,22 +269,22 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
     fun getProviderAllRequests(providerId: String, status: String) {
-        Log.i(TAG, "Log getDriverAllRequests")
+        Log.i(TAG, "Log getProviderAllRequests")
         Log.i(TAG, "Log providerId  $providerId")
         Log.i(TAG, "Log status  $status")
 
         fireStoreDB?.collection(ApiUrl.Orders.name)?.whereEqualTo("providerId", providerId)
-            ?.whereEqualTo("status", status)?.get()?.addOnCompleteListener {
+            ?.whereEqualTo("status", status)?.orderBy("createdAt", Query.Direction.DESCENDING)
+            ?.get()?.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val query = it.result
 
-                    val requestList = mutableListOf<RequestModel>()
+                    val requestList = mutableListOf<RequestModel?>()
                     for (document in query!!) {
                         val requestModel = document?.toObject(RequestModel::class.java)
-                        requestList.add(requestModel!!)
+                        requestList.add(requestModel)
                     }
 
-                    val json = Gson().toJson(requestList)
                     dataFetcherCallBack?.Result(requestList, Constants.SUCCESS, true)
                 } else {
                     it.exception?.printStackTrace()
@@ -582,85 +382,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
-    fun getAllActiveDrivers() {
-        Log.i(TAG, "Log getAllDrivers")
-        fireStoreDB?.collection(ApiUrl.Users.name)?.whereEqualTo("type", 2)
-            ?.whereEqualTo("isDriverActive", true)?.get()?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val query = it.result
-
-                    val allDriversList = mutableListOf<DriverModel>()
-                    for (document in query!!) {
-                        val allDriversModel = document?.toObject(DriverModel::class.java)
-                        allDriversList.add(allDriversModel!!)
-                    }
-
-                    dataFetcherCallBack?.Result(allDriversList, Constants.SUCCESS, true)
-                } else {
-                    it.exception?.printStackTrace()
-                }
-
-            }
-
-    }
-
-    fun getAllDrivers() {
-        Log.i(TAG, "Log getAllDrivers")
-        fireStoreDB?.collection(ApiUrl.Users.name)?.whereEqualTo("type", 2)
-//            ?.whereEqualTo("isDriverActive", true)
-            ?.get()?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val query = it.result
-
-                    val allDriversList = mutableListOf<DriverModel>()
-                    for (document in query!!) {
-                        val allDriversModel = document?.toObject(DriverModel::class.java)
-                        allDriversList.add(allDriversModel!!)
-                    }
-
-                    dataFetcherCallBack?.Result(allDriversList, Constants.SUCCESS, true)
-                } else {
-                    it.exception?.printStackTrace()
-                }
-
-            }
-
-    }
-
-    fun getAccountByEmail(email: String) {
-
-        Log.i(TAG, "Log getAccountByEmail")
-
-        fireStoreDB?.collection(ApiUrl.Users.name)?.whereEqualTo("email", email)
-//            ?.whereEqualTo("password", password)
-            ?.get()?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val query = it.result
-//                    val allAccountList = mutableListOf<RegisterUserModel>()
-                    if (query.isEmpty) dataFetcherCallBack?.Result(
-                        null, Constants.PASSWORD_WRONG, true
-                    )
-                    else {
-                        val userDoc: RegisterUserModel? =
-                            query.documents[0].toObject(RegisterUserModel::class.java)
-                        dataFetcherCallBack?.Result(
-                            userDoc, Constants.SUCCESS, true
-                        )
-
-                    }
-//                    for (document in query!!) {
-//                        val allDriversModel = document?.toObject(RegisterUserModel::class.java)
-//                        allAccountList.add(allDriversModel!!)
-//                    }
-
-                } else {
-                    it.exception?.printStackTrace()
-                }
-
-            }
-
-    }
-
     fun addCategory(categoryName: String?) {
 
         val categoryId = fireStoreDB?.collection(ApiUrl.Categories.name)?.document()?.id
@@ -709,75 +430,6 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
         }
 
     }
-
-    fun orderHandler(requestModel: MutableMap<String, Any?>) {
-        Log.i(TAG, "Log orderHandler")
-        Log.i(TAG, "Log clientId ${requestModel["clientId"]}")
-
-        val orderId: String = fireStoreDB!!.collection(ApiUrl.Orders.name).document().id
-        requestModel["orderId"] = orderId
-
-        fireStoreDB!!.collection(ApiUrl.Orders.name).document(orderId).set(requestModel)
-            .addOnSuccessListener {
-                dataFetcherCallBack?.Result(requestModel, Constants.SUCCESS, true)
-            }.addOnFailureListener {
-                dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
-            }
-
-
-    }
-
-    fun updateUserData(mobile: String?, name: String?, address: String, age: Int, email: String) {
-
-        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)
-            ?.update("fullName", name, "address", address, "age", age, "email", email)
-            ?.addOnSuccessListener {
-                dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-            }?.addOnFailureListener { e ->
-                dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-            }
-
-
-    }
-
-    fun updateDriverData(
-        mobile: String?,
-        name: String?,
-        address: String,
-        age: Int,
-        busNumber: Int,
-        busColor: String,
-        busModel: String,
-        busCapacity: Int,
-        email: String
-    ) {
-        RootApplication.fireStoreDB?.collection(ApiUrl.Users.name)?.document(mobile!!)?.update(
-            "fullName",
-            name,
-            "address",
-            address,
-            "age",
-            age,
-            "busModel",
-            busModel,
-            "busColor",
-            busColor,
-            "busLoading",
-            busCapacity,
-            "busNumber",
-            busNumber,
-            "email",
-            email
-        )?.addOnSuccessListener {
-            dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
-
-        }?.addOnFailureListener { e ->
-            dataFetcherCallBack?.Result("", Constants.FAIL_DATA, true)
-        }
-
-    }
-
 
     fun sendOrderHandle(requestModel: RequestModel) {
 
@@ -838,5 +490,24 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
 
     }
 
+    fun finishRequestByProvider(requestId: String) {
+
+        Log.i(TAG, "Log finishRequestByProvider")
+        Log.i(TAG, "Log requestId $requestId")
+
+        val dataMap = mutableMapOf<String, Any>().apply {
+            this["status"] = RequestModel.STATUS_FINISHED
+        }
+
+        fireStoreDB!!.collection(ApiUrl.Orders.name).document(requestId)
+            .set(dataMap, SetOptions.merge())
+            .addOnSuccessListener {
+                dataFetcherCallBack?.Result("", Constants.SUCCESS, true)
+            }.addOnFailureListener {
+                dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
+            }
+
+
+    }
 
 }

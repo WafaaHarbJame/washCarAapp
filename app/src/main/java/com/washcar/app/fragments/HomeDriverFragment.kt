@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.washcar.app.R
 import com.washcar.app.adapters.RequestsAdapter
 import com.washcar.app.apiHandlers.DataFeacher
@@ -42,6 +43,10 @@ class HomeDriverFragment : FragmentBase() {
 
         binding.toolBar.mainTitleTxt.text = getString(R.string.my_requests)
 
+        binding.rv.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.lyEmpty.noDataTxt.text = getString(R.string.no_order)
+
         binding.swipeDataContainer.setColorSchemeColors(
             ContextCompat.getColor(
                 requireActivity(),
@@ -50,13 +55,14 @@ class HomeDriverFragment : FragmentBase() {
         )
 
         binding.swipeDataContainer.setOnRefreshListener {
-//            getData(false)
+            getData(false)
         }
 
         binding.lyFail.refreshBtn.setOnClickListener {
             getData(true)
         }
 
+        getData(true)
 
     }
 
@@ -75,6 +81,8 @@ class HomeDriverFragment : FragmentBase() {
             override fun Result(obj: Any?, func: String?, IsSuccess: Boolean) {
 
                 binding.lyLoading.loadingProgressLY.visibility = gone
+                if (binding.swipeDataContainer.isRefreshing)
+                    binding.swipeDataContainer.isRefreshing = false
 
                 if (func == Constants.SUCCESS) {
 
@@ -97,7 +105,7 @@ class HomeDriverFragment : FragmentBase() {
 
 
             }
-        }).getProviderAllRequests(user?.token ?: "", RequestModel.STATUS_UPCOMING)
+        }).getProviderAllRequests(user?.email ?: "", RequestModel.STATUS_UPCOMING)
     }
 
 }
