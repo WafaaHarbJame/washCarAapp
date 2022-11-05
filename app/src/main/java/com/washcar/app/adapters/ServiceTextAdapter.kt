@@ -35,6 +35,7 @@ class ServiceTextAdapter(private val context: Context, private var list: Mutable
         fun bind(categoryModel: CategoryModel?) {
 
           binding.serviceName.text=categoryModel?.name
+          binding.servicePrice.text=categoryModel?.price.toString()
         }
 
         init {
@@ -42,6 +43,9 @@ class ServiceTextAdapter(private val context: Context, private var list: Mutable
 
            binding.serviceName.setOnCheckedChangeListener { _, isChecked ->
               binding.serviceName.isSelected = isChecked
+               val categoryModel:CategoryModel= list?.get(bindingAdapterPosition)!!
+               categoryModel.userSelected=true
+
             }
 
 

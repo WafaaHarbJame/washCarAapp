@@ -2,19 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" />
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:paddingTop="@dimen/_8sdp">
 
 
@@ -99,26 +103,71 @@
 
             </com.washcar.app.spichalViews.STextInputLayout>
 
+            <com.washcar.app.spichalViews.STextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:text="@string/select_location"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_16ssp" />
+            <LinearLayout
+                android:id="@+id/lyAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.washcar.app.spichalViews.STextInputLayout
+                    android:id="@+id/addressInput"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/address"
+                    app:layout_constraintTop_toBottomOf="@id/helloLabel">
+
+                    <com.washcar.app.spichalViews.SEditText
+                        android:id="@+id/etAddress"
+                        style="@style/editTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1" />
+
+                </com.washcar.app.spichalViews.STextInputLayout>
+
+                <ImageView
+                    android:id="@+id/myLocationBtn"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_map_destination_marker" />
+
+            </LinearLayout>
 
             <com.washcar.app.spichalViews.STextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/choose_services"
-                android:textSize="@dimen/_16ssp"
-                android:layout_height="wrap_content"
-                />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_16ssp" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/serviceRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_4sdp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
+                tools:itemCount="2"
                 tools:listitem="@layout/row_service_text" />
 
 
@@ -128,14 +177,13 @@
 
 
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.loopeer.shadow.ShadowView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_50sdp"
-        android:layout_marginTop="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_50sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
         app:backgroundColor="@color/white"
         app:cornerRadius="@dimen/round_corner_thin"
         app:shadowColor="@color/colorPrimaryTrans"

@@ -1,23 +1,14 @@
 package com.washcar.app.activities
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.view.View
-import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.washcar.app.R
 import com.washcar.app.adapters.SettingTabAdapter
-import com.washcar.app.apiHandlers.DataFeacher
-import com.washcar.app.apiHandlers.DataFetcherCallBack
-import com.washcar.app.classes.Constants
 import com.washcar.app.classes.UtilityApp
 import com.washcar.app.databinding.ActivityProfileBinding
-import com.washcar.app.databinding.FragmentSettingsBinding
-import com.washcar.app.dialogs.MyConfirmDialog
 import com.washcar.app.models.MemberModel
 import java.util.*
 

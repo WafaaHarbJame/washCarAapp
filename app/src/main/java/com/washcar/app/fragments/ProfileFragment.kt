@@ -33,7 +33,7 @@ class ProfileFragment : Fragment() {
         if(type==MemberModel.TYPE_SERVICE_PROVIDER){
             binding.serviceProviderLy.visibility=View.VISIBLE
             binding.providerEmailTv.text=user?.email
-            binding.providerNameTv.text=user?.fullName
+            binding.fullNameTv.text=user?.fullName
             binding.aboutTv.text=user?.description
             binding.mobilelTv.text=user?.mobile
             binding.startTv.text=user?.startTime

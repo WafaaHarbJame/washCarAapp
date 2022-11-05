@@ -760,4 +760,24 @@ class DataFeacher(callBack: DataFetcherCallBack?) {
     }
 
 
+    fun sendOrderHandle(requestModel: RequestModel) {
+
+        Log.i(TAG, "Log orderHandler")
+
+        val orderId: String = fireStoreDB!!.collection(ApiUrl.Orders.name).document().id
+        requestModel.requestId = orderId
+
+        fireStoreDB!!.collection(ApiUrl.Orders.name).document(orderId).set(requestModel)
+            .addOnSuccessListener {
+                dataFetcherCallBack?.Result(requestModel, Constants.SUCCESS, true)
+            }.addOnFailureListener {
+                dataFetcherCallBack?.Result(null, Constants.FAIL_DATA, true)
+            }
+
+
+    }
+
+
+
+
 }

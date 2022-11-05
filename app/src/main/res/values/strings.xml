@@ -223,4 +223,5 @@
     <string name="my_categories">My Categories</string>
     <string name="category_setting">Category Settings</string>
     <string name="category_price">Category Price</string>
+    <string name="select_service">Select Servce</string>
 </resources>
