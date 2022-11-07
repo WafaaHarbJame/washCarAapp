@@ -226,7 +226,6 @@
                     android:hint="@string/mobile_number"
                     android:nextFocusForward="@id/passwordTxt"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/countryCodeTxt"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.washcar.app.spichalViews.SEditText
