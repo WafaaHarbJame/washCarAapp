@@ -9,12 +9,10 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.gson.Gson
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
 import com.washcar.app.R
-import com.washcar.app.Utils.DateHandler
 import com.washcar.app.Utils.NumberHandler
 import com.washcar.app.adapters.ServiceTextAdapter
 import com.washcar.app.apiHandlers.DataFeacher
@@ -27,7 +25,6 @@ import com.washcar.app.models.CategoryModel
 import com.washcar.app.models.MemberModel
 import com.washcar.app.models.RequestModel
 import io.nlopez.smartlocation.SmartLocation
-import java.lang.reflect.Field
 
 
 class RequestCarActivity : ActivityBase() {
@@ -48,8 +45,6 @@ class RequestCarActivity : ActivityBase() {
 
         user = UtilityApp.userData
 
-        getProviderCategories(carWashModel?.email)
-
 
         val lyManger = LinearLayoutManager(getActiviy(), RecyclerView.VERTICAL, false)
         binding.serviceRecycler.layoutManager = lyManger
@@ -68,9 +63,9 @@ class RequestCarActivity : ActivityBase() {
         providerCategoriesList = mutableListOf()
 
 
-
         initListeners()
 
+        getProviderCategories(carWashModel?.email)
 
     }
 
